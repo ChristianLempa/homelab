@@ -1,2 +1,2 @@
 # homelab
-This is my entire homelab documentation files. Here you'll find notes, setups, and configurations for infrastructure, applications, networking, and more.
+This is my homelab! Here you'll find deployments, workflows, and configurations for all my homelab infra, apps, and more.
