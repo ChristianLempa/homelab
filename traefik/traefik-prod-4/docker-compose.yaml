@@ -1,0 +1,23 @@
+---
+networks:
+  frontend:
+    external: true
+  backend:
+    external: true
+services:
+  traefik:
+    container_name: traefik-prod-1
+    image: traefik:2.10
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./config/traefik.yaml:/etc/traefik/traefik.yaml:ro
+      - ./config/conf/:/etc/traefik/conf/
+    environment:
+      - CF_DNS_API_TOKEN=$CF_DNS_API_TOKEN
+    networks:
+      - frontend
+      - backend

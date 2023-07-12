@@ -1,0 +1,45 @@
+global:
+  checkNewVersion: false
+  sendAnonymousUsage: false
+
+log:
+  level: DEBUG
+
+api:
+  dashboard: true
+  insecure: true
+  debug: false
+
+entryPoints:
+  web:
+    address: :80
+    http:
+      redirections:
+        entryPoint:
+          to: websecure
+          scheme: https
+  websecure:
+    address: :443
+
+certificatesResolvers:
+  cloudflare:
+    acme:
+      email: "info@clcreative.de"
+      storage: /etc/traefik/certs/cloudflare-acme.json
+      caServer: 'https://acme-v02.api.letsencrypt.org/directory'
+      keyType: EC256
+      dnsChallenge:
+        provider: cloudflare
+        resolvers:
+          - "1.1.1.1:53"
+          - "8.8.8.8:53"
+
+serversTransport:
+  insecureSkipVerify: true
+
+providers:
+  docker:
+    exposedByDefault: false
+    endpoint: 'unix:///var/run/docker.sock'
+    watch: true
+    swarmMode: false
