@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: portainer-prod-1-certificate
+  namespace: portainer
+spec:
+  secretName: portainer-prod-1-tls-secret
+  issuerRef:
+    name: certmanager-prod-1-clusterissuer
+    kind: ClusterIssuer
+  dnsNames:
+    - portainer-prod-1.kube-prod-1.home.clcreative.de

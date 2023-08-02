@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: portainer-agent-service
+  namespace: portainer
+spec:
+  type: ClusterIP
+  selector:
+    app: portainer-agent-app
+  ports:
+    - name: http
+      protocol: TCP
+      port: 9001

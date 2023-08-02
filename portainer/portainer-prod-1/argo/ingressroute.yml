@@ -1,0 +1,20 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: portainer-prod-1-ingressroute
+  namespace: portainer
+spec:
+  entryPoints:
+    - websecure
+  routes:
+  - match: Host(`portainer-prod-1.kube-prod-1.home.clcreative.de`)
+    kind: Rule
+    services:
+      - name: portainer-prod-1-helm
+        port: 9000
+    middlewares:
+      - name: portainer-prod-1-middleware-cors
+  tls: 
+    secretName: portainer-prod-1-tls-secret
+    domains:
+    - main: portainer-prod-1.kube-prod-1.home.clcreative.de
