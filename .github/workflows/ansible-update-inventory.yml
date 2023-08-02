@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+      - ansible-dev
+      - ansible-test
     paths:
       - 'ansible/inventory/*'
 
@@ -22,4 +24,5 @@ jobs:
           host: srv-prod-1.home.clcreative.de
           key: ${{ secrets.SSH_XCAD }}
           source: './ansible/inventory/*'
-          target: '/home/xcad/ansiblesemaphore-prod-1/'
+          target: '/home/xcad/ansiblesemaphore-prod-1/inventory/'
+          strip_components: 2
