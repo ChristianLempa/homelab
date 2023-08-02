@@ -1,0 +1,47 @@
+name: Update Docker Compose File
+
+on:
+  push:
+    branches:
+      - main
+      - ansible-dev
+      - ansible-test
+    paths:
+      - 'ansible/ansiblesemaphore/docker-compose.yaml'
+
+env:
+  SEMAPHORE_DB_PASS: ${{ secrets.SEMAPHORE_DB_PASS }}
+  SEMAPHORE_ADMIN: ${{ vars.SEMAPHORE_ADMIN }}
+  SEMAPHORE_ADMIN_PASSWORD: ${{ secrets.SEMAPHORE_ADMIN_PASSWORD }}
+  SEMAPHORE_ACCESS_KEY_ENCRYPTION: ${{ secrets.SEMAPHORE_ACCESS_KEY_ENCRYPTION }}
+
+jobs:
+  deploy:
+    runs-on: "self-hosted"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Upload new Docker Compose File
+        uses: appleboy/scp-action@master
+        with:
+          username: xcad
+          host: srv-prod-1.home.clcreative.de
+          key: ${{ secrets.SSH_XCAD }}
+          source: './ansible/ansiblesemaphore/docker-compose.yaml'
+          target: '/home/xcad/ansiblesemaphore-prod-1/'
+
+      - name: Restart Docker Container
+        uses: fifsky/ssh-action@master
+        with:
+          user: xcad
+          host: srv-prod-1.home.clcreative.de
+          key: ${{ secrets.SSH_XCAD }}
+          command: |
+            cd ansiblesemaphore-prod-1
+            export SEMAPHORE_DB_PASS=${{ secrets.SEMAPHORE_DB_PASS }}
+            export SEMAPHORE_ADMIN=${{ vars.SEMAPHORE_ADMIN }}
+            export SEMAPHORE_ADMIN_PASSWORD=${{ secrets.SEMAPHORE_ADMIN_PASSWORD }}
+            export SEMAPHORE_ACCESS_KEY_ENCRYPTION=${{ secrets.SEMAPHORE_ACCESS_KEY_ENCRYPTION }}
+            docker compose up -d --force-recreate
