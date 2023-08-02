@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: portainer-agent-deploy
+  namespace: portainer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: portainer-agent-app
+  template:
+    metadata:
+      labels:
+        app: portainer-agent-app
+    spec:
+      serviceAccountName: portainer-sa-clusteradmin
+      containers:
+      - name: portainer-agent
+        image: portainer/agent:2.17.1
+        imagePullPolicy: Always
+        env:
+        - name: LOG_LEVEL
+          value: DEBUG
+        - name: AGENT_CLUSTER_ADDR
+          value: "portainer-agent-service"
+        - name: KUBERNETES_POD_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        ports:
+        - containerPort: 9001
+          protocol: TCP

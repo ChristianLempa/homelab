@@ -1,0 +1,15 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRouteTCP
+metadata:
+  name: portainer-agent-ingressroutetcp
+  namespace: portainer
+spec:
+  entryPoints:                  
+    - websecure
+  routes:                       
+  - match: HostSNI(`portainer-agent-demo-2.kube-demo-1.home.clcreative.de`)         
+    services:                   
+    - name: portainer-agent-service                 
+      port: 9001         
+  tls:                          
+    passthrough: true

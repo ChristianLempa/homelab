@@ -1,0 +1,20 @@
+version: '3'
+
+networks:
+  backend:
+    external: true
+
+services:
+  app:
+    container_name: portainer-agent-prod-3
+    deploy:
+      mode: global
+    image: 'portainer/agent:latest'
+    ports:
+      - '9001:9001'
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/lib/docker/volumes:/var/lib/docker/volumes
+    networks:
+      - backend
+    restart: always
