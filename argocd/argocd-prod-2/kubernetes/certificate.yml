@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: argocd-demo-1-certificate
+  namespace: argocd
+spec:
+  secretName: argocd-demo-1-tls-secret
+  issuerRef:
+    name: certmanager-demo-1-clusterissuer
+    kind: ClusterIssuer
+  dnsNames:
+    - argocd-demo-1.kube-demo-1.home.clcreative.de

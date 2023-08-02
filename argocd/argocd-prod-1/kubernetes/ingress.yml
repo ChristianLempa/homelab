@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: argocd-prod-1-ingress
+  namespace: argocd
+  annotations:
+    # traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    # traefik.ingress.kubernetes.io/router.tls: "true"
+    # traefik.ingress.kubernetes.io/router.tls.options: default
+spec:
+  rules:
+    - host: argocd-prod-1.kube-prod-1.home.clcreative.de
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: argocd-server
+                port:
+                  number: 80
+  tls:
+    - hosts:
+        - argocd-prod-1.kube-prod-1.home.clcreative.de
+      secretName: argocd-prod-1-tls-secret
