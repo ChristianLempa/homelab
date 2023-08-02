@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: portainer-prod-1-helm
+  namespace: argocd
+spec:
+  destination:
+    namespace: portainer
+    server: 'https://kubernetes.default.svc'
+  source:
+    repoURL: 'https://portainer.github.io/k8s/'
+    targetRevision: 1.0.43
+    chart: portainer
+    helm:
+      parameters:
+        - name: enterpriseEdition.enabled
+          value: 'true'
+        - name: persistence.size
+          value: 2Gi
+        - name: persistence.existingClaim
+          value: portainer-prod-1-pvc
+        - name: service.type
+          value: ClusterIP
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

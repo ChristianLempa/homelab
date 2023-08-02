@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: portainer-prod-1
+  namespace: argocd
+spec:
+  destination:
+    namespace: portainer
+    server: 'https://kubernetes.default.svc'
+  source:
+    path: portainer/portainer-prod-1/argo
+    repoURL: 'git@github.com:christianlempa/homelab.git'
+    targetRevision: HEAD
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
