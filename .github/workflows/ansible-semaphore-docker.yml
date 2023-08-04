@@ -4,10 +4,9 @@ on:
   push:
     branches:
       - main
-      - ansible-dev
       - ansible-test
     paths:
-      - 'ansible/ansiblesemaphore/docker-compose.yaml'
+      - 'ansible/ansiblesemaphore-prod-1/docker-compose.yaml'
 
 env:
   SEMAPHORE_DB_PASS: ${{ secrets.SEMAPHORE_DB_PASS }}
@@ -29,8 +28,9 @@ jobs:
           username: xcad
           host: srv-prod-1.home.clcreative.de
           key: ${{ secrets.SSH_XCAD }}
-          source: './ansible/ansiblesemaphore/docker-compose.yaml'
+          source: './ansible/ansiblesemaphore-prod-1/docker-compose.yaml'
           target: '/home/xcad/ansiblesemaphore-prod-1/'
+          strip_components: 2
 
       - name: Restart Docker Container
         uses: fifsky/ssh-action@master
