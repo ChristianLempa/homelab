@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: homer-prod-1-service
+  namespace: homer-prod-1
+spec:
+  selector:
+    app:  homer-prod-1
+  type:  ClusterIP
+  ports:
+  - name: backend
+    port: 8080
+    targetPort: 8080
+    protocol: TCP 

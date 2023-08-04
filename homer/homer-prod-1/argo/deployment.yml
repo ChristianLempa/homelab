@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: homer-prod-1-deployment
+  namespace: homer-prod-1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: homer-prod-1
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: homer-prod-1
+    spec:
+      affinity: {}
+      containers:
+      - image: b4bz/homer:v23.05.1
+        imagePullPolicy: Always
+        name: homer
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /www/assets
+          name: homer-prod-1-vol-1
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 10
+      volumes:
+      - name: homer-prod-1-vol-1
+        persistentVolumeClaim:
+          claimName: homer-prod-1-pvc

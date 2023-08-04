@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: homer-prod-1-pv
+spec:
+  capacity:
+    storage: 500Mi
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: nfs
+  nfs:
+    server: nas-prod-1.home.clcreative.de
+    path: /mnt/store/app-pv/homer-prod-1-vol-1
+  persistentVolumeReclaimPolicy: Retain
+  mountOptions:
+    - nfsvers=4.1
