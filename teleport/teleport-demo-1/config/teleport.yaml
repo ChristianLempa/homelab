@@ -1,0 +1,22 @@
+version: v3
+teleport:
+  nodename: teleport-demo-1.srv-prod-1.home.clcreative.de
+  data_dir: /var/lib/teleport
+  log:
+    output: stderr
+    severity: INFO
+    format:
+      output: text
+auth_service:
+  enabled: yes
+  listen_addr: 0.0.0.0:3025
+  proxy_listener_mode: multiplex
+  cluster_name: teleport-demo-1.srv-prod-1.home.clcreative.de
+ssh_service:
+  enabled: no
+proxy_service:
+  enabled: yes
+  web_listen_addr: 0.0.0.0:3080
+  public_addr: teleport-demo-1.srv-prod-1.home.clcreative.de
+  https_keypairs: []
+  acme: {}
