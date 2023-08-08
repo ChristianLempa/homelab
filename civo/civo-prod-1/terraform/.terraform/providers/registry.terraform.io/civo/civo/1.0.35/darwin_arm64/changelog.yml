@@ -1,0 +1,1961 @@
+- semver: 0.10.11
+  date: 2021-09-17T09:51:48.442422+01:00
+  packager: ""
+  changes:
+  - commit: dec823bac85b173e98f2664fac4f2c10b27c1db2
+    note: Deprecate `civo_template` (#94)
+    author:
+      name: Zulh
+      email: 75463191+zulh-civo@users.noreply.github.com
+    committer:
+      name: GitHub
+      email: noreply@github.com
+  - commit: 8d2f4c5b7412cb8c1ff5f4109f48914799a0da34
+    note: Set firewall rule `direction` to `ingress` if it's not set (#91)
+    author:
+      name: Zulh
+      email: 75463191+zulh-civo@users.noreply.github.com
+    committer:
+      name: GitHub
+      email: noreply@github.com
+  - commit: e7f5333f13d1f62c09f80426ace48e52e347cacb
+    note: Remove "move IP" from schema and docs (#90)
+    author:
+      name: Zulh
+      email: 75463191+zulh-civo@users.noreply.github.com
+    committer:
+      name: GitHub
+      email: noreply@github.com
+  - commit: 2bb4fac9f194d0d8030e7be2450c7ac6cc0fda3a
+    note: Set `firewall_id` in cluster resource as computed (#89)
+    author:
+      name: Zulh
+      email: 75463191+zulh-civo@users.noreply.github.com
+    committer:
+      name: GitHub
+      email: noreply@github.com
+  - commit: e45ce14e77cadd2a67e867a9300dbad0263fcc3f
+    note: Save cluster tags in space separated format (#87)
+    author:
+      name: Zulh
+      email: 75463191+zulh-civo@users.noreply.github.com
+    committer:
+      name: GitHub
+      email: noreply@github.com
+  - commit: 3fe8f2353515b946810a76f9bd2cb7308d893aa5
+    note: Check network before creating volume (#86)
+    author:
+      name: Zulh
+      email: 75463191+zulh-civo@users.noreply.github.com
+    committer:
+      name: GitHub
+      email: noreply@github.com
+  - commit: 37e3d50d0634a70b186b392699808225b4973adb
+    note: Allow network datasource query by ID/label/region (#85)
+    author:
+      name: Zulh
+      email: 75463191+zulh-civo@users.noreply.github.com
+    committer:
+      name: GitHub
+      email: noreply@github.com
+  - commit: 0bbeab845ba77fc0d69ea676ec23b4cce0a7a7f1
+    note: |-
+      Make CIDR required in 'civo_firewall_rule' (#75)
+
+      * Make CIDR required in 'civo_firewall_rule'
+
+      * Add CIDR validation to firewall rule resource
+
+      * Remove CIDR validation because ValidateFunc only works for primitive types
+    author:
+      name: Zulh
+      email: 75463191+zulh-civo@users.noreply.github.com
+    committer:
+      name: GitHub
+      email: noreply@github.com
+  - commit: b176aeff49c47dd65e795fc777552bcc9f2b1820
+    note: Check if firewall exists before deleting (#78)
+    author:
+      name: Zulh
+      email: 75463191+zulh-civo@users.noreply.github.com
+    committer:
+      name: GitHub
+      email: noreply@github.com
+  - commit: bbcb175b68700d6f08e8f1b1279e8fce7eab1bf8
+    note: |-
+      Add firewall support for Kubernetes cluster (#73)
+
+      * Take existing firewall when creating a cluster
+
+      * Save 'firewall_id' to state and add validations for it
+
+      * Update civogo
+    author:
+      name: Zulh
+      email: 75463191+zulh-civo@users.noreply.github.com
+    committer:
+      name: GitHub
+      email: noreply@github.com
+  - commit: 0dcfc1c5fecc48f0002c063fe2fc80f8999bb0e3
+    note: |-
+      Volumes management (#69)
+
+      * Remove 'bootable' field (it was OpenStack field)
+
+      * Various fixes for volume resource
+
+      * Add custom volume import function
+      * Add 'network_id' when creating volume
+      * Disable volume resize until it's ready on Civo side
+      * Disable volume 'name' and 'network_id' change
+      * Docs update
+
+      * Set 'network_id' when reading volume
+
+      * Add 'region' field to volume attachment
+    author:
+      name: Zulh
+      email: 75463191+zulh-civo@users.noreply.github.com
+    committer:
+      name: GitHub
+      email: noreply@github.com
+- semver: 0.10.10
+  date: 2021-08-19T03:42:51.581463+01:00
+  packager: ""
+  changes:
+  - commit: a4b13884af5dafc952a27e46e13ec861cab81848
+    note: Change default node size to "g3.k3s.medium" (#66)
+    author:
+      name: Zulh
+      email: 75463191+zulh-civo@users.noreply.github.com
+    committer:
+      name: GitHub
+      email: noreply@github.com
+  - commit: 6d4088fef95a59483fe1006a0bed36f2b99912db
+    note: |-
+      Fix cluster primary nodepool scaling bug (#63)
+
+      * Fix cluster primary nodepool scaling bug
+
+      * Change validation method for "num_target_nodes"
+    author:
+      name: Zulh
+      email: 75463191+zulh-civo@users.noreply.github.com
+    committer:
+      name: GitHub
+      email: noreply@github.com
+  - commit: 076005617496bc63a5cfe523a61b611d0ae32c4e
+    note: Update network.md (#64)
+    author:
+      name: Zulh
+      email: 75463191+zulh-civo@users.noreply.github.com
+    committer:
+      name: GitHub
+      email: noreply@github.com
+  - commit: 858b0d37be731b4917a58644125f6c4dc3b6074d
+    note: Make 'kubeconfig' field sensitive (#60)
+    author:
+      name: Zulh
+      email: 75463191+zulh-civo@users.noreply.github.com
+    committer:
+      name: GitHub
+      email: noreply@github.com
+  - commit: 8a12399278d247d0a90acf1a3c746faf64797971
+    note: Fix imported node pool's scaling issue (#55)
+    author:
+      name: Zulh
+      email: 75463191+zulh-civo@users.noreply.github.com
+    committer:
+      name: GitHub
+      email: noreply@github.com
+  - commit: 40fc21551d189a2776820e2b1c00710425f0699f
+    note: Fix "empty non-retryable error received" error when updating IaaS node size (#61)
+    author:
+      name: Zulh
+      email: 75463191+zulh-civo@users.noreply.github.com
+    committer:
+      name: GitHub
+      email: noreply@github.com
+  - commit: 49bfe0e52143ba00f3bd39e819c3b71788dc61e3
+    note: making public key non sensitive (#59)
+    author:
+      name: Saiyam Pathak
+      email: saiyam@civo.com
+    committer:
+      name: GitHub
+      email: noreply@github.com
+  - commit: 6ced37570cd70e693cc427602a0fa1368a363bf2
+    note: Mark IaaS password as sensitive (#56)
+    author:
+      name: Zulh
+      email: 75463191+zulh-civo@users.noreply.github.com
+    committer:
+      name: GitHub
+      email: noreply@github.com
+  - commit: dabc8950eec8f7beb2780c92e92ffd3c4d340aa7
+    note: Update kubernetes_cluster.md (#54)
+    author:
+      name: Zulh
+      email: 75463191+zulh-civo@users.noreply.github.com
+    committer:
+      name: GitHub
+      email: noreply@github.com
+  - commit: a94327e06524723ad7ae08ac1da8a4ce822370a7
+    note: Run 'go mod tidy'
+    author:
+      name: Zulhilmi Zainudin
+      email: zulh@civo.com
+    committer:
+      name: Saiyam Pathak
+      email: saiyam911@gmail.com
+  - commit: 9922b3bb7f96cd2d8552063a584d1dae48a43ed7
+    note: Show an error message when nodes size is changed
+    author:
+      name: Zulhilmi Zainudin
+      email: zulh@civo.com
+    committer:
+      name: Saiyam Pathak
+      email: saiyam911@gmail.com
+  - commit: c1b08c4cec029e2a15946e644db2f97161555bea
+    note: Update kubernetes_cluster.md
+    author:
+      name: Zulhilmi Zainudin
+      email: zulh@civo.com
+    committer:
+      name: Saiyam Pathak
+      email: saiyam911@gmail.com
+- semver: 0.10.9
+  date: 2021-07-27T12:37:41.09538+01:00
+  packager: ""
+  changes:
+  - commit: d0b506a2dbf368a42aea59ab17d04389ed764977
+    note: |-
+      Fixed error in the instance resource and update the doc for the template datasource
+      close #43
+    author:
+      name: Alejandro J. Nuñez Madrazo
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro J. Nuñez Madrazo
+      email: alejandrojnm@gmail.com
+- semver: 0.10.8
+  date: 2021-07-26T12:54:54.015588+01:00
+  packager: ""
+  changes:
+  - commit: 3d0923ddb706a1c1a1fd2ad195cee047f6f0a189
+    note: |-
+      Fixed error in the provider in the cluster resource and datasource
+      close #45
+    author:
+      name: Alejandro J. Nuñez Madrazo
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro J. Nuñez Madrazo
+      email: alejandrojnm@gmail.com
+- semver: 0.10.7
+  date: 2021-07-23T10:58:15.768366+01:00
+  packager: ""
+  changes:
+  - commit: ba0089be2f8157a07a0d60ddd19e3a63b5d69614
+    note: Fixed error in the ValidateNameSize function
+    author:
+      name: Alejandro J. Nuñez Madrazo
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro J. Nuñez Madrazo
+      email: alejandrojnm@gmail.com
+- semver: 0.10.6
+  date: 2021-07-19T09:39:43.851556+01:00
+  packager: ""
+  changes:
+  - commit: 33ad24848ffa4f7b455159cd2cae601f96f4595b
+    note: Fixed error in the format of the code
+    author:
+      name: Alejandro J. Nuñez Madrazo
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro J. Nuñez Madrazo
+      email: alejandrojnm@gmail.com
+  - commit: 4e438002f2a28ded1e92ab3a47e5f7c038e02b9d
+    note: |-
+      Fixed error reported in github
+      Removed utils and put in the right folder, updated the civogo lib to the last version
+      Close #39
+    author:
+      name: Alejandro J. Nuñez Madrazo
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro J. Nuñez Madrazo
+      email: alejandrojnm@gmail.com
+  - commit: 34d310f73ceece473e83c874b478b0ceed61b5ac
+    note: |-
+      Update release.yml
+
+      Update the Go version to create the binary for M1 arch for Apple
+    author:
+      name: Alejandro J. Nuñez Madrazo
+      email: alejandro@civo.com
+    committer:
+      name: GitHub
+      email: noreply@github.com
+- semver: 0.10.4
+  date: 2021-06-16T12:34:53.052412+01:00
+  packager: ""
+  changes:
+  - commit: 4abb9b697e0c92235bb769f073725d5c9b280878
+    note: Updated the doc for instance and kubernetes resource
+    author:
+      name: Alejandro J. Nuñez Madrazo
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro J. Nuñez Madrazo
+      email: alejandrojnm@gmail.com
+  - commit: e41d0b0052d9aefb7d4d07223705e31859ca2fcc
+    note: Merge branch 'master' of https://github.com/civo/terraform-provider-civo
+    author:
+      name: Alejandro J. Nuñez Madrazo
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro J. Nuñez Madrazo
+      email: alejandrojnm@gmail.com
+  - commit: 077e3d723b89b16e54090006e1fa41fc6c78f291
+    note: Fixed error in the firewall resource and add random name
+    author:
+      name: Alejandro J. Nuñez Madrazo
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro J. Nuñez Madrazo
+      email: alejandrojnm@gmail.com
+- semver: 0.10.3
+  date: 2021-06-13T15:36:39.748275+01:00
+  packager: ""
+  changes:
+  - commit: 3d5ddf18966513d804dc9014daaff32a571c9836
+    note: Fixed error in the retry operation in kubernetes
+    author:
+      name: Alejandro J. Nuñez Madrazo
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro J. Nuñez Madrazo
+      email: alejandrojnm@gmail.com
+- semver: 0.10.2
+  date: 2021-05-28T15:34:12.991669-04:00
+  packager: ""
+  changes:
+  - commit: 24fb9ccf68712148db130b765d15cbd1cbde0646
+    note: Add node pool test, remove CIDR from network and fixed some deprecate function
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: dbe386eac2c2f0562870aa177dc2730bb82638ec
+    note: Updated the civogo lib to v0.2.47
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+- semver: 0.10.1
+  date: 2021-05-13T09:22:01.510989-04:00
+  packager: ""
+  changes:
+  - commit: 7b4a6dfff18942c26fbba0b181c14c9befe6e2dd
+    note: |-
+      Updated the doc for some datasource and resource
+      close #34
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 406bbea64f092c5823f71dd8ae1d3437ac975df9
+    note: Update the doc for datasource instance_size
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: dd2e51e5e7debd1a41e74857c8f6fbfdd88a900d
+    note: Cleaning the project
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: df85511383542282fafbfcc8c81004e93a0ab0a8
+    note: Addes more fix to the provider, updated the civogo lib
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: a049b432d99708fefd3af25910e0dc898d4f7898
+    note: Updated to v2 of the SDK of terraform and add support for muti region
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 508fc6783f5c2d186cc2337a772bc587d5df3653
+    note: Updated to terraform sdk v2 and remove vendor folder
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: d3e176401b8ee703b8c5fba04bb8aae7e4659cd7
+    note: |-
+      Merge pull request #30 from AlexsJones/master
+
+      fix(spelling): resource_kubernetes_cluster.go kubernetes spelling
+    author:
+      name: Alejandro J. Nuñez Madrazo
+      email: alejandro@civo.com
+    committer:
+      name: GitHub
+      email: noreply@github.com
+  - commit: a053b7c1a843d9d440d19a3b181b3f6b2a93e07d
+    note: |-
+      Merge pull request #27 from DoNnMyTh/patch-1
+
+      updated README.md
+    author:
+      name: Alejandro J. Nuñez Madrazo
+      email: alejandro@civo.com
+    committer:
+      name: GitHub
+      email: noreply@github.com
+- semver: 0.9.23
+  date: 2020-12-06T16:18:11.926364-05:00
+  packager: ""
+  changes:
+  - commit: 5dd72a5d24314a6b34e5995c31acea0dfde9d8d7
+    note: Updated the goreleaser file to add the chnagelog
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: d23776dd8aa840d4d1f70cf0296cab51f8c2ad7c
+    note: Update Change log
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 6d0876e2b689cdd3b3c69ab6a31fa811d455f8ca
+    note: Updated the civogo lib to v0.2.23
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: e00a1040620519a0ec98ec5e9b8d15c7a04463d0
+    note: |-
+      Merge pull request #26 from AlexsJones/patch-1
+
+      fix(README): Fixed unauthenticated download in README.md
+    author:
+      name: Alejandro J. Nuñez Madrazo
+      email: alejandrojnm@gmail.com
+    committer:
+      name: GitHub
+      email: noreply@github.com
+  - commit: 7882cc5a4bb8aaa50b240aa7582b331b87030f12
+    note: Updated GitHub action for Lint
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+- semver: 0.9.22
+  date: 2020-11-26T08:16:51.221647-05:00
+  packager: ""
+  changes:
+  - commit: 18c5e8c7c457e54ba25889ecbcdb5c6c7cb9c051
+    note: |-
+      Fixed bug in the DNS resource, Update civogo lib
+      Close #25
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+- semver: 0.9.21
+  date: 2020-09-25T13:57:09.838882-04:00
+  packager: ""
+  changes:
+  - commit: 3068faf09940997802e28e5d53532a0e7715e589
+    note: |-
+      Updated the civogo lib to v0.2.19
+      Fixed error in typo in the instance resource
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: d5a033afa6b8b33e6775b4fe3fa7f3d4b46061c8
+    note: |-
+      Fix documentation for the instance resource
+      Close #24
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 1b22c80ce7dd3bef56f88ac155c5537dcbbf20e0
+    note: Updated the doc for kubernetes resource
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+- semver: 0.9.20
+  date: 2020-09-24T10:40:14.237591-04:00
+  packager: ""
+  changes:
+  - commit: da4842c9f9a2c1a56030df5a9ab3c65968959b59
+    note: Fixed issue in the kubernetes resource
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+- semver: 0.9.19
+  date: 2020-09-24T08:03:38.965333-04:00
+  packager: ""
+  changes:
+  - commit: 30b621ff9eaf65abeaaecf961e3f80cadbdbd6ce
+    note: Changed kubernetes_version option now is required
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+- semver: 0.9.18
+  date: 2020-09-23T10:56:30.425053-04:00
+  packager: ""
+  changes:
+  - commit: ed064a5ad052c0056e06f82df87b7a3278a56cb9
+    note: Updated the civogo lib to v0.2.18
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+- semver: 0.9.17
+  date: 2020-09-12T22:34:54.619959-04:00
+  packager: ""
+  changes:
+  - commit: f1524b4b9088e78658e4d91a65022f630493bc53
+    note: Allowed new record type in the DNS resource
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 38a311e3b90e0968051e2946a6aae4371100767a
+    note: Updated the civogo lib to the v0.2.17
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 389e6c067abd81c1b3088bf43c3148c4a6f7e3c0
+    note: |-
+      Merge pull request #22 from fgrehm/patch-1
+
+      Fix link to documentation
+    author:
+      name: Alejandro J. Nuñez Madrazo
+      email: alejandrojnm@gmail.com
+    committer:
+      name: GitHub
+      email: noreply@github.com
+  - commit: 1171aedb89fadb155869a4936608f11ad6460e6f
+    note: Update the readme and clean go.mod
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 26522e57489a6a31b1a77f1d90e673267b7280b0
+    note: Update the Change log
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: e36ac2a4a46205139240d05c90f0ae9a00a69abb
+    note: Update the release action
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 5cfb6289e8998d3701a2786f81f206d0e22fabc0
+    note: Update the release to use Go 1.14
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 6e381d00de8e825a65468725d5e3a1f8efa7929c
+    note: Update the goreleaser config
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 932440f72f10fb742c008e3487ab0cf05d59743d
+    note: Update Change log
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+- semver: 0.9.16
+  date: 2020-09-02T17:57:10.001802-04:00
+  packager: ""
+  changes:
+  - commit: e36ac2a4a46205139240d05c90f0ae9a00a69abb
+    note: Update the release action
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 5cfb6289e8998d3701a2786f81f206d0e22fabc0
+    note: Update the release to use Go 1.14
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 6e381d00de8e825a65468725d5e3a1f8efa7929c
+    note: Update the goreleaser config
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 932440f72f10fb742c008e3487ab0cf05d59743d
+    note: Update Change log
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 942f59cda12aeefea71283896ad4a496ff66cf03
+    note: Added GPG to sing the binary
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: a3ee77767e97f43cc6659786d3ea137603f758cd
+    note: Update docs to the new format
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+- semver: 0.9.15
+  date: 2020-08-17T12:01:03.330197-04:00
+  packager: ""
+  changes:
+  - commit: bee9eb4173b9999d3800cc2d1f78efb60cbb4a30
+    note: Fixed bug in the kubernetes cluster resource
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 4a792b9aa68d49342183b0387c374fd6d42026a1
+    note: Update the README, remove Progress resource section
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 32c5e71f1c0f97859355bde6e80d1f8a911a25d8
+    note: Updated the Change log
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 9314aa9776d4a7cb6d7f0ea53eaafb4e6f5f5783
+    note: Fixed error in the description of the instance resource
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+- semver: 0.9.14
+  date: 2020-08-03T10:17:00.133593-04:00
+  packager: ""
+  changes:
+  - commit: 9314aa9776d4a7cb6d7f0ea53eaafb4e6f5f5783
+    note: Fixed error in the description of the instance resource
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 6db9f52471684c37489fb226a6b7fa881b685481
+    note: Updated the Change log
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 1df99212a81c149678bd6b6ace594416967152a5
+    note: Fixed error in the instance resource
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+- semver: 0.9.13
+  date: 2020-07-17T14:29:59.820317-04:00
+  packager: ""
+  changes:
+  - commit: cd24e0a992a0716ce0483c9622928a13516bfc1e
+    note: Changed the direction in the firewall rule from inbound to ingress
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: a50103adcce5b62e71b801233f4401c218bd60be
+    note: Update goreleaser-action to v2
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 94bd2d64448024fca64a5e386e1f2a2a8cd88e72
+    note: Update kubernetes cluster data source with the new fields
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: eb0123f1fe77000dd3821007640dc0b3d6b69e7e
+    note: Update change log
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+- semver: 0.9.12
+  date: 2020-07-07T11:36:33.315144-04:00
+  packager: ""
+  changes:
+  - commit: d5eaef110b06aeaf6b9ef0227bb8cabc67040cd2
+    note: |-
+      Added CPU, RAM and SSD fields to Instance and Kubernetes module
+
+      * Update the data sources instance, instances and kubernetes cluster, now you can filter by that fields
+      * Update the resources instance and kubernetes cluster
+      * Update the documentation
+      * Update the civogo lib to v0.2.12 to add the new filed
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 6e56ab4b6a876f38eecd9081d9434d93ead81a10
+    note: Update change log
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+- semver: 0.9.11
+  date: 2020-07-06T17:15:28.587972-04:00
+  packager: ""
+  changes:
+  - commit: bbb18219614e23d3e755a9e0edef4eb056c6b7c6
+    note: Added kubernetes cluster data source
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 92073abdb1d9de99236bb4f845fac2c65fb6cb88
+    note: Added the make test to the github actions
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 0202a445e1a2c2c9a599e32e37a6ab21ee58bb1a
+    note: Update the change logs
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+- semver: 0.9.10
+  date: 2020-07-06T13:19:55.002127-04:00
+  packager: ""
+  changes:
+  - commit: 8ab9073865bdcc8de942e408b5aad5d46e28b8d2
+    note: |-
+      Fixed error in the kubernetes cluster, the master's ip was not set
+
+      if the cluster state was not active, the master's ip was not set,  now it is waiting for the cluster to be active
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: d049062ed8271a85ac50f27605a2a098f43b0652
+    note: Added the change logs
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+- semver: 0.9.9
+  date: 2020-07-06T10:20:01-04:00
+  packager: GitHub <noreply@github.com>
+  changes:
+  - commit: 9bd1bc717fa180340568efb8c9afc9c9d5b4f9a8
+    note: |-
+      Fixed error in the kubernetes resource
+      Update the kubernetes test
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 4e5b922d3c53f1c43336646ef7bae605993e16fc
+    note: Update the documentation of the kubernetes cluster
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 5c1ad36e2ce402c9c2b1289f138944117a00a665
+    note: |-
+      Added master_ip to kubernetes cluster
+
+      Upgrade civogo lib to v0.2.11
+      Add master ip to the result of the kubernetes cluster
+      Added validation to the dns record resource,
+      now the ttl can't be lower than 600 and the max value is 3600
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 9d480c9ca83f63f453bfc40b4c544becaece71bd
+    note: Added data source kubernetes versions test
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 4f3a1a1a52c62a155b9dd40a07063013ba19ed77
+    note: |-
+      Added new test
+
+      Added data source instances test
+      Fix error in the documentation for instances data source
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 834a4e3073c0b412202e5bf0e219a5f46d9eb3a2
+    note: |-
+      Added new test
+
+      Added data source instances size test
+      Fix documentation for template import cmd
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 8b75b83360ea915248ff18c5b47b8acc1c3f2f93
+    note: |-
+      Fixed error in the doc
+
+      Added data source instance test
+      Fixed typo error in doc
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 12c41ce86907395025e0e1047b90db4dfa52aadd
+    note: Added data source snapshot test
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: efbfce8f35589f9560476868d5431aec341797bd
+    note: Added data source Template test
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 439c0d42a83b8264f0d6eb018715f81ab16932dd
+    note: |-
+      Added new data source test
+
+      Added the load balancer test
+      Added the network test
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 26017174c06bf09eda3dff7d20ba6d6018e303be
+    note: |-
+      Added new test to the provider
+
+      Added the ssh key test
+      Fixed the go mod
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 91509d2d7eb6588ae4bc290d78607b7e1b74f825
+    note: |-
+      Added new test
+
+      Added the volume test
+      Fixed test for domain and domain record
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 102a5b22bc5ce84640e89ca0603ccd13e293ac5c
+    note: Added the Template test
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: ca85af3a7ed98b18432e2f33795a297e1daa0c2c
+    note: Fixed error in the doc again
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 5c5c95dbcd6ef41b479ed2fa57e307a7617eb95e
+    note: Fixed error in the doc of the template resource
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 68cca0334e85a4ed9a17038bd6288d01de0d11b9
+    note: |-
+      Fixed kubernetes cluster
+
+      Added the tags option to the kubernetes cluster resource
+      Added the test for the kubernetes cluster
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 75e69a8402c6ab8e80ab95478b2bfc832f14cf49
+    note: |-
+      Added new test
+
+      Added the instances test
+      Added new check to the Volume Attachment Test
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 0c87d356f21bec3146e691267606657a08fb8980
+    note: |-
+      Fixed error in provider
+
+      Fixed error in volume attachment cmd
+      Added the test for volume attachment
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: b73725b84cdd8f8029b91673e1de30720f0f151d
+    note: |-
+      Fixed error in the provider
+
+      Fixed error i the volume resource
+      Add the test for the volume
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 61987e1ea54031bc14b3e1685bfaa55b87c752e6
+    note: Added the SSH Key test and the Snapshot test
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+- semver: 0.9.8
+  date: 2020-06-24T11:08:53-04:00
+  packager: GitHub <noreply@github.com>
+  changes:
+  - commit: a3077b4e12bd804bb333ba630963e7a7d5d52134
+    note: Upgrade the version of civogo lib
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 25a1a6b2d2c490f584df6b0ae39f82ed3c66f236
+    note: |-
+      Fixed error ins some test
+
+      Add the loadbalancer test
+      Update go.mod
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 1e3c665875b614de66c074aeaed25cbce0c52587
+    note: |-
+      Merge pull request #18 from AugustasV/patch-1
+
+      Edit Kubernetes  provider markdown mistype
+    author:
+      name: Alejandro J. Nuñez Madrazo
+      email: alejandrojnm@gmail.com
+    committer:
+      name: GitHub
+      email: noreply@github.com
+- semver: 0.9.7
+  date: 2020-06-22T14:48:34-04:00
+  packager: GitHub <noreply@github.com>
+  changes:
+  - commit: bd3664d992d404d2acdcd56a14bb77e2aa210a46
+    note: |-
+      Fixed error in the instances creation
+
+      Fixed error message
+      Added the load balancer basic test
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 961f28314dd78c0f6ab19241cc48021fd704ab82
+    note: |-
+      test: Add new test
+
+      Added the network test
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 3a237d79986dbec11dd5c21a55fed759d80d3995
+    note: |-
+      Added new test
+
+      Added the firewall test
+      Added the firewall rule test
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 334cdb570b889f0dc73aa03143fdeb2bedc77b7d
+    note: Add DNS domain record test
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 400524a054d54954a12c530dc38303567020bb5e
+    note: |-
+      Added the first test to the project
+
+      Add the the test of dns domain name and dns domain record
+      Fix the version of Go in the Readme
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 2127d822a396a23a233e475ec23c8c575a7cd78f
+    note: Update documetation
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+- semver: 0.9.6
+  date: 2020-06-07T18:28:21-04:00
+  packager: GitHub <noreply@github.com>
+  changes:
+  - commit: dec8290391c2fa37646a79b4aaff2721d8ef4e1e
+    note: Update the documentation
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: a14c2e59f9a757198a706a4db02874056ce5f1cf
+    note: |-
+      Change the provider, now the token is not required
+      so you can use CIVO_TOKEN in the env
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 256b2e3667c787666ba6b6b9cf82ec8288afbab8
+    note: |-
+      Added the option to recreate resource if not found
+      in the cloud
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: a239402ea7c66c7dcaacc7368cbe38a638c7bffc
+    note: |-
+      Fix error in k8s cluster after deletion
+
+      - Now if you delete the cluster from the UI or Cli, when you run again the plan or apply command, the resource will be recreate if not found
+
+      #16
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 0bb57878e0912946d59e0bcf9d601a8f02ec8f41
+    note: Fixed error in all this files
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 05ec3ecb56936692917f2f93cb5c429bbf62326f
+    note: Fix some error found in the code
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+- semver: 0.9.5
+  date: 2020-05-31T12:47:40-04:00
+  packager: GitHub <noreply@github.com>
+  changes:
+  - commit: a456dad31da060baa62d6f4b29c2e29e4cf3ae27
+    note: Added a error handler to the provider in the case of the token not was found
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 4dfc12da21e9af505a34ef04a55d81df646f281b
+    note: Added default value to size and initial_user in the instance resource
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 549da91bf79946e85d0fd9e36066a6f57883d1a3
+    note: '- Update the documentation for data source instance_size and template'
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+- semver: 0.9.4
+  date: 2020-05-21T18:19:58-04:00
+  packager: GitHub <noreply@github.com>
+  changes:
+  - commit: 96f9e41c97892d75289bcaf9fc151d2edb1b0709
+    note: |-
+      - Added the new data source snapshot
+      - fix error in snapshot resource doc
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: e32df07e40eeebd9f9c8908304995290df5520a2
+    note: Added the new data source ssh key to get one ssh from the civo cloud
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 255aaf4675b27727762adbfda24210d5a3dcc883
+    note: Added the new data source loadbalancer to get one loadbalancer from the civo cloud
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: c97d499b0d7e5d60c7222c453b5f7a931aa92947
+    note: |-
+      feat(DataSource): Added new data source
+
+      - Added the new data source volume to get one volume, by name or by id
+      - Fix error in the doc for the instance creation
+
+      BREAKING CHANGE: No
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 69cb92932ef2e096265b7cc6a9a648872f8263d4
+    note: |-
+      feat(Doc): Fix error in doc
+
+      - the doc need to be consistent with resource spec docs
+
+      BREAKING CHANGE: No
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: cf116faa2de272b0990bab4047c44fd0119d3fa8
+    note: |-
+      feat(DataSource): Added new data source
+
+      - Added the new data source network to get one network, by name or by id
+
+      BREAKING CHANGE: No
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: aeb39320c65bb261c0c18f8b5e921cacc5443250
+    note: |-
+      feat(DataSource): Added new data source
+
+      - Added the new data source dns_domain_record to get one record
+      - Fixed some text in the help of resource dns_domain_record
+
+      BREAKING CHANGE: No
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 10629d6de2fff2bacf33ac0e44c56e53b420787c
+    note: |-
+      feat(DataSource): Added new data source
+
+      - Added the new data source dns_domain_name to get one domain
+      - Fixed some comment in datasource_instance.go, datasource_instances.go
+
+      BREAKING CHANGE: No
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 559594aef9e926d73eafc315e7db7cff02207745
+    note: |-
+      feat(DataSource): Added new data source
+
+      - Added the new data source civo_instance to get one instance
+      - Rename the file datasource_intances.go for datasource_instances.go
+
+      BREAKING CHANGE: No
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 40a1654744728dbb9b8957f96d7f5d8fa822161b
+    note: |-
+      feat(DataSource): Added new data source
+
+      - Added the new data source civo_instances
+      - Upgarde the civogo lib to 0.2.8
+
+      BREAKING CHANGE: No
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 465ad8bdcc406006bb2c216cd579bcf4615d7628
+    note: |-
+      Change in the readme
+
+      Changed the README.md to add a resource to lear how use the provider until hashicorp accept as provider
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: GitHub
+      email: noreply@github.com
+- semver: 0.9.3
+  date: 2020-05-05T08:05:41-04:00
+  packager: GitHub <noreply@github.com>
+  changes:
+  - commit: 807f086eced7e23a382eef293db28b89c8d76007
+    note: |-
+      Added support to add script
+
+      - Added support to add script at the moment of create the instances
+      - Update the documentation of the instance
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: GitHub
+      email: noreply@github.com
+- semver: 0.9.2
+  date: 2020-04-24T13:48:17-04:00
+  packager: GitHub <noreply@github.com>
+  changes:
+  - commit: 197425b7c2a4bf96661651b0d97d2c0de9316a54
+    note: |-
+      improved the data source filter
+
+      Added a new way to filter and sort the datasource
+      Update the documentation for the data source, instance_size, kubernetes_version, template
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: GitHub
+      email: noreply@github.com
+- semver: 0.9.1
+  date: 2020-04-20T12:34:36-04:00
+  packager: GitHub <noreply@github.com>
+  changes:
+  - commit: 2ba9c9ef663216b29a638524bb966aeb36e5fb51
+    note: |-
+      Merge pull request #9 from civo/dev
+
+      Fix a type error in the firewall
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: GitHub
+      email: noreply@github.com
+  - commit: 2a8e4c756b979abf3c0994b9930f51d6258ef035
+    note: |-
+      Merge pull request #8 from civo/dev
+
+      Update .goreleaser
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: GitHub
+      email: noreply@github.com
+- semver: 0.9.0
+  date: 2020-04-18T11:44:47-04:00
+  packager: GitHub <noreply@github.com>
+  changes:
+  - commit: 4172f90a32a8597821204329b4fb1b447d3a39e7
+    note: |-
+      Pre release
+
+      feat: Add goreleaser conf
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: GitHub
+      email: noreply@github.com
+  - commit: 4568fde42a25b8fab24ebda1108bd649e3efdf54
+    note: |-
+      Merge pull request #6 from civo/dev
+
+      Merge dev to master
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: GitHub
+      email: noreply@github.com
+  - commit: dd8e95d767308e436f7cb604fec6974d446b3d45
+    note: Add status badge for GitHub actions
+    author:
+      name: Andy Jeffries
+      email: andy@andyjeffries.co.uk
+    committer:
+      name: GitHub
+      email: noreply@github.com
+  - commit: d2dba75c38d1763232b2b973454b302a41b38a6f
+    note: Remove Travis integration
+    author:
+      name: Andy Jeffries
+      email: andy@andyjeffries.co.uk
+    committer:
+      name: GitHub
+      email: noreply@github.com
+  - commit: 862f18a8752d76267ccd2435cce23a3c65077193
+    note: Use GitHub actions
+    author:
+      name: Andy Jeffries
+      email: andy@andyjeffries.co.uk
+    committer:
+      name: GitHub
+      email: noreply@github.com
+  - commit: 95a61bc59e8ec4bc904a3b903bcb5b47b2589c1b
+    note: Create CODEOWNERS
+    author:
+      name: Andy Jeffries
+      email: andy@andyjeffries.co.uk
+    committer:
+      name: GitHub
+      email: noreply@github.com
+  - commit: 5781356aedb0c4b4e1298b50066f557ac4683292
+    note: |-
+      Merge pull request #4 from jdbohrman/patch-1
+
+      Fix doc.md typo?
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: GitHub
+      email: noreply@github.com
+  - commit: 60387abcb754d010e3eca193c2feba0e98e0586c
+    note: |-
+      Merge pull request #3 from alejandrojnm/dev
+
+      - Rename provider folder to civo
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: GitHub
+      email: noreply@github.com
+  - commit: e392c9dcb320f7802f13c315df03e6b1931aa0e5
+    note: |-
+      Merge pull request #2 from alejandrojnm/dev
+
+      Add fisrt part of the code
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: GitHub
+      email: noreply@github.com
+  - commit: d9e6c92fc52253d5754ffcf19cf740d98a12fda4
+    note: Update README to add status
+    author:
+      name: Andy Jeffries
+      email: andy@andyjeffries.co.uk
+    committer:
+      name: GitHub
+      email: noreply@github.com
+  - commit: 7df84a35c4d1827ad21c2a820fe526a43c5e3cd3
+    note: Remove website test until we're on there
+    author:
+      name: Andy Jeffries
+      email: andy@andyjeffries.co.uk
+    committer:
+      name: Andy Jeffries
+      email: andy@andyjeffries.co.uk
+  - commit: 94afb93d492d955270015b3ed1fad04ab789837f
+    note: Add vendored sources
+    author:
+      name: Andy Jeffries
+      email: andy@andyjeffries.co.uk
+    committer:
+      name: Andy Jeffries
+      email: andy@andyjeffries.co.uk
+  - commit: 93d44b42d7ebed4ded4d2d5483213490eb2b4076
+    note: Renamed Makefile
+    author:
+      name: Andy Jeffries
+      email: andy@andyjeffries.co.uk
+    committer:
+      name: Andy Jeffries
+      email: andy@andyjeffries.co.uk
+  - commit: 4340f3455aa3ef1ea8eb099f6ff340cf1f4386f5
+    note: Add travis status to title
+    author:
+      name: Andy Jeffries
+      email: andy@andyjeffries.co.uk
+    committer:
+      name: Andy Jeffries
+      email: andy@andyjeffries.co.uk
+  - commit: e8e23f4bc8c740cb1437e3c37faaef4067c76703
+    note: Template files added
+    author:
+      name: Andy Jeffries
+      email: andy@andyjeffries.co.uk
+    committer:
+      name: Andy Jeffries
+      email: andy@andyjeffries.co.uk
+  - commit: 7845305f4debac82dc56df3004aee736b003473c
+    note: Initial readme update
+    author:
+      name: Andy Jeffries
+      email: andy@andyjeffries.co.uk
+    committer:
+      name: Andy Jeffries
+      email: andy@andyjeffries.co.uk
+  - commit: 718385efd0826e524d1b68ffd7379d7dca758406
+    note: Initial commit
+    author:
+      name: Andy Jeffries
+      email: andy@andyjeffries.co.uk
+    committer:
+      name: GitHub
+      email: noreply@github.com
+  - commit: 2ab8c472973f1a260729497b3e29f070c82b18d0
+    note: '- Add doc.md to know how to use the provider'
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 935ec412240124f215ee668821373bd793de8185
+    note: |-
+      - Remove tags from the instance creation for now
+      - Add resource_network.go and resource_volume.go
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 47fc803f48854136615490f3420792776820c4e0
+    note: |-
+      - Remove validator from resource_instance.go to utils.go
+      - Add resource_network.go to handler the networks in civo
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 89aa8636a40622b66c338934e1076d15961d47ed
+    note: '- Add validate to the instance reverse_dns (no white spaces)'
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 14822c95714154471a2fba89db80ffff628d3fb1
+    note: '- Add the instances delete function'
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: db611b65dc6621c451ea8d65ab39fa4610d9a767
+    note: |-
+      - Add the instances red function
+      - Add all possible option to the resource
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: e018fda8a524fa4e02b97a208cf4d6e7a123a517
+    note: |-
+      First commit for the terraform provider for civo
+      - Now can create a instances
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 4382fc4541bd0210607a88db2c67e79fc8399fd0
+    note: '- Update .travis.yml'
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 237f68b57e6a72e6d13b906dfd82fb5e74ef7817
+    note: |-
+      - Rename provider folder to civo
+      - Change .travis.yml to use Go 1.13
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: ea7666f5127dea3ba1dd71b8b19167c46af32a2d
+    note: |-
+      Fix doc.md typo?
+
+      I'm assuming that "leyend" was supposed to say legend but I'm not sure.
+    author:
+      name: James D. Bohrman
+      email: jdbohrman@outlook.com
+    committer:
+      name: GitHub
+      email: noreply@github.com
+  - commit: fd39413834e6e36a72e76d0147b13559ad7597c3
+    note: |-
+      fix: Remove a temporal file
+
+      - Remove temporal.go
+
+      BREAKING CHANGE: No
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: e2e5c6f8f09e350d3209391172145c0cc466edae
+    note: |-
+      feat: Added one feature to the provider
+
+      - Added the volume_attachment option
+      - Remove instance id from volume
+      - Added all doc of the provider, the resource and the data source
+      - Added release.yml in order to make the release of the provider
+      - Rename the file resource_loadbalance.go by resource_loadbalancer.go
+      - Update the README.md
+
+      BREAKING CHANGE: No
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 52bf3e07a3549153b7a878f1b5cf67974b2cafae
+    note: |-
+      feat: Added one feature to the snapshot resource
+
+      - Update the resource_firewall_rule.go resource
+      - Add next_execution option to the snapshot resource
+      - Add cronexpr to parse the cron_time and say the next execution
+
+      BREAKING CHANGE: No
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: e4dc0112de942799017543ed23872363bf73a39e
+    note: |-
+      feat: Added the option to import existing infrastructure
+
+      - Update all comment in all components
+      - Added the option to import existing infrastructure
+      - Update civogo lib to 0.2.5
+
+      BREAKING CHANGE: No
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 77c3d3581e7912b27cf4bf75d626a9f634efeb10
+    note: |-
+      feat: Add other data resource, k8s version, instances size
+
+      - Add kubernetes version like data source
+      - Add Instances size like data source
+      - Add datasource_common_schema.go and datasource_common_struct.go to support kubernetes version and instances size data source
+
+      BREAKING CHANGE: No
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 08929849822c5f146e687fe3e9baa4fac6185fd7
+    note: |-
+      feat: Add other resource, kubernet, snapshot
+
+      - Add lint to the github action
+      - Kubernetes Cluster
+      - Snapshot
+      - Fix message in the template resource
+      - Update to civogo v0.2.4
+
+      BREAKING CHANGE: No
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 79ff73a9a85025ccf312c2f02756f646a79d351d
+    note: |-
+      feat: Add templates module
+
+      - Can handler the template
+      - Add data source civo_template
+      - Add new feature to the instances, can import now one instance, fixx error to add notes to a instance
+      - Fix error message in the resource_loadbalance
+      - Update to civogo v0.2.2
+
+      BREAKING CHANGE: No
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 04c84fe811bbcbbce32836c036bff7dafd60ad43
+    note: |-
+      feat: Add ssh resource
+
+      - Now can create, update or delete a ssh resource
+      - Update to civogo v0.2.0
+
+      BREAKING CHANGE: No
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 834be2e19d3ed56739462ccee552f97a2e774fea
+    note: |-
+      feat: Add firewall and loadbalancer
+
+      - Add Firewall
+      - Add loadbalancder
+      - Fix instance to work with the
+      firewall and loadbalancer
+
+      BREAKING CHANGE: No
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 73ebfd3df35cdeb957684735de181d644a9eca8c
+    note: |-
+      - Add civo_dns_domain_name and civo_dns_domain_record
+      - Fix some error in the resource_network.go and resource_volume.go
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 7f7d75df02294bcf29dcafbf27c7315f6c4663d0
+    note: |-
+      - Fix error in tags
+      - Update README.md and doc.md
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: e5e45e64981a2e3083bd6fbd0bd4b64dc13a3073
+    note: |-
+      - Add tags to the instance
+      - Update civo api to v0.1.0
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 62c4abe3024328312ae0206be066d27c771902b4
+    note: Merge branch 'master' into dev
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 2552d9504277621046a10c7299284fc8836655a3
+    note: '- Update civo go api'
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 974af8b71e05a22a7feb8825a852cd629bf12438
+    note: '- Update civo go api'
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 952870342e573a128e1d583bbd32af91da6bebf3
+    note: '- Update go 1.13'
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 0e81005a63f0c663141c3908e15a6848e7988bd2
+    note: "Merge remote-tracking branch 'origin/master'\n\n# Conflicts:\n#\tgo.mod"
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 310145cca6d78f2873e48898d77ab53d09ae4b24
+    note: '- Update go 1.13'
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+  - commit: 1c8c2b6b0677d8265cd283e75367c7db446572f1
+    note: |-
+      Merge pull request #1 from civo/master
+
+      Update master
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: GitHub
+      email: noreply@github.com
+  - commit: 10be43bc84cf8d98f5a96d4735c973b833250df7
+    note: |-
+      feat: Add goreleaser conf
+
+      - Added .goreleaser.yml to the project
+
+      BREAKING CHANGE: No
+    author:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
+    committer:
+      name: Alejandro JNM
+      email: alejandrojnm@gmail.com
