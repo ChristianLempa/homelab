@@ -8,7 +8,7 @@ volumes:
   influxdb2-data:
 services:
   influxdb:
-    container_name: influxdb
+    container_name: ixdb-prod-1
     image: influxdb:2.7.1-alpine
     volumes:
       - influxdb2-data:/var/lib/influxdb2

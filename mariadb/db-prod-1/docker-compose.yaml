@@ -8,7 +8,7 @@ volumes:
   mariadb-data:
 services:
   mariadb:
-    container_name: mariadb
+    container_name: db-prod-1
     image: mariadb:11.0.3
     ports:
       - 3306:3306
