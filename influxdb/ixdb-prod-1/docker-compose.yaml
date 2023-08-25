@@ -1,0 +1,30 @@
+---
+networks:
+  frontend:
+    external: true
+  backend:
+    external: true
+volumes:
+  influxdb2-data:
+services:
+  influxdb:
+    container_name: influxdb
+    image: influxdb:2.7.1-alpine
+    volumes:
+      - influxdb2-data:/var/lib/influxdb2
+      - ./etc:/etc/influxdb2
+      - ./ssl/ixdb-prod-1.crt:/etc/ssl/cert.pem
+      - ./ssl/ixdb-prod-1.key:/etc/ssl/cert-key.pem
+    command: influxd --tls-cert=/etc/ssl/cert.pem --tls-key=/etc/ssl/cert-key.pem
+    labels:
+      - traefik.enable=true
+      - traefik.http.services.ixdb-prod-1.loadbalancer.server.port=8086
+      - traefik.http.services.ixdb-prod-1.loadbalancer.server.scheme=https
+      - traefik.http.routers.ixdb-prod-1-https.entrypoints=websecure
+      - traefik.http.routers.ixdb-prod-1-https.rule=Host(`ixdb-prod-1.srv-prod-2.home.clcreative.de`)
+      - traefik.http.routers.ixdb-prod-1-https.tls=true
+      - traefik.http.routers.ixdb-prod-1-https.tls.certresolver=cloudflare
+    networks:
+      - frontend
+      - backend
+    restart: unless-stopped
