@@ -9,7 +9,7 @@ spec:
     server: 'https://kubernetes.default.svc'
   source:
     path: homer/homer-prod-1/argo
-    repoURL: 'https://github.com:christianlempa/homelab'
+    repoURL: 'https://github.com/christianlempa/homelab'
     targetRevision: HEAD
   project: default
   syncPolicy:
