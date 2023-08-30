@@ -23,3 +23,4 @@ jobs:
           source: './homer/homer-prod-1/config/*'
           target: '/mnt/store/app-pv/homer-prod-1-vol-1'
           strip_components: 3
+          overwrite: true
