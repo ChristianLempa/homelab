@@ -4,8 +4,12 @@ on:
   push:
     branches:
       - main
+      - test
+      - dev
     paths:
       - 'homer/homer-prod-1/config/**'
+  workflow_dispatch:
+
 jobs:
   deploy:
     runs-on: "self-hosted"
