@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: uptimekuma-prod-1-certificate
+  namespace: uptimekuma-prod-1
+spec:
+  secretName: uptimekuma-prod-1-tls-secret
+  issuerRef:
+    name: certmanager-prod-1-clusterissuer
+    kind: ClusterIssuer
+  dnsNames:
+    - uptimekuma-prod-1.kube-prod-1.home.clcreative.de
