@@ -21,14 +21,7 @@ spec:
       affinity: {}
       containers:
       - name: uptimekuma
-        image: louislam/uptime-kuma:1.21.3
-        # resources:
-        #   limits:
-        #     memory: 512Mi
-        #     cpu: "1"
-        #   requests:
-        #     memory: 256Mi
-        #     cpu: "0.2"
+        image: louislam/uptime-kuma:1.23.1
         ports:
         - containerPort: 3001 
         volumeMounts:
