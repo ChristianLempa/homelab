@@ -1,0 +1,11 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: homer-prod-1-certificate
+spec:
+  secretName: homer-prod-1-tls-secret
+  issuerRef:
+    name: certmanager-prod-1-clusterissuer
+    kind: ClusterIssuer
+  dnsNames:
+    - homer-prod-1.kube-prod-1.home.clcreative.de
