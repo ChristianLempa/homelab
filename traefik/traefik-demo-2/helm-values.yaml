@@ -6,7 +6,7 @@ hub:
 deployment:
   enabled: true
   kind: Deployment
-  replicas: 3
+  replicas: 1
 ingressClass:
   enabled: true
   isDefaultClass: true
@@ -62,8 +62,6 @@ tlsOptions: {}
 service:
   enabled: true
   type: LoadBalancer
-  externalIPs:
-    - 10.20.5.3
 autoscaling:
   enabled: false
 persistence:
