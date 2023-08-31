@@ -1,16 +1,13 @@
-version: '3.9'
-
+---
 networks:
   frontend:
     external: true
   backend:
     external: true
-
 services:
   traefik:
     container_name: traefik-prod-1
-    image: traefik:2.9.6
-    restart: always
+    image: traefik:2.10.4
     ports:
       - 80:80
       - 443:443
@@ -23,3 +20,4 @@ services:
     networks:
       - frontend
       - backend
+    restart: unless-stopped
