@@ -1,13 +1,24 @@
 ---
+networks:
+  frontend:
+    external: true
 volumes:
   grafana-data:
     driver: local
 services:
   grafana:
-    image: grafana/grafana-oss:latest
+    image: grafana/grafana-oss:10.1.0
     container_name: grafana
-    ports:
-      - "3000:3000"
     volumes:
       - grafana-data:/var/lib/grafana
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.grafana-prod-1-http.entrypoints=web
+      - traefik.http.routers.grafana-prod-1-http.rule=Host(`grafana-prod-1.srv-prod-1.home.clcreative.de`)
+      - traefik.http.routers.grafana-prod-1-https.entrypoints=websecure
+      - traefik.http.routers.grafana-prod-1-https.rule=Host(`grafana-prod-1.srv-prod-1.home.clcreative.de`)
+      - traefik.http.routers.grafana-prod-1-https.tls=true
+      - traefik.http.routers.grafana-prod-1-https.tls.certresolver=cloudflare
+    networks:
+      - frontend
     restart: unless-stopped
