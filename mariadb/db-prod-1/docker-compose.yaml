@@ -1,0 +1,20 @@
+---
+networks:
+  frontend:
+    external: true
+  backend:
+    external: true
+volumes:
+  mariadb-data:
+services:
+  mariadb:
+    container_name: db-prod-1
+    image: mariadb:11.0.3
+    ports:
+      - 3306:3306
+    volumes:
+      - mariadb-data:/var/lib/mysql
+    networks:
+      - frontend
+      - backend
+    restart: unless-stopped

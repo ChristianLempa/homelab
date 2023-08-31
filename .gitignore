@@ -1,1 +1,11 @@
 .vscode/**
+
+**/.envrc
+**/.env
+
+**/.terraform
+**/.terraform.lock.hcl
+**/.terraform.tfstate.*
+**/terraform.tfstate
+**/terraform.tfstate.backup
+**/*.auto.tfvars

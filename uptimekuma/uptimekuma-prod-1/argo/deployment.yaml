@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: uptimekuma-prod-1-deploy
+  namespace: uptimekuma-prod-1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: uptimekuma-prod-1
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: uptimekuma-prod-1
+    spec:
+      affinity: {}
+      containers:
+      - name: uptimekuma
+        image: louislam/uptime-kuma:1.23.1
+        ports:
+        - containerPort: 3001 
+        volumeMounts:
+        - mountPath: /app/data
+          name: uptimekuma-prod-1-vol-1
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 10
+      volumes:
+      - name: uptimekuma-prod-1-vol-1
+        persistentVolumeClaim:
+          claimName: uptimekuma-prod-1-pvc

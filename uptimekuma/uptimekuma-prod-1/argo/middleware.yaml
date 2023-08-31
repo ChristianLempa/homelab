@@ -1,0 +1,15 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: uptimekuma-prod-1-middleware-cors
+  namespace: uptimekuma-prod-1
+spec:
+  headers:
+    accessControlAllowMethods:
+      - "*"
+    accessControlAllowOriginList:
+      - "*"
+    # accessControlAllowHeaders:
+    #   - "x-api-key"
+    accessControlMaxAge: 100
+    addVaryHeader: true
