@@ -3,7 +3,7 @@ global:
   sendAnonymousUsage: false
 
 log:
-  level: DEBUG
+  level: ERROR
 
 api:
   dashboard: true
