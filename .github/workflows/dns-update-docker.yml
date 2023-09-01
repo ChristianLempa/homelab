@@ -1,0 +1,38 @@
+name: Update Docker Compose File
+
+on:
+  push:
+    branches:
+      - main
+      - test
+      - dev
+    paths:
+      - 'dns/dns-prod-1/docker-compose.yaml'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: "self-hosted"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Upload new Docker Compose File
+        uses: appleboy/scp-action@master
+        with:
+          username: xcad
+          host: srv-prod-7.home.clcreative.de
+          key: ${{ secrets.SSH_XCAD }}
+          source: './docker-compose.yaml'
+          target: '/home/xcad/dns-prod-1/'
+
+      - name: Restart Docker Container
+        uses: fifsky/ssh-action@master
+        with:
+          user: xcad
+          host: srv-prod-7.home.clcreative.de
+          key: ${{ secrets.SSH_XCAD }}
+          command: |
+            cd dns-prod-1
+            docker compose up -d --force-recreate
