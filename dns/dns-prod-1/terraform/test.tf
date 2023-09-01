@@ -6,3 +6,12 @@ resource "dns_a_record_set" "rnd_test_1" {
   ]
   ttl = 3600
 }
+
+resource "dns_a_record_set" "rnd_test_2" {
+  zone = "home.clcreative.de."
+  name = "rnd-test-2"
+  addresses = [
+    "10.20.99.98"
+  ]
+  ttl = 3600
+}
