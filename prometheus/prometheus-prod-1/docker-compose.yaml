@@ -10,7 +10,7 @@ volumes:
 services:
   prometheus:
     image: prom/prometheus:v2.37.9
-    container_name: prometheus
+    container_name: prometheus-prod-1
     command: "--config.file=/etc/prometheus/prometheus.yaml"
     volumes:
       - ./config/prometheus.yaml:/etc/prometheus/prometheus.yaml:ro
