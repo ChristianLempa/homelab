@@ -12,7 +12,7 @@ on:
   
 defaults:
   run:
-    working-directory: ./dns/dns-prod-1/terraform/.terraform 
+    working-directory: dns/dns-prod-1/terraform/.terraform 
 
 env:
   TF_VAR_TSIG_KEY_HOME: ${{ secrets.TSIG_KEY_HOME }}
