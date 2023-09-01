@@ -1,0 +1,47 @@
+.first-line {
+    background: -moz-linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.80) 100%);
+background: -webkit-linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.80) 100%);
+background: linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.80) 100%);
+}
+
+.logo a img{
+    border-radius: 50%;
+}
+
+.dashboard-title span {
+    display: none;
+}
+
+.dashboard-title h1 {
+    padding: 16px;
+    font-weight: bold;
+    color: #ffffffd0;
+}
+
+
+.card-content .image {
+    background: -moz-linear-gradient(45deg, #E624FF 0%, #1BE1FF 100%);
+    background: -webkit-linear-gradient(45deg, #E624FF 0%, #1BE1FF 100%);
+    background: linear-gradient(45deg, #E624FF 0%, #1BE1FF 100%);
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.card-content i {
+    display: inline;
+}
+
+body #main-section .container {
+    box-shadow: 0 2px 15px 0 var(--card-shadow);
+    padding: 40px 40px 40px 40px;
+    background-blend-mode: darken;
+    background-color: #00000090;
+    border-radius: 20px;
+    margin: 24px auto 0px auto;
+}
+
+.container-fluid {
+    margin-top: -86px;
+}

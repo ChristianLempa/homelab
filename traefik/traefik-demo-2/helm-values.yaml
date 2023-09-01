@@ -1,0 +1,73 @@
+image:
+  name: traefik
+  pullPolicy: IfNotPresent
+hub:
+  enabled: false
+deployment:
+  enabled: true
+  kind: Deployment
+  replicas: 1
+ingressClass:
+  enabled: true
+  isDefaultClass: true
+ingressRoute:
+  dashboard:
+    enabled: false
+    annotations: {}
+    labels: {}
+providers:
+  kubernetesCRD:
+    enabled: true
+  kubernetesIngress:
+    enabled: true
+    publishedService:  # needed for health check fix
+      enabled: true    # needed for health check fix
+logs:
+  general:
+    level: ERROR
+  access:
+    enabled: false
+metrics:
+  prometheus:
+    entryPoint: metrics
+globalArguments:
+  - "--global.checknewversion"
+  - "--global.sendanonymoususage"
+ports:
+  traefik:
+    port: 9000
+    expose: false
+    exposedPort: 9000
+    protocol: TCP
+  web:
+    port: 8000
+    expose: true
+    exposedPort: 80
+    protocol: TCP
+    redirectTo: websecure
+  websecure:
+    port: 8443
+    expose: true
+    exposedPort: 443
+    http3:
+      enabled: false
+    tls:
+      enabled: true
+  metrics:
+    port: 9100
+    expose: false
+    exposedPort: 9100
+    protocol: TCP
+tlsOptions: {}
+service:
+  enabled: true
+  type: LoadBalancer
+autoscaling:
+  enabled: false
+persistence:
+  enabled: false
+certResolvers: {}
+podSecurityPolicy:
+  enabled: false
+resources: {}
+affinity: {}

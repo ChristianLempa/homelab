@@ -1,0 +1,29 @@
+---
+networks:
+  frontend:
+    external: true
+  backend:
+    external: true
+services:
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:v0.47.2     
+    container_name: cadvisor-prod-1
+    devices:
+      - /dev/kmsg
+    privileged: true
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /dev/disk/:/dev/disk:ro
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.cadvisor-prod-1.entrypoints=websecure
+      - traefik.http.routers.cadvisor-prod-1.rule=Host(`cadvisor-prod-1.srv-prod-1.home.clcreative.de`)
+      - traefik.http.routers.cadvisor-prod-1.tls=true
+      - traefik.http.routers.cadvisor-prod-1.tls.certresolver=cloudflare
+    networks:
+      - frontend
+      - backend
+    restart: unless-stopped
