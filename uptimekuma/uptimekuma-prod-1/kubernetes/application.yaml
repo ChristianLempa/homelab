@@ -1,14 +1,14 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: homer-prod-1-app
+  name: uptimekuma-prod-1-app
   namespace: argocd
 spec:
   destination:
-    namespace: homer-prod-1
+    namespace: uptimekuma-prod-1
     server: 'https://kubernetes.default.svc'
   source:
-    path: homer/homer-prod-1/argo
+    path: uptimekuma/uptimekuma-prod-1/argo
     repoURL: 'https://github.com/christianlempa/homelab'
     targetRevision: HEAD
   project: default

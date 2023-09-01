@@ -1,0 +1,53 @@
+---
+networks:
+  frontend:
+    external: true
+  backend:
+    external: true
+volumes:
+  vol-1:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=nas-prod-1.home.clcreative.de,rw,vers=4.1
+      device: ":/mnt/store/app-pv/passbolt-demo-1-vol-1"
+  vol-2:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=nas-prod-1.home.clcreative.de,rw,vers=4.1
+      device: ":/mnt/store/app-pv/passbolt-demo-1-vol-2"
+services:
+  passbolt:
+    container_name: passbolt-demo-1
+    image: passbolt/passbolt:4.2.0-1-ce
+    environment:
+      - APP_FULL_BASE_URL=https://passbolt-demo-1.srv-prod-1.home.clcreative.de
+      - DATASOURCES_DEFAULT_HOST=db-prod-1.home.clcreative.de
+      - DATASOURCES_DEFAULT_USERNAME=passbolt-demo-1-user
+      - DATASOURCES_DEFAULT_PASSWORD=${DATASOURCES_DEFAULT_PASSWORD}
+      - DATASOURCES_DEFAULT_DATABASE=passbolt_demo_1_db
+      - EMAIL_TRANSPORT_DEFAULT_HOST=smtp.office365.com
+      - EMAIL_TRANSPORT_DEFAULT_PORT=587
+      - EMAIL_TRANSPORT_DEFAULT_USERNAME=${EMAIL_TRANSPORT_DEFAULT_USERNAME}
+      - EMAIL_TRANSPORT_DEFAULT_PASSWORD=${EMAIL_TRANSPORT_DEFAULT_PASSWORD}
+      - EMAIL_TRANSPORT_DEFAULT_TLS=true
+      - EMAIL_DEFAULT_FROM=${EMAIL_DEFAULT_FROM}
+    volumes:
+      - vol-1:/etc/passbolt/gpg
+      - vol-2:/etc/passbolt/jwt
+    command: ["/usr/bin/wait-for.sh", "-t", "0", "db-prod-1.home.clcreative.de:3306", "--", "/docker-entrypoint.sh"]
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.passbolt-http.entrypoints: "web"
+      traefik.http.routers.passbolt-http.rule: "Host(`passbolt-demo-1.srv-prod-1.home.clcreative.de`)"
+      traefik.http.routers.passbolt-http.middlewares: "passbolt-demo-1-middleware@file"
+      traefik.http.routers.passbolt-https.middlewares: "passbolt-demo-1-middleware@file"
+      traefik.http.routers.passbolt-https.entrypoints: "websecure"
+      traefik.http.routers.passbolt-https.rule: "Host(`passbolt-demo-1.srv-prod-1.home.clcreative.de`)"
+      traefik.http.routers.passbolt-https.tls: "true"
+      traefik.http.routers.passbolt-https.tls.certresolver: "cloudflare"
+    networks:
+      - frontend
+      - backend
+    restart: unless-stopped

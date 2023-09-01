@@ -1,0 +1,10 @@
+$ORIGIN .
+$TTL 86400	; 1 day
+home.clcreative.de	IN SOA	ns.home.clcreative.de. home.clcreative.de. (
+				2001062618 ; serial
+				3600       ; refresh (1 hour)
+				3600       ; retry (1 hour)
+				2419200    ; expire (4 weeks)
+				3600       ; minimum (1 hour)
+				)
+			NS	ns.home.clcreative.de.
