@@ -8,6 +8,11 @@ on:
       - dev
     paths:
       - 'dns/dns-prod-1/terraform/*.tf'
+  # pull_request:
+  #   branches:
+  #     - main
+  #   paths:
+  #     - 'dns/dns-prod-1/terraform/*.tf'
   workflow_dispatch:
   
 defaults:
@@ -77,5 +82,5 @@ jobs:
         run: exit 1
 
       - name: Terraform Apply
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        if: github.event_name == 'push'
         run: terraform apply -auto-approve -input=false
