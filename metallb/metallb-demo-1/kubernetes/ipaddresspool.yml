@@ -1,0 +1,8 @@
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: metallb-demo-1-ipaddresspool
+  namespace: metallb-system
+spec:
+  addresses:
+  - 10.20.5.3/32  # IP address for traefik-demo-3

@@ -3,7 +3,7 @@ kind: Ingress
 metadata:
   name: argocd-demo-1-ingress
   namespace: argocd
-  annotations:
+  annotations: {}
     # traefik.ingress.kubernetes.io/router.entrypoints: websecure
     # traefik.ingress.kubernetes.io/router.tls: "true"
     # traefik.ingress.kubernetes.io/router.tls.options: default
