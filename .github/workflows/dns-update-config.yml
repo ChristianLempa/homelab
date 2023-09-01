@@ -24,7 +24,7 @@ jobs:
           username: xcad
           host: srv-prod-7.home.clcreative.de
           key: ${{ secrets.SSH_XCAD }}
-          source: './config/*'
+          source: './dns/dns-prod-1/config/*'
           target: '/home/xcad/dns-prod-1/'
           overwrite: true
 

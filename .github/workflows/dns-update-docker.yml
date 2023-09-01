@@ -24,7 +24,7 @@ jobs:
           username: xcad
           host: srv-prod-7.home.clcreative.de
           key: ${{ secrets.SSH_XCAD }}
-          source: './docker-compose.yaml'
+          source: './dns/dns-prod-1/docker-compose.yaml'
           target: '/home/xcad/dns-prod-1/'
 
       - name: Restart Docker Container
