@@ -1,4 +1,4 @@
-name: "Update DNS Records"
+name: "Update VMS"
 
 on:
   push:
@@ -7,20 +7,24 @@ on:
       - test
       - dev
     paths:
-      - 'dns/dns-prod-1/terraform/*.tf'
-  # pull_request:
-  #   branches:
-  #     - main
-  #   paths:
-  #     - 'dns/dns-prod-1/terraform/*.tf'
+      - 'proxmox/prx-prod-2/terraform/*.tf'
+  pull_request:
+    branches:
+      - main
+      - test
+      - dev
+    paths:
+      - 'proxmox/prx-prod-2/terraform/*.tf'
   workflow_dispatch:
   
 defaults:
   run:
-    working-directory: dns/dns-prod-1/terraform
+    working-directory: proxmox/prx-prod-2/terraform
 
 env:
-  TF_VAR_TSIG_KEY_HOME: ${{ secrets.TSIG_KEY_HOME }}
+  TF_VAR_PRX_PROD_2_URL: ${{ secrets.PRX_PROD_2_URL }}
+  TF_VAR_PRX_PROD_2_USER: ${{ secrets.PRX_PROD_2_USER }}
+  TF_VAR_PRX_PROD_2_TOKEN: ${{ secrets.PRX_PROD_2_TOKEN }}
 
 jobs:
   terraform:
