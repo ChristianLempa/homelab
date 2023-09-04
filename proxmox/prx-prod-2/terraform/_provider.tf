@@ -4,11 +4,11 @@ terraform {
 
   required_providers {
     proxmox = {
-      source = "telmate/proxmox"
+      source  = "telmate/proxmox"
       version = "=2.9.14"
     }
   }
-  
+
   cloud {
     organization = "clcreative"
     workspaces {
@@ -26,13 +26,13 @@ variable "PRX_PROD_2_USER" {
 }
 
 variable "PRX_PROD_2_TOKEN" {
-  type = string
+  type      = string
   sensitive = true
 }
 
 provider "proxmox" {
-  pm_api_url = var.PRX_PROD_2_URL
-  pm_api_token_id = var.PRX_PROD_2_USER
+  pm_api_url          = var.PRX_PROD_2_URL
+  pm_api_token_id     = var.PRX_PROD_2_USER
   pm_api_token_secret = var.PRX_PROD_2_TOKEN
-  pm_tls_insecure = false
+  pm_tls_insecure     = false
 }
