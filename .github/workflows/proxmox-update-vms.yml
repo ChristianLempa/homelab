@@ -1,0 +1,67 @@
+name: "Update VMS"
+
+on:
+  push:
+    branches:
+      - main
+      - test
+      - dev
+    paths:
+      - 'proxmox/prx-prod-2/terraform/*.tf'
+  pull_request:
+    branches:
+      - main
+      - test
+      - dev
+    paths:
+      - 'proxmox/prx-prod-2/terraform/*.tf'
+  workflow_dispatch:
+  
+defaults:
+  run:
+    working-directory: proxmox/prx-prod-2/terraform
+
+env:
+  TF_VAR_PRX_PROD_2_URL: ${{ secrets.PRX_PROD_2_URL }}
+  TF_VAR_PRX_PROD_2_USER: ${{ secrets.PRX_PROD_2_USER }}
+  TF_VAR_PRX_PROD_2_TOKEN: ${{ secrets.PRX_PROD_2_TOKEN }}
+
+jobs:
+  terraform:
+    runs-on: "self-hosted"
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          # terraform_version: 0.13.0:
+          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+
+      - name: Terraform Format
+        id: fmt
+        run: terraform fmt -check
+
+      - name: Terraform Init
+        id: init
+        run: terraform init
+      
+      - name: Terraform Validate
+        id: validate
+        run: terraform validate -no-color
+
+      - name: Terraform Plan
+        id: plan
+        if: github.event_name == 'pull_request'
+        run: terraform plan -no-color -input=false
+        continue-on-error: true
+
+      - name: Terraform Plan Status
+        if: steps.plan.outcome == 'failure'
+        run: exit 1
+
+      - name: Terraform Apply
+        if: github.event_name == 'push'
+        run: terraform apply -auto-approve -input=false
