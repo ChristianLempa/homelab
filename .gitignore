@@ -9,3 +9,10 @@
 **/terraform.tfstate
 **/terraform.tfstate.backup
 **/*.auto.tfvars
+
+**/*.auto.pkrvars.hcl
+packer-*.log
+packer_cache/
+*.iso
+*.box
+*.ova
