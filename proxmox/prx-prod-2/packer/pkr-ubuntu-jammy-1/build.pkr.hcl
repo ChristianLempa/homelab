@@ -1,4 +1,4 @@
-source "proxmox-iso" "eval-1" {
+source "proxmox-iso" "pkr-ubuntu-jammy-1" {
   proxmox_url               = "${var.proxmox_api_url}"
   username                  = "${var.proxmox_api_token_id}"
   token                     = "${var.proxmox_api_token_secret}"
@@ -6,7 +6,7 @@ source "proxmox-iso" "eval-1" {
 
   node                      = "prx-prod-2"
   vm_id                     = "90001"
-  vm_name                   = "pkr-ubuntu-jammy-eval-1"
+  vm_name                   = "pkr-ubuntu-jammy-1"
   template_description      = "test"
 
   iso_file                  = "local:iso/ubuntu-22.04.3-live-server-amd64.iso"
@@ -53,7 +53,7 @@ source "proxmox-iso" "eval-1" {
   boot_wait                 = "6s"
   communicator              = "ssh"
 
-  http_directory            = "pkr-ubuntu-jammy/http"
+  http_directory            = "pkr-ubuntu-jammy-1/http"
 
   ssh_username              = "${var.ssh_username}"
   ssh_private_key_file      = "${var.ssh_private_key_file}"
@@ -62,4 +62,52 @@ source "proxmox-iso" "eval-1" {
   ssh_timeout               = "30m"
   ssh_pty                   = true
   ssh_handshake_attempts    = 15
+}
+
+build {
+
+  name    = "pkr-ubuntu-jammy-1"
+  sources = [
+      "source.proxmox-iso.pkr-ubuntu-jammy-1"
+  ]
+
+  # Waiting for Cloud-Init to finish
+  provisioner "shell" {
+    inline = ["cloud-init status --wait"]
+  }
+
+  # Provisioning the VM Template for Cloud-Init Integration in Proxmox #1
+  provisioner "shell" {
+    execute_command = "echo -e '<user>' | sudo -S -E bash '{{ .Path }}'"
+    inline = [
+      "echo 'Starting Stage: Provisioning the VM Template for Cloud-Init Integration in Proxmox'",
+      "sudo rm /etc/ssh/ssh_host_*",
+      "sudo truncate -s 0 /etc/machine-id",
+      "sudo apt -y autoremove --purge",
+      "sudo apt -y clean",
+      "sudo apt -y autoclean",
+      "sudo cloud-init clean",
+      "sudo rm -f /etc/cloud/cloud.cfg.d/subiquity-disable-cloudinit-networking.cfg",
+      "sudo rm -f /etc/netplan/00-installer-config.yaml",
+      "sudo sync",
+      "echo 'Done Stage: Provisioning the VM Template for Cloud-Init Integration in Proxmox'"
+    ]
+  }
+
+  # Provisioning the VM Template for Cloud-Init Integration in Proxmox #2
+  provisioner "file" {
+    source      = "pkr-ubuntu-jammy-1/files/99-pve.cfg"
+    destination = "/tmp/99-pve.cfg"
+  }
+  provisioner "shell" {
+    inline = ["sudo cp /tmp/99-pve.cfg /etc/cloud/cloud.cfg.d/99-pve.cfg"]
+  }
+
+  # Clean Up task
+  provisioner "shell" {
+    inline = [
+      "sudo userdel -r xcad",
+      "sudo groupdel xcad"
+    ]
+  }
 }
