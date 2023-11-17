@@ -14,7 +14,7 @@ spec:
     helm:
       parameters:
         - name: enterpriseEdition.enabled
-          value: 'true'
+          value: 'false'
         - name: persistence.size
           value: 2Gi
         - name: persistence.existingClaim
