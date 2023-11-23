@@ -1,0 +1,21 @@
+id: build-docker-1
+namespace: demo
+
+tasks:
+  - id: git
+    type: io.kestra.core.tasks.flows.WorkingDirectory
+    tasks:
+      - id: clone
+        type: io.kestra.plugin.git.Clone
+        url: https://github.com/christianlempa/hackbox
+        branch: main
+
+      - id: build
+        type: io.kestra.plugin.docker.Build
+        dockerfile: "src/Dockerfile"
+        tags: 
+          - registry.hub.docker.com/xcad2k/hackbox-test:latest
+        push: true
+        credentials:
+          username: "{{ envs.dockerhub_username }}"
+          password: "{{ envs.dockerhub_password }}"
