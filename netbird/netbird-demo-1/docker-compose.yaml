@@ -1,0 +1,26 @@
+---
+services:
+  netbird:
+    image: netbirdio/netbird:0.24.2
+    container_name: netbird-demo-1
+    hostname: netbird-demo-1.srv-demo-1.home.clcreative.de
+    cap_add:
+      - NET_ADMIN
+      - SYS_ADMIN
+      - SYS_RESOURCE
+    environment:
+      - NB_SETUP_KEY=${SETUP_KEY}
+    volumes:
+      - netbird-client:/etc/netbird
+    networks:
+      - frontend
+      - backend
+    restart: unless-stopped
+volumes:
+  netbird-client:
+    name: netbird-client
+networks:
+  frontend:
+    external: true
+  backend:
+    external: true
