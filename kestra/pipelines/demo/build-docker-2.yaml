@@ -1,0 +1,30 @@
+id: build-docker-2
+namespace: demo
+
+tasks:
+  - id: directory
+    type: io.kestra.core.tasks.flows.WorkingDirectory
+    tasks:
+      - id: createFiles
+        type: io.kestra.core.tasks.storages.LocalFiles
+        inputs:
+          Dockerfile: |
+            FROM alpine:latest
+            WORKDIR /app
+            COPY . /app
+            RUN apk add --update python3
+            CMD [ "python", "main.py"]
+          main.py: |
+            if __name__ == "__main__":
+              print("Hello from Docker!")
+              exit(0)
+
+      - id: build
+        type: io.kestra.plugin.docker.Build
+        dockerfile: "Dockerfile"
+        tags: 
+          - registry.hub.docker.com/xcad2k/hello-docker:latest
+        push: true
+        credentials:
+          username: "{{ envs.dockerhub_username }}"
+          password: "{{ envs.dockerhub_password }}"

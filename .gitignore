@@ -1,4 +1,6 @@
 .vscode/**
+.obsidian/**
+.DS_Store
 
 **/.envrc
 **/.env

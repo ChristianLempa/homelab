@@ -1,0 +1,21 @@
+---
+networks:
+  frontend:
+    external: true
+services:
+  uptimekuma:
+    image: louislam/uptime-kuma:1.23.2-alpine
+    container_name: uptimekuma
+    volumes:
+      - ./data:/app/data
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.uptimekuma-prod-1-http.entrypoints=web
+      - traefik.http.routers.uptimekuma-prod-1-http.rule=Host(`uptimekuma-prod-1.srv-prod-7.home.clcreative.de`)
+      - traefik.http.routers.uptimekuma-prod-1-https.entrypoints=websecure
+      - traefik.http.routers.uptimekuma-prod-1-https.rule=Host(`uptimekuma-prod-1.srv-prod-7.home.clcreative.de`)
+      - traefik.http.routers.uptimekuma-prod-1-https.tls=true
+      - traefik.http.routers.uptimekuma-prod-1-https.tls.certresolver=cloudflare
+    networks:
+      - frontend
+    restart: unless-stopped

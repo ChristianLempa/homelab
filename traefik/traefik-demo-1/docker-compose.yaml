@@ -7,7 +7,7 @@ networks:
 services:
   traefik:
     container_name: traefik-demo-1
-    image: traefik:2.10.4
+    image: traefik:2.10.5
     ports:
       - 80:80
       - 443:443
