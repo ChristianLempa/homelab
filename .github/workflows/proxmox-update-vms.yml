@@ -28,6 +28,8 @@ env:
 
 jobs:
   terraform:
+    name: "test, plan, and apply terraform changes"
+
     runs-on: "self-hosted"
     steps:
 
