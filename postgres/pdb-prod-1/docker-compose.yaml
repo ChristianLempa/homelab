@@ -1,0 +1,23 @@
+---
+services:
+  postgres:
+    container_name: pdb-prod-1
+    image: postgres:16.1-alpine
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    ports:
+      - 5432:5432
+    networks:
+      - backend
+      - frontend
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    restart: unless-stopped
+networks:
+  frontend:
+    external: true
+  backend:
+    external: true
+volumes:
+  postgres-data:
