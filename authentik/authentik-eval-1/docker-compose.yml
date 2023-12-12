@@ -1,0 +1,179 @@
+version: "3.9"
+
+###############################################################
+# Services
+###############################################################
+services:
+
+  postgresql:
+    image: postgres:12-alpine
+    container_name: authentik_postgres
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
+      start_period: 20s
+      interval: 30s
+      retries: 5
+      timeout: 5s
+    networks:
+      - traefik_default
+    volumes:
+      - "$DOCKERDIR/authentik/postgresql/data:/var/lib/postgresql/data"
+    environment:
+      - POSTGRES_DB
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+    secrets:
+      - authentik_postgresql_db
+      - authentik_postgresql_user
+      - authentik_postgresql_password
+
+
+  redis:
+    image: redis:alpine
+    container_name: authentik_redis
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli ping | grep PONG"]
+      start_period: 20s
+      interval: 30s
+      retries: 5
+      timeout: 3s
+    networks:
+      - traefik_default
+
+
+  # Use the embedded outpost (2021.8.1+) instead of the seperate Forward Auth / Proxy Provider container
+  authentik_server:
+    image: ghcr.io/goauthentik/server:latest
+    container_name: authentik_server
+    restart: unless-stopped
+    command: server
+    networks:
+      - traefik_default
+    volumes:
+      - "$DOCKERDIR/authentik/media:/media"
+      - "$DOCKERDIR/authentik/custom-templates:/templates"
+      - "$DOCKERDIR/authentik/geoip/data:/geoip"
+    environment:
+      - AUTHENTIK_REDIS__HOST
+      - AUTHENTIK_POSTGRESQL__HOST
+      - AUTHENTIK_POSTGRESQL__NAME
+      - AUTHENTIK_POSTGRESQL__USER
+      - AUTHENTIK_POSTGRESQL__PASSWORD
+      - AUTHENTIK_EMAIL__PASSWORD
+      - AUTHENTIK_ERROR_REPORTING__ENABLED
+      - AUTHENTIK_SECRET_KEY
+      - AUTHENTIK_COOKIE_DOMAIN
+      # - WORKERS
+    secrets:
+      - authentik_postgresql_db
+      - authentik_postgresql_user
+      - authentik_postgresql_password
+      - authelia_notifier_smtp_password
+      - authentik_secret_key
+    labels:
+      - "traefik.enable=true"
+      ## HTTP Routers
+      - "traefik.http.routers.authentik-rtr.rule=Host(`authentik.$DOMAIN`)"
+      - "traefik.http.routers.authentik-rtr.entrypoints=websecure"
+      - "traefik.http.routers.authentik-rtr.tls=true"
+      - "traefik.http.routers.authentik-rtr.tls.certresolver=production"
+      ## Individual Application forwardAuth regex (catch any subdomain using individual application forwardAuth)  
+      - "traefik.http.routers.authentik-rtr-outpost.rule=HostRegexp(`{subdomain:[a-z0-9-]+}.$DOMAIN`) && PathPrefix(`/outpost.goauthentik.io/`)"
+      - "traefik.http.routers.authentik-rtr-outpost.entrypoints=websecure"
+      - "traefik.http.routers.authentik-rtr-outpost.tls=true"
+      - "traefik.http.routers.authentik-rtr-outpost.tls.certresolver=production"
+      ## HTTP Services
+      - "traefik.http.routers.authentik-rtr.service=authentik-svc"
+      - "traefik.http.services.authentik-svc.loadBalancer.server.port=9000"
+
+
+  authentik_worker:
+    image: ghcr.io/goauthentik/server:latest
+    container_name: authentik_worker
+    restart: unless-stopped
+    command: worker
+    networks:
+      - traefik_default
+    volumes:
+      - "$DOCKERDIR/authentik/media:/media"
+      - "$DOCKERDIR/authentik/custom-templates:/templates"
+      - "$DOCKERDIR/authentik/geoip/data:/geoip"
+    environment:
+      - AUTHENTIK_REDIS__HOST
+      - AUTHENTIK_POSTGRESQL__HOST
+      - AUTHENTIK_POSTGRESQL__NAME
+      - AUTHENTIK_POSTGRESQL__USER
+      - AUTHENTIK_POSTGRESQL__PASSWORD
+      - AUTHENTIK_EMAIL__PASSWORD
+      - AUTHENTIK_ERROR_REPORTING__ENABLED
+      - AUTHENTIK_SECRET_KEY
+      - AUTHENTIK_COOKIE_DOMAIN
+    secrets:
+      - authentik_postgresql_db
+      - authentik_postgresql_user
+      - authentik_postgresql_password
+      - authelia_notifier_smtp_password
+      - authentik_secret_key
+    
+
+  geoipupdate:
+    image: maxmindinc/geoipupdate:latest
+    container_name: geoipupdate
+    restart: unless-stopped
+    volumes:
+      - "$DOCKERDIR/apps/authentik/geoip/data:/usr/share/GeoIP"
+    environment:
+      - GEOIPUPDATE_EDITION_IDS
+      - GEOIPUPDATE_FREQUENCY
+      - GEOIPUPDATE_ACCOUNT_ID
+      - GEOIPUPDATE_LICENSE_KEY
+
+
+  whoami-test:
+    image: traefik/whoami
+    container_name: whoami-test
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - traefik_default
+    environment:
+      - TZ
+    labels:
+      - "traefik.enable=true"
+      ## HTTP Routers
+      - "traefik.http.routers.whoami-test-rtr.rule=Host(`whoami-test.$DOMAIN`)"
+      - "traefik.http.routers.whoami-test-rtr.entrypoints=websecure"
+      - "traefik.http.routers.whoami-test-rtr.tls=true"
+      - "traefik.http.routers.whoami-test-rtr.tls.certresolver=production"
+      ## Middlewares
+      - "traefik.http.routers.whoami-test-rtr.middlewares=middlewares-authentik@file"
+
+
+###############################################################
+# Docker Secrets
+###############################################################
+secrets:
+  # Authentik Postgres
+  authentik_postgresql_db:
+    file: $DOCKERDIR/authentik/secrets/authentik_postgresql_db
+  authentik_postgresql_user:
+    file: $DOCKERDIR/authentik/secrets/authentik_postgresql_user
+  authentik_postgresql_password:
+    file: $DOCKERDIR/authentik/secrets/authentik_postgresql_password
+  # Authentik
+  authentik_secret_key:
+    file: $DOCKERDIR/authentik/secrets/authentik_secret_key
+  # GMail Auth Account
+  authelia_notifier_smtp_password:
+    file: $DOCKERDIR/authentik/secrets/authelia_notifier_smtp_password
+
+
+###############################################################
+# Networks
+###############################################################
+networks:
+  traefik_default:
+    external: true
