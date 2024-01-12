@@ -12,7 +12,7 @@ terraform {
   cloud {
     organization = "clcreative"
     workspaces {
-      name = "prx-prod-2"
+      name = "proxmox"
     }
   }
 }

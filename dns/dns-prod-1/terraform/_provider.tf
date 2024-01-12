@@ -11,7 +11,7 @@ terraform {
     organization = "clcreative"
 
     workspaces {
-      name = "dns-prod-1"
+      name = "dns"
     }
   }
 }
