@@ -10,3 +10,4 @@ services:
       - ./config/:/etc/bind:rw
     network_mode: host
     restart: unless-stopped
+
