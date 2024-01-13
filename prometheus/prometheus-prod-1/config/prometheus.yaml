@@ -62,6 +62,10 @@ scrape_configs:
     static_configs:
       - targets: [srv-prod-6.home.clcreative.de:9100]
 
+  - job_name: 'srv-prod-7'
+    scrape_interval: 15s
+    static_configs:
+      - targets: [srv-prod-7.home.clcreative.de:9100]
 
   # Example job for node_exporter
   # - job_name: 'node_exporter'
