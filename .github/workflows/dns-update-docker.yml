@@ -26,6 +26,7 @@ jobs:
           key: ${{ secrets.SSH_XCAD }}
           source: './dns/dns-prod-1/docker-compose.yaml'
           target: '/home/xcad/dns-prod-1/'
+          strip_components: 3
 
       - name: Restart Docker Container
         uses: fifsky/ssh-action@master
