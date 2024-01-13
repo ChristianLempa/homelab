@@ -27,7 +27,7 @@ jobs:
           source: './dns/dns-prod-1/config/*'
           target: '/home/xcad/dns-prod-1/'
           overwrite: true
-          strip_components: 3
+          strip_components: 2
 
       - name: Restart Docker Container
         uses: fifsky/ssh-action@master
