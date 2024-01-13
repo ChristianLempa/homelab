@@ -30,7 +30,6 @@ jobs:
           key: ${{ secrets.SSH_XCAD }}
           source: './ansible/ansiblesemaphore-prod-1/docker-compose.yaml'
           target: '/home/xcad/ansiblesemaphore-prod-1/'
-          strip_components: 2
 
       - name: Restart Docker Container
         uses: fifsky/ssh-action@master
