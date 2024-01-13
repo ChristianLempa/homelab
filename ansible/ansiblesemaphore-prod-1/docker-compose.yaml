@@ -4,6 +4,7 @@ networks:
     external: true
   backend:
     external: true
+    
 services:
   semaphore:
     container_name: ansiblesemaphore-prod-1
