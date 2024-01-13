@@ -4,7 +4,7 @@ networks:
     external: true
 services:
   teleport:
-    image: public.ecr.aws/gravitational/teleport-distroless-debug:13.2.3
+    image: public.ecr.aws/gravitational/teleport-distroless-debug:14.3.3
     container_name: teleport-demo-1
     ports:
       - "3080:3080"
