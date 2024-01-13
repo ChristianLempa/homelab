@@ -9,7 +9,7 @@ networks:
 services:
   semaphore:
     container_name: ansiblesemaphore-prod-1
-    image: semaphoreui/semaphore:v2.8.90
+    image: semaphoreui/semaphore:v2.9.37
     restart: unless-stopped
     ports:
       - 3000:3000
