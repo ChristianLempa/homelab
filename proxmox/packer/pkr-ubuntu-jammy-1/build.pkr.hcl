@@ -5,7 +5,7 @@ source "proxmox-iso" "pkr-ubuntu-jammy-1" {
   insecure_skip_tls_verify  = false
 
   node                      = "prx-prod-2"
-  vm_id                     = "90001"
+  vm_id                     = "90101"
   vm_name                   = "pkr-ubuntu-jammy-1"
   template_description      = "test"
 
@@ -21,7 +21,7 @@ source "proxmox-iso" "pkr-ubuntu-jammy-1" {
   memory                    = "2048"
 
   cloud_init                = true
-  cloud_init_storage_pool   = "local-lvm"
+  cloud_init_storage_pool   = "pv2"
 
   vga {
     type                    = "virtio"
@@ -30,7 +30,7 @@ source "proxmox-iso" "pkr-ubuntu-jammy-1" {
   disks {
     disk_size               = "20G"
     format                  = "raw"
-    storage_pool            = "local-lvm"
+    storage_pool            = "pv2"
     type                    = "virtio"
   }
 
@@ -101,13 +101,5 @@ build {
   }
   provisioner "shell" {
     inline = ["sudo cp /tmp/99-pve.cfg /etc/cloud/cloud.cfg.d/99-pve.cfg"]
-  }
-
-  # Clean Up task
-  provisioner "shell" {
-    inline = [
-      "sudo userdel -r xcad",
-      "sudo groupdel xcad"
-    ]
   }
 }
