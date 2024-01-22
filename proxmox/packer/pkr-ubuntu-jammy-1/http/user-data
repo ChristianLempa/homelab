@@ -26,14 +26,14 @@ autoinstall:
   user-data:
     package_upgrade: true
     timezone: Europe/Berlin
+    ssh_pwauth: true
     users:
-      - name: xcad
+      - name: admin
         groups: [adm, sudo]
         lock-passwd: false
         sudo: ALL=(ALL) NOPASSWD:ALL
         shell: /bin/bash
-        ssh_authorized_keys:
-          - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCsYvxYCpI90al2rJiyccPYNrvjHKLhvgTJVDssAL29jAPhl46gQctL98yZ+Rx9E3dLiHhs8SP14X2m50XbxX+QnjEjq2ywCqu359YMiitvaOgWMzKIaeiwnDngHc5NY+eC8t88bhhKmQPjejmdLSApLu7ObJ/9by2fjWptmqrkkhc1WQs58oYwNDenOd9UNaWcXtyPf2AGIIze2r1cFaEwAPyNtTlzCeqj41jKHLYorvU0CU5KUqgcgswXSgOC+moYac4WIUJCZCCU/s354NpKcJMYN/eiEpK1nZR/jhIe/pEsG4oIbCHy7f+PZruNhF6hi8UvhT+MHS0wwID/gj+UQPyg9GVieiQ1hv+NpLImkTdVJKemMf02548jEPhcrgLowuBemvtf4NHJE0FUH3chTu/Ioi66XKiedWdHMGLTBlWIUMuIYzHeFWLzCg8BqpQK0D7H48W7aku6JgWfhBdy5COvaglpRxlTAac8KURNtR1FRjxX9Lh1hHU+i5nLhIc= WSL2/XWIN
+        passwd: $6$230i923r23ik0fk2$PaSk5DInBxW8gB0NP5OhQl7ZEzu0Wwi6JSTgUyf5F9XChpY4KMZ/WX2nNFKwK.BqpRejhrY8iyPYY8Gg0HSDV/
   packages:
     - qemu-guest-agent
     - sudo

@@ -56,7 +56,7 @@ source "proxmox-iso" "pkr-ubuntu-jammy-1" {
   http_directory            = "pkr-ubuntu-jammy-1/http"
 
   ssh_username              = "${var.ssh_username}"
-  ssh_private_key_file      = "${var.ssh_private_key_file}"
+  ssh_password              = "${var.ssh_password}"
 
   # Raise the timeout, when installation takes longer
   ssh_timeout               = "30m"

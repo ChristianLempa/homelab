@@ -24,6 +24,7 @@ variable "ssh_username" {
   type      = string
 }
 
-variable "ssh_private_key_file" {
+variable "ssh_password" {
   type      = string
+  sensitive = true
 }
