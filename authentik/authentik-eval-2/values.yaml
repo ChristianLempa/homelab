@@ -1,0 +1,28 @@
+authentik:
+  # secret_key: "add-through-command-line"
+  error_reporting:
+    enabled: true
+  postgresql:
+    host: "pdb-prod-1.home.clcreative.de"
+    name: "authentik-eval-2"
+    user: "authentik-eval-2-admin"
+    # password: "add-through-command-line"
+    port: 5432
+  # email:
+  #   host: ""
+ingress:
+  ingressClassName: traefik
+  enabled: true
+  hosts:
+    - host: authentik-eval-2.kube-demo-1.home.clcreative.de
+      paths:
+        - path: "/"
+          pathType: Prefix
+  tls:
+    - hosts:
+        - authentik-eval-2.kube-demo-1.home.clcreative.de
+      secretName: authentik-eval-2-tls
+postgresql:
+  enabled: false
+redis:
+  enabled: true
