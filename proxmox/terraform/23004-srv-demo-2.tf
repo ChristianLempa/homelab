@@ -20,7 +20,7 @@ resource "proxmox_vm_qemu" "srv-demo-2" {
     startup = ""
     automatic_reboot = false  # refuse auto-reboot when changing a setting
 
-    cores = 1
+    cores = 2
     sockets = 1
     cpu = "host"
     memory = 2048
