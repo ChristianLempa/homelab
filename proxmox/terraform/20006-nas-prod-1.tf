@@ -13,6 +13,7 @@ resource "proxmox_vm_qemu" "nas-prod-1" {
     full_clone = false
 
     # -- boot process
+    onboot = true
     startup = "order=1,up=10"
     automatic_reboot = false  # refuse auto-reboot when changing a setting
 
