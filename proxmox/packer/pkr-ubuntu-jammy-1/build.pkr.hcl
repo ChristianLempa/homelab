@@ -68,7 +68,7 @@ build {
 
   name    = "pkr-ubuntu-jammy-1"
   sources = [
-      "source.proxmox-iso.pkr-ubuntu-jammy-1"
+      "proxmox-iso.pkr-ubuntu-jammy-1"
   ]
 
   # Waiting for Cloud-Init to finish
