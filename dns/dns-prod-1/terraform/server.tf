@@ -116,17 +116,3 @@ resource "dns_a_record_set" "srv_demo_6" {
   addresses = ["10.20.3.8"]
   ttl       = 3600
 }
-
-resource "dns_a_record_set" "srv_eval_1" {
-  zone      = "home.clcreative.de."
-  name      = "srv-eval-1"
-  addresses = ["10.20.4.1"]
-  ttl       = 3600
-}
-
-resource "dns_a_record_set" "srv_eval_1_wildcard" {
-  zone      = "home.clcreative.de."
-  name      = "*.srv-eval-1"
-  addresses = ["10.20.4.1"]
-  ttl       = 3600
-}
