@@ -4,24 +4,22 @@ authentik:
     enabled: true
   postgresql:
     host: "srv-prod-2.home.clcreative.de"
-    name: "authentik-eval-2"
+    name: "authentik-eval-2-db"
     user: "authentik-eval-2-admin"
     # password: "add-through-command-line"
     port: 5432
   # email:
   #   host: ""
-ingress:
-  ingressClassName: traefik
-  enabled: true
-  hosts:
-    - host: authentik-eval-2.kube-demo-1.home.clcreative.de
-      paths:
-        - path: "/"
-          pathType: Prefix
-  tls:
-    - hosts:
-        - authentik-eval-2.kube-demo-1.home.clcreative.de
-      secretName: authentik-eval-2-tls
+server:
+  ingress:
+    ingressClassName: traefik
+    enabled: true
+    hosts:
+      - authentik-eval-2.kube-demo-1.home.clcreative.de
+    tls:
+      - hosts:
+          - authentik-eval-2.kube-demo-1.home.clcreative.de
+        secretName: authentik-eval-2-tls
 postgresql:
   enabled: false
 redis:
