@@ -1,18 +1,18 @@
 authentik:
-  # secret_key: "add-through-command-line"
+  secret_key: "vOeFJ96cQYYh1VfvZ9OTA5tXJBfdEQOINAeNcDwg6H9kFCbw"
   error_reporting:
     enabled: true
   postgresql:
     host: "srv-prod-2.home.clcreative.de"
     name: "authentik-eval-2-db"
     user: "authentik-eval-2-admin"
-    # password: "add-through-command-line"
+    password: "jpBV_w2edrxgNXcHtBdw@jTN"
     port: 5432
   # email:
   #   host: ""
 server:
   ingress:
-    ingressClassName: traefik
+    ingressClassName: traefik-demo-2
     enabled: true
     hosts:
       - authentik-eval-2.kube-demo-1.home.clcreative.de

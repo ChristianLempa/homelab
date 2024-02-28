@@ -24,7 +24,7 @@ providers:
       enabled: true    # needed for health check fix
 logs:
   general:
-    level: ERROR
+    level: DEBUG
   access:
     enabled: false
 metrics:
