@@ -7,3 +7,4 @@ services:
       - AUTHENTIK_INSECURE=false
       - AUTHENTIK_TOKEN=${AUTHENTIK_TOKEN}
     restart: unless-stopped
+ 
