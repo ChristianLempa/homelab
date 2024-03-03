@@ -1,0 +1,20 @@
+---
+volumes:
+  portainer-data:
+    driver: local
+services:
+  app:
+    container_name: portainer-demo-1
+    image: portainer/portainer-ce:2.19.4-alpine
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer-data:/data
+    labels:
+      traefik.enable: "true"
+      traefik.http.services.portainer-demo-1.loadbalancer.server.port: "9000"
+      traefik.http.services.portainer-demo-1.loadbalancer.server.scheme: "http"
+      traefik.http.routers.portainer-demo-1-https.entrypoints: "websecure"
+      traefik.http.routers.portainer-demo-1-https.rule: "Host(`portainer-demo-1.srv-demo-1.home.clcreative.de`)"
+      traefik.http.routers.portainer-demo-1-https.tls: "true"
+      traefik.http.routers.portainer-demo-1-https.tls.certresolver: "cloudflare"
+    restart: unless-stopped
