@@ -1,0 +1,31 @@
+authentik:
+  # secret_key: ""
+  error_reporting:
+    enabled: true
+  postgresql:
+    # host: ""
+    # name: ""
+    # user: ""
+    # password: ""
+    port: 5432
+  email:
+    # host: ""
+    port: 587
+    # username: ""
+    # password: ""
+    use_tls: true
+    # from: ""
+server:
+  ingress:
+    ingressClassName: traefik-prod-3
+    enabled: true
+    hosts:
+      - authentik-prod-1.kube-prod-1.home.clcreative.de
+    tls:
+      - hosts:
+          - authentik-prod-1.kube-prod-1.home.clcreative.de
+        secretName: authentik-prod-1-tls
+postgresql:
+  enabled: false
+redis:
+  enabled: true
