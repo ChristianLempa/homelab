@@ -4,7 +4,7 @@ metadata:
   name: authentik-prod-1-certificate
   namespace: authentik
 spec:
-  secretName: authentik-prod-1tls
+  secretName: authentik-prod-1-tls
   issuerRef:
     name: certmanager-prod-1-clusterissuer
     kind: ClusterIssuer
