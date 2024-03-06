@@ -1,4 +1,9 @@
 ---
+volumes:
+  postgresql-data:
+    driver: local
+  redis-data:
+    driver: local
 networks:
   frontend:
     external: true
@@ -6,115 +11,90 @@ networks:
     external: true
 services:
   postgresql:
-    image: postgres:12-alpine
+    image: docker.io/library/postgres:12-alpine
     container_name: authentik-eval-1-postgresql
+    restart: unless-stopped
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
       start_period: 20s
       interval: 30s
       retries: 5
       timeout: 5s
-    networks:
-      - backend
     volumes:
-      - ./postgres-data:/var/lib/postgresql/data
+      - postgresql-data:/var/lib/postgresql/data
     environment:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_DB=${POSTGRES_DB}
-    restart: unless-stopped
-  redis:
-    image: redis:alpine
+    networks:
+      - backend
+  redis-data:
+    image: docker.io/library/redis:alpine
     container_name: authentik-eval-1-redis
     command: --save 60 1 --loglevel warning
+    restart: unless-stopped
     healthcheck:
       test: ["CMD-SHELL", "redis-cli ping | grep PONG"]
       start_period: 20s
       interval: 30s
       retries: 5
       timeout: 3s
+    volumes:
+      - redis:/data
     networks:
       - backend
-    volumes:
-      - ./redis-data:/data
-    restart: unless-stopped
   server:
-    image: ghcr.io/goauthentik/server:latest
+    image: ghcr.io/goauthentik/server:2024.2.2
     container_name: authentik-eval-1-server
+    restart: unless-stopped
     command: server
-    networks:
-      - frontend
-      - backend
-    volumes:
-      - ./media:/media
-      - ./custom-templates:/templates
     environment:
       - AUTHENTIK_REDIS__HOST=redis
       - AUTHENTIK_POSTGRESQL__HOST=postgresql
-      - AUTHENTIK_POSTGRESQL__NAME=${POSTGRES_DB}
       - AUTHENTIK_POSTGRESQL__USER=${POSTGRES_USER}
+      - AUTHENTIK_POSTGRESQL__NAME=${POSTGRES_DB}
       - AUTHENTIK_POSTGRESQL__PASSWORD=${POSTGRES_PASSWORD}
       - AUTHENTIK_SECRET_KEY=${AUTHENTIK_SECRET_KEY}
       - AUTHENTIK_ERROR_REPORTING__ENABLED=true
-    labels:
-      - "traefik.enable=true"
-      ## HTTP Routers
-      - "traefik.http.routers.authentik-eval-1-https.rule=Host(`authentik-eval-1.srv-demo-1.home.clcreative.de`) || HostRegexp(`{subdomain:[a-z0-9-]+}.srv-demo-1.home.clcreative.de`) && PathPrefix(`/outpost.goauthentik.io/`)"
-      - "traefik.http.routers.authentik-eval-1-https.entrypoints=websecure"
-      - "traefik.http.routers.authentik-eval-1-https.tls=true"
-      - "traefik.http.routers.authentik-eval-1-https.tls.certresolver=cloudflare"
-      ## Individual Application forwardAuth regex (catch any subdomain using individual application forwardAuth)  
-      # - "traefik.http.routers.authentik-eval-1-https-outpost.rule=HostRegexp(`{subdomain:[a-z0-9-]+}.srv-demo-1.home.clcreative.de`) && PathPrefix(`/outpost.goauthentik.io/`)"
-      # - "traefik.http.routers.authentik-eval-1-https-outpost.entrypoints=websecure"
-      # - "traefik.http.routers.authentik-eval-1-https-outpost.tls=true"
-      # - "traefik.http.routers.authentik-eval-1-https-outpost.tls.certresolver=cloudflare"
-      ## HTTP Services
-      - "traefik.http.routers.authentik-eval-1-https.service=authentik-eval-1-svc"
-      - "traefik.http.services.authentik-eval-1-svc.loadBalancer.server.port=9000"
+    volumes:
+      - ./media:/media
+      - ./custom-templates:/templates
     depends_on:
       - postgresql
       - redis
-    restart: unless-stopped
-  worker:
-    image: ghcr.io/goauthentik/server:latest
-    container_name: authentik-eval-1-worker
-    command: worker
     networks:
-      - frontend
       - backend
+      - frontend
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.authentik-eval-1-https.rule=Host(`authentik-eval-1.srv-demo-1.home.clcreative.de`)"
+      - "traefik.http.routers.authentik-eval-1-https.entrypoints=websecure"
+      - "traefik.http.routers.authentik-eval-1-https.tls=true"
+      - "traefik.http.routers.authentik-eval-1-https.tls.certresolver=cloudflare"
+      - "traefik.http.routers.authentik-eval-1-https.service=authentik-eval-1-svc"
+      - "traefik.http.services.authentik-eval-1-svc.loadBalancer.server.port=9000"
+  worker:
+    image: ghcr.io/goauthentik/server:2024.2.2
+    container_name: authentik-eval-1-worker
+    restart: unless-stopped
+    command: worker
+    environment:
+      - AUTHENTIK_REDIS__HOST=redis
+      - AUTHENTIK_POSTGRESQL__HOST=postgresql
+      - AUTHENTIK_POSTGRESQL__USER=${POSTGRES_USER}
+      - AUTHENTIK_POSTGRESQL__NAME=${POSTGRES_DB}
+      - AUTHENTIK_POSTGRESQL__PASSWORD=${POSTGRES_PASSWORD}
+      - AUTHENTIK_SECRET_KEY=${AUTHENTIK_SECRET_KEY}
+      - AUTHENTIK_ERROR_REPORTING__ENABLED=true
+    user: root
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./media:/media
       - ./certs:/certs
       - ./custom-templates:/templates
-    environment:
-      - AUTHENTIK_REDIS__HOST=redis
-      - AUTHENTIK_POSTGRESQL__HOST=postgresql
-      - AUTHENTIK_POSTGRESQL__NAME=${POSTGRES_DB}
-      - AUTHENTIK_POSTGRESQL__USER=${POSTGRES_USER}
-      - AUTHENTIK_POSTGRESQL__PASSWORD=${POSTGRES_PASSWORD}
-      - AUTHENTIK_SECRET_KEY=${AUTHENTIK_SECRET_KEY}
-      - AUTHENTIK_ERROR_REPORTING__ENABLED=true
     depends_on:
       - postgresql
       - redis
-    restart: unless-stopped
-#   whoami-test:
-#     image: traefik/whoami
-#     container_name: whoami-test
-#     restart: unless-stopped
-#     security_opt:
-#       - no-new-privileges:true
-#     networks:
-#       - frontend
-#     environment:
-#       - TZ
-#     labels:
-#       - "traefik.enable=true"
-#       ## HTTP Routers
-#       - "traefik.http.routers.whoami-test-rtr.rule=Host(`whoami-test.$DOMAIN`)"
-#       - "traefik.http.routers.whoami-test-rtr.entrypoints=websecure"
-#       - "traefik.http.routers.whoami-test-rtr.tls=true"
-#       - "traefik.http.routers.whoami-test-rtr.tls.certresolver=production"
-#       ## Middlewares
-#       - "traefik.http.routers.whoami-test-rtr.middlewares=middlewares-authentik@file"
+    networks:
+      - backend
+      - frontend
