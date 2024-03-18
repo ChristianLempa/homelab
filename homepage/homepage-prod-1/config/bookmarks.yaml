@@ -1,0 +1,42 @@
+---
+- Repositories:
+  - Homelab:
+    - icon: si-github-#FFFFFF
+      href: https://github.com/christianlempa/homelab
+  - Boilerplates:
+    - icon: si-github-#FFFFFF
+      href: https://github.com/christianlempa/boilerplates
+  - Cheat-Sheets:
+    - icon: si-github-#FFFFFF
+      href: https://github.com/christianlempa/cheat-sheets
+  - Scripts:
+    - icon: si-github-#FFFFFF
+      href: https://github.com/christianlempa/scripts
+
+- Cloud Services:
+  - Sophos Cloud:
+    - icon: /icons/cld.png
+      href: https://cloud.sophos.com
+  - Cloudflare:
+    - icon: cloudflare.png
+      href: https://dash.cloudflare.com
+  - Teleport:
+    - icon: teleport.png
+      href: https://clcreative.teleport.sh
+  - Twingate:
+    - icon: twingate.png
+      href: https://clcreative.twingate.com
+  - Netbird:
+    - icon: https://netbird.io/_next/static/media/netbird-icon.00225e97.svg
+      href: https://app.netbird.io
+
+- Cloud Platforms:
+  - Microsoft Azure:
+    - icon: azure.png
+      href: https://portal.azure.com
+  - Digital Ocean:
+    - icon: si-digitalocean-#0080FF
+      href: https://cloud.digitalocean.com
+  - CIVO:
+    - icon: si-civo-#239DFF
+      href: https://www.civo.com
