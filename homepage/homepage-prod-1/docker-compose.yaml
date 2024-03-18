@@ -1,0 +1,54 @@
+---
+networks:
+  frontend:
+    external: true
+  backend:
+    external: true
+volumes:
+  vol-1:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=nas-prod-1.home.clcreative.de,rw,vers=4.1
+      device: ":/mnt/store/app-pv/homepage-prod-1-vol-1"
+  vol-2-images:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=nas-prod-1.home.clcreative.de,rw,vers=4.1
+      device: ":/mnt/store/app-pv/homepage-prod-1-vol-2/images"
+  vol-2-icons:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=nas-prod-1.home.clcreative.de,rw,vers=4.1
+      device: ":/mnt/store/app-pv/homepage-prod-1-vol-2/icons"
+services:
+  homepage:
+    image: ghcr.io/gethomepage/homepage:v0.8.9
+    container_name: homepage-prod-1
+    environment:
+      - LOG_LEVEL=debug
+      - HOMEPAGE_VAR_PROXMOX_USERNAME=${HOMEPAGE_VAR_PROXMOX_USERNAME}
+      - HOMEPAGE_VAR_PROXMOX_PASSWORD=${HOMEPAGE_VAR_PROXMOX_PASSWORD}
+      - HOMEPAGE_VAR_TRUENAS_KEY=${HOMEPAGE_VAR_TRUENAS_KEY}
+      - HOMEPAGE_VAR_PORTAINER_KEY=${HOMEPAGE_VAR_PORTAINER_KEY}
+      - HOMEPAGE_VAR_AUTHENTIK_KEY=${HOMEPAGE_VAR_AUTHENTIK_KEY}
+      - HOMEPAGE_VAR_HOMEASSISTANT_KEY=${HOMEPAGE_VAR_HOMEASSISTANT_KEY}
+    volumes:
+      - vol-1:/app/config
+      - vol-2-images:/app/public/images
+      - vol-2-icons:/app/public/icons
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.homepage-prod-1-http.entrypoints: "web"
+      traefik.http.routers.homepage-prod-1-http.rule: "Host(`homepage-prod-1.srv-prod-1.home.clcreative.de`)"
+      traefik.http.routers.homepage-prod-1-https.entrypoints: "websecure"
+      traefik.http.routers.homepage-prod-1-https.rule: "Host(`homepage-prod-1.srv-prod-1.home.clcreative.de`)"
+      traefik.http.routers.homepage-prod-1-https.tls: "true"
+      traefik.http.routers.homepage-prod-1-https.tls.certresolver: "cloudflare"
+    networks:
+      - frontend
+      - backend
+    restart: unless-stopped

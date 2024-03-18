@@ -1,0 +1,31 @@
+---
+title: My Awesome Homepage
+headerStyle: boxed
+
+background: 
+  image: https://images.unsplash.com/photo-1637825891028-564f672aa42c
+  blur: xl
+  brightness: 90
+  opacity: 60
+
+cardBlur: sm
+
+providers:
+  openweathermap: openweathermapapikey
+  weatherapi: weatherapiapikey
+
+layout:
+  Networking:
+    icon: mdi-network-#FFFFFF
+  Infrastructure and Data:
+    icon: mdi-server-#FFFFFF
+  Management:
+    icon: mdi-auto-fix-#FFFFFF
+  Monitoring:
+    icon: mdi-list-status-#FFFFFF
+  Automation:
+    icon: mdi-cog-play-#FFFFFF
+  IoT and Smarthome:
+    icon: mdi-home-#FFFFFF
+  Security and Identity:
+    icon: mdi-shield-lock-#FFFFFF

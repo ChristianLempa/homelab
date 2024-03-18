@@ -1,0 +1,134 @@
+---
+- Networking:
+    - FritzBox GW 1:
+        href: http://192.168.82.1
+        icon: avmfritzbox.png
+        description: gw-prod-1
+        siteMonitor: http://192.168.82.1
+        widget:
+            type: fritzbox
+            url: http://192.168.82.1
+    - FritzBox GW 2:
+        href: http://192.168.81.1
+        icon: avmfritzbox.png
+        description: gw-prod-2
+        siteMonitor: http://192.168.81.1
+        widget:
+            type: fritzbox
+            url: http://192.168.81.1
+    - Sophos XGS:
+        href: https://fw-prod-1.home.clcreative.de:4444
+        icon: /icons/fw.png
+        description: fw-prod-1
+        siteMonitor: https://fw-prod-1.home.clcreative.de
+    - Sophos Switch:
+        href: https://sw-prod-1.home.clcreative.de
+        icon: /icons/sw.png
+        description: sw-prod-1
+        siteMonitor: https://sw-prod-1.home.clcreative.de
+
+- Infrastructure and Data:
+    - Proxmox:
+        href: https://prx-prod-2.home.clcreative.de:8006
+        icon: proxmox.png
+        description: prx-prod-2
+        siteMonitor: https://prx-prod-2.home.clcreative.de:8006
+        widget:
+            type: proxmox
+            url: https://prx-prod-2.home.clcreative.de:8006
+            username: {{HOMEPAGE_VAR_PROXMOX_USERNAME}}
+            password: {{HOMEPAGE_VAR_PROXMOX_PASSWORD}}
+    - TrueNAS Scale:
+        href: https://nas-prod-1.home.clcreative.de
+        icon: truenas-scale.png
+        description: nas-prod-1 on prx-prod-2
+        siteMonitor: https://nas-prod-1.home.clcreative.de
+        widget:
+            type: truenas
+            url: https://nas-prod-1.home.clcreative.de
+            key: {{HOMEPAGE_VAR_TRUENAS_KEY}}
+            enablePools: false
+    - InfluxDB:
+        href: https://ixdb-prod-1.srv-prod-2.home.clcreative.de/
+        icon: influxdb.png
+        description: ixdb-prod-1 on srv-prod-2
+        
+- Management:
+    - Portainer:
+        href: https://portainer-demo-1.srv-demo-1.home.clcreative.de
+        icon: portainer.png
+        description: portainer-demo-1 on srv-demo-1
+        widget:
+            type: portainer
+            url: https://portainer-demo-1.srv-demo-1.home.clcreative.de
+            env: 2
+            key: {{HOMEPAGE_VAR_PORTAINER_KEY}}
+    - Dockge:
+        href: https://dockge-demo-1.srv-demo-1.home.clcreative.de
+        icon: si-docker-#2496ED
+        description: dockge-demo-1 on srv-demo-1
+        
+- Monitoring:
+    - UptimeKuma:
+        href: https://uptimekuma-prod-1.srv-prod-7.home.clcreative.de
+        description: uptimekuma-prod-1 on srv-prod-7
+        icon: uptime-kuma.png
+        widget:
+            type: uptimekuma
+            url: https://uptimekuma-prod-1.srv-prod-7.home.clcreative.de
+            slug: publicservices
+    - Prometheus:
+        href: https://prometheus-prod-1.srv-prod-1.home.clcreative.de
+        description: prometheus-prod-1 on srv-prod-1
+        icon: prometheus.png
+        server: srv-prod-1
+        container: prometheus-prod-1
+        widget:
+            type: prometheus
+            url: https://prometheus-prod-1.srv-prod-1.home.clcreative.de
+    - Grafana:
+        href: https://grafana-prod-1.srv-prod-1.home.clcreative.de
+        description: grafana-prod-1 on srv-prod-1
+        icon: grafana.png
+        server: srv-prod-1
+        container: grafana-prod-1
+
+- Security and Identity:
+    - Authentik:
+        href: https://authentik-prod-1.kube-prod-1.home.clcreative.de
+        description: authentik-prod-1 on kube-prod-1
+        icon: authentik.png
+        widget:
+            type: authentik
+            url: https://authentik-prod-1.kube-prod-1.home.clcreative.de
+            key: {{HOMEPAGE_VAR_AUTHENTIK_KEY}}
+    - Passbolt:
+        href: https://passbolt-demo-1.srv-prod-1.clcreative.de
+        description: passbolt-demo-1 on srv-prod-1
+        icon: passbolt.png
+
+- Automation:
+    - Kestra:
+        href: https://kestra-demo-1.srv-prod-1.home.clcreative.de
+        description: kestra-demo-1 on srv-prod-1
+        icon: https://kestra-io.gallerycdn.vsassets.io/extensions/kestra-io/kestra/0.0.1/1692285562923/Microsoft.VisualStudio.Services.Icons.Default
+
+    - Ansible Semaphore:
+        href: https://ansiblesemaphore-prod-1.srv-prod-1.home.clcreative.de
+        description: ansiblesemaphore-prod-1 on srv-prod-1
+        icon: si-ansible-#EE0000
+    - ArgoCD:
+        href: https://argocd-prod-1.kube-prod-1.home.clcreative.de
+        description: argocd-prod-1 on kube-prod-1
+        icon: si-argo-#EF7B4D
+
+- IoT and Smarthome:
+    - Home Assistant:
+        href: https://homeassistant-prod-1.srv-prod-7.home.clcreative.de
+        icon: home-assistant.png
+        description: homeassistant-prod-1 on srv-prod-7
+        widget:
+            type: homeassistant
+            url: https://homeassistant-prod-1.srv-prod-7.home.clcreative.de
+            key: {{HOMEPAGE_VAR_HOMEASSISTANT_KEY}}
+            custom:

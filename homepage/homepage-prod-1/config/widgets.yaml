@@ -1,0 +1,15 @@
+---
+- resources:
+    cpu: true
+    memory: true
+    disk: /
+
+- search:
+    provider: bing
+    target: _blank
+  
+- datetime:
+    text_size: xl
+    format:
+        timeStyle: short
+        hourCycle: h23
