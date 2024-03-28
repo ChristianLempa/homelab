@@ -7,23 +7,23 @@ networks:
 services:
   semaphore:
     container_name: ansiblesemaphore-prod-1
-    image: semaphoreui/semaphore:v2.9.37
+    image: semaphoreui/semaphore:v2.9.64
     restart: unless-stopped
     ports:
       - 3000:3000
     environment:
       - SEMAPHORE_DB_USER=ansiblesemaphore-prod-1-user
-      - SEMAPHORE_DB_PASS=$SEMAPHORE_DB_PASS
+      - SEMAPHORE_DB_PASS=${SEMAPHORE_DB_PASS:?error}
       - SEMAPHORE_DB_HOST=db-prod-1.home.clcreative.de
       - SEMAPHORE_DB_PORT=3306
       - SEMAPHORE_DB_DIALECT=mysql
       - SEMAPHORE_DB=ansiblesemaphore_prod_1_db 
       - SEMAPHORE_PLAYBOOK_PATH=/tmp/semaphore/
-      - SEMAPHORE_ADMIN_PASSWORD=$SEMAPHORE_ADMIN_PASSWORD
+      - SEMAPHORE_ADMIN_PASSWORD=${SEMAPHORE_ADMIN_PASSWORD-}
       - SEMAPHORE_ADMIN_NAME=admin
       - SEMAPHORE_ADMIN_EMAIL=admin@localhost
-      - SEMAPHORE_ADMIN=$SEMAPHORE_ADMIN
-      - SEMAPHORE_ACCESS_KEY_ENCRYPTION=$SEMAPHORE_ACCESS_KEY_ENCRYPTION
+      - SEMAPHORE_ADMIN=${SEMAPHORE_ADMIN:-admin}
+      - SEMAPHORE_ACCESS_KEY_ENCRYPTION=${SEMAPHORE_ACCESS_KEY_ENCRYPTION:?error}
       - ANSIBLE_HOST_KEY_CHECKING=false
     volumes:
       - ./inventory/:/inventory:ro
