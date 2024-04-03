@@ -2,7 +2,7 @@ resource "proxmox_vm_qemu" "srv-demo-3" {
     name = "srv-demo-3"
     desc = "Demo Server 3, Kubernetes Demo 1 Worker Node 1, Ubuntu LTS"
     agent = 1
-    # target_node = "prx-prod-2"
+    target_node = "prx-prod-2"
     qemu_os = "l26"  # default other
     bios = "seabios"  # default=ovmf
     tags = "kube"

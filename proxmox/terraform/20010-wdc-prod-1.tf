@@ -2,7 +2,7 @@ resource "proxmox_vm_qemu" "wdc-prod-1" {
     name = "wdc-prod-1"
     desc = "Windows Domain Controller Production 1, Main AD Server, Windows Server 2022"
     agent = 1
-    # target_node = "prx-prod-2"
+    target_node = "prx-prod-2"
     qemu_os = "win11"  # default other
     bios = "ovmf"  # default=ovmf
     tags = "win"

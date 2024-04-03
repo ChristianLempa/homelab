@@ -2,7 +2,7 @@ resource "proxmox_vm_qemu" "win-prod-1" {
     name = "win-prod-1"
     desc = "Windows Production 1, Administrative Workstation, Windows 11"
     agent = 1
-    # target_node = "prx-prod-2"
+    target_node = "prx-prod-2"
     qemu_os = "win11"  # default other
     bios = "ovmf"  # default=ovmf
     tags = "win"

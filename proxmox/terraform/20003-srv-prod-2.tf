@@ -2,7 +2,7 @@ resource "proxmox_vm_qemu" "srv-prod-2" {
     name = "srv-prod-2"
     desc = "Server Production 2, Main Database Server, Ubuntu LTS"
     agent = 1
-    # target_node = "prx-prod-2"
+    target_node = "prx-prod-1"
     qemu_os = "other"  # default other
     bios = "seabios"  # default=ovmf
     tags = "docker"
