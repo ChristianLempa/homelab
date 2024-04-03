@@ -2,7 +2,7 @@ resource "proxmox_vm_qemu" "nas-prod-1" {
     name = "nas-prod-1"
     desc = "NAS Production 1, Main Storage Server, TrueNAS Scale"
     agent = 1 
-    # target_node = "prx-prod-2"
+    target_node = "prx-prod-2"
     qemu_os = "l26"
     # bios = "ovmf"
     # tags = "docker"

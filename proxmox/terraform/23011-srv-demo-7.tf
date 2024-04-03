@@ -2,7 +2,7 @@ resource "proxmox_vm_qemu" "srv-demo-7" {
     name = "srv-demo-7"
     desc = "Demo Server 7, Testing Storage Server, ZimaOS"
     agent = 1
-    # target_node = "prx-prod-2"
+    target_node = "prx-prod-2"
     qemu_os = "l26"  # default other
     bios = "ovmf"  # default=ovmf
     # tags = "docker"

@@ -2,7 +2,7 @@ resource "proxmox_vm_qemu" "srv-demo-6" {
     name = "srv-demo-6"
     desc = "Demo Server 6, Testing Application Server, AlmaLinux"
     agent = 1
-    # target_node = "prx-prod-2"
+    target_node = "prx-prod-2"
     qemu_os = "other"  # default other
     bios = "seabios"  # default=ovmf
     tags = "test"

@@ -2,7 +2,7 @@ resource "proxmox_vm_qemu" "fw-demo-2" {
     name = "fw-demo-2"
     desc = "Firewall Demo 2, TBD, SFOS"
     agent = 0  # TODO: test with 1, if SFOS supports it
-    # target_node = "prx-prod-2"
+    target_node = "prx-prod-2"
     qemu_os = "l26"
     # bios = "ovmf"
     # tags = "docker"

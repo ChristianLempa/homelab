@@ -2,7 +2,7 @@ resource "proxmox_vm_qemu" "srv-prod-6" {
     name = "srv-prod-6"
     desc = "Kubernetes Production 1 Worker Node 2, Ubuntu LTS"
     agent = 1
-    # target_node = "prx-prod-2"
+    target_node = "prx-prod-1"
     qemu_os = "l26"  # default other
     bios = "seabios"  # default=ovmf
     tags = "kube"

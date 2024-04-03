@@ -2,7 +2,7 @@ resource "proxmox_vm_qemu" "fw-demo-3" {
     name = "fw-demo-3"
     desc = "Firewall Demo 3, TBD, PFSense"
     agent = 0 
-    # target_node = "prx-prod-2"
+    target_node = "prx-prod-2"
     qemu_os = "l26"
     # bios = "ovmf"
     # tags = "docker"
