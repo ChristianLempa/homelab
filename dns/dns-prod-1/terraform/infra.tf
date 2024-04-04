@@ -43,6 +43,15 @@ resource "dns_a_record_set" "prx_prod_2" {
   ttl = 3600
 }
 
+resource "dns_a_record_set" "pre_cluster_1" {
+  zone = "home.clcreative.de."
+  name = "pre-cluster-1"
+  addresses = [
+    "10.20.5.3"
+  ]
+  ttl = 3600
+}
+
 resource "dns_a_record_set" "nas_prod_1" {
   zone = "home.clcreative.de."
   name = "nas-prod-1"
