@@ -33,13 +33,6 @@ resource "proxmox_vm_qemu" "srv-prod-8" {
 
     scsihw = "virtio-scsi-pci"  # default virtio-scsi-pci
 
-    disk {
-        storage = "pv1"
-        type = "virtio"
-        size = "60G"
-        iothread = 1
-    }
-
     # -- lifecycle
     lifecycle {
         ignore_changes = [
