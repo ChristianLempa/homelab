@@ -68,20 +68,6 @@ resource "dns_a_record_set" "srv_prod_7_wildcard" {
   ttl       = 3600
 }
 
-resource "dns_a_record_set" "srv_prod_8" {
-  zone      = "home.clcreative.de."
-  name      = "srv-prod-8"
-  addresses = ["10.20.0.20"]
-  ttl       = 3600
-}
-
-resource "dns_a_record_set" "srv_prod_8_wildcard" {
-  zone      = "home.clcreative.de."
-  name      = "*.srv-prod-8"
-  addresses = ["10.20.0.20"]
-  ttl       = 3600
-}
-
 resource "dns_a_record_set" "srv_demo_1" {
   zone      = "home.clcreative.de."
   name      = "srv-demo-1"
