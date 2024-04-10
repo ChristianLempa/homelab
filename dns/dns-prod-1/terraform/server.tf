@@ -54,7 +54,7 @@ resource "dns_a_record_set" "srv_prod_6" {
   ttl       = 3600
 }
 
-resource "dns_a_record_set" "srv_prod_7" {
+resource "dns_a_record_set" "srv_prod_7"werwerwer {
   zone      = "home.clcreative.de."
   name      = "srv-prod-7"
   addresses = ["10.20.0.19"]
