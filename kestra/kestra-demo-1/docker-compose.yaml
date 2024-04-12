@@ -4,28 +4,11 @@ networks:
 volumes:
   kestra-data:
     driver: local
-  postgres-data:
-    driver: local
 services:
-  postgres:
-    image: postgres
-    container_name: postgres-demo-1
-    volumes:
-      - postgres-data:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_DB=${POSTGRES_DB}
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
-      interval: 30s
-      timeout: 10s
-      retries: 10
-    restart: unless-stopped
   kestra:
-    image: kestra/kestra:latest-full
+    image: kestra/kestra:v0.16.0-full
     container_name: kestra-demo-1
-    pull_policy: always
+    # pull_policy: always
     entrypoint: /bin/bash
     user: "root"
     command:
@@ -36,13 +19,23 @@ services:
       - ./config/config.yaml:/app/config.yaml:ro
       - /var/run/docker.sock:/var/run/docker.sock
       - /tmp/kestra-wd:/tmp/kestra-wd
+      - ./scripts:/app/scripts
     environment:
-      - KESTRA_DOCKERHUB_USERNAME=${KESTRA_DOCKERHUB_USERNAME}
-      - KESTRA_DOCKERHUB_PASSWORD=${KESTRA_DOCKERHUB_PASSWORD}
-    ports:
-      - 8280:8080
-      - 8281:8081
+      - SECRET_DOCKERHUB_USERNAME=${SECRET_DOCKERHUB_USERNAME}
+      - SECRET_DOCKERHUB_PASSWORD=${SECRET_DOCKERHUB_PASSWORD}
+      - SECRET_GITHUB_ACCESS_TOKEN=${SECRET_GITHUB_ACCESS_TOKEN}
+      - SECRET_PATREON_TOKEN=${SECRET_PATREON_TOKEN}
+      - SECRET_TERRAFORM_TOKEN=${SECRET_TERRAFORM_TOKEN}
+      - SECRET_TSIG_KEY_HOME=${SECRET_TSIG_KEY_HOME}
+    networks:
+      - frontend
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.kestra-demo-1-https.rule=Host(`kestra-demo-1.srv-prod-1.home.clcreative.de`)"
+      - "traefik.http.routers.kestra-demo-1-https.entrypoints=websecure"
+      - "traefik.http.routers.kestra-demo-1-https.tls=true"
+      - "traefik.http.routers.kestra-demo-1-https.tls.certresolver=cloudflare"
+      - "traefik.http.routers.kestra-demo-1-https.middlewares=authentik-prod-1-middleware@file"
+      - "traefik.http.routers.kestra-demo-1-https.service=kestra-demo-1-svc"
+      - "traefik.http.services.kestra-demo-1-svc.loadBalancer.server.port=8080"
     restart: unless-stopped
-    depends_on:
-      postgres:
-        condition: service_started
