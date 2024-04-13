@@ -16,9 +16,9 @@ services:
       - /app/kestra server standalone --worker-thread=128 -c config.yaml
     volumes:
       - kestra-data:/app/storage
-      - ./config/config.yaml:/app/config.yaml:ro
       - /var/run/docker.sock:/var/run/docker.sock
       - /tmp/kestra-wd:/tmp/kestra-wd
+      - ./config/config.yaml:/app/config.yaml:ro
       - ./scripts:/app/scripts
     environment:
       - SECRET_DOCKERHUB_USERNAME=${SECRET_DOCKERHUB_USERNAME}
@@ -27,6 +27,7 @@ services:
       - SECRET_PATREON_TOKEN=${SECRET_PATREON_TOKEN}
       - SECRET_TERRAFORM_TOKEN=${SECRET_TERRAFORM_TOKEN}
       - SECRET_TSIG_KEY_HOME=${SECRET_TSIG_KEY_HOME}
+      - SECRET_SSH_KEY=${SECRET_SSH_KEY}
     networks:
       - frontend
     labels:
