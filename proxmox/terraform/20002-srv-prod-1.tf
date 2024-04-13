@@ -20,10 +20,10 @@ resource "proxmox_vm_qemu" "srv-prod-1" {
     startup = ""
     automatic_reboot = false  # refuse auto-reboot when changing a setting
 
-    cores = 3
+    cores = 4
     sockets = 1
     cpu = "host"
-    memory = 6144
+    memory = 8192
 
     network {
         bridge = "vmbr1"
