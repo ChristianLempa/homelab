@@ -7,7 +7,7 @@
   # --
   - name: install public keys
     ansible.posix.authorized_key:
-      user: "{{ lookup('env','USER') }}"
+      user: "{{ user }}"
       state: present
       key: "{{ lookup('file', new_ssh_key_file) }}"  
   
