@@ -1,4 +1,4 @@
-- hosts: all
+- hosts: "{{ hosts }}"
 
   become: yes
   tasks:
@@ -9,7 +9,7 @@
     ansible.posix.authorized_key:
       user: "{{ lookup('env','USER') }}"
       state: present
-      key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"  
+      key: "{{ lookup('file', new_ssh_key_file) }}"  
   
 
   # Set all sudoers to no password
