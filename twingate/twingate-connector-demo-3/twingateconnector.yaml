@@ -1,0 +1,4 @@
+apiVersion: twingate.com/v1beta
+kind: TwingateConnector
+metadata:
+  name: twingate-connector-demo-3
