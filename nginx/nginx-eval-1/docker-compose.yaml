@@ -1,6 +1,0 @@
----
-services:
-  nginx:
-    image: nginx:latest
-    ports:
-      - "8089:80"
