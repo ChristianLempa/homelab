@@ -1,7 +1,0 @@
-# docker compose for nginx testing
----
-services:
-  nginx:
-    image: nginx
-    ports:
-      - "8089:80"
