@@ -15,7 +15,5 @@
         files:
           - docker-compose.yaml
         state: present
-        pull: yes
-        recreate: yes
-        restart: yes
-        remove_orphans: yes
+        pull: policy
+        remove_orphans: true

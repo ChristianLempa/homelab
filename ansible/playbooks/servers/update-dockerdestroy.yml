@@ -8,7 +8,5 @@
         files:
           - docker-compose.yaml
         state: absent
-        pull: yes
-        recreate: yes
-        restart: yes
-        remove_orphans: yes
+        remove_orphans: true
+        remove_volumes: true
