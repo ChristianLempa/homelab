@@ -5,13 +5,13 @@
     - name: Copy Docker Compose files
       copy:
         src: "{{ local_project_dir }}/{{ item }}"
-        dest: "{{ local_project_dir }}/{{ item }}"
+        dest: "{{ remote_project_dir }}/{{ item }}"
       loop:
         - docker-compose.yaml
 
     - name: deploy Docker Compose stack
       community.docker.docker_compose_v2:
-        project_src: "{{ local_project_dir }}"
+        project_src: "{{ remote_project_dir }}"
         files:
           - docker-compose.yaml
         state: present
