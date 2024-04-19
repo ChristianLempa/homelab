@@ -1,0 +1,14 @@
+- hosts: "{{ hosts }}"
+
+  tasks:
+
+    - name: destroy docker-compose project
+      community.docker.docker_compose_v2:
+        project_src: "{{ remote_project_dir }}"
+        files:
+          - docker-compose.yaml
+        state: absent
+        pull: yes
+        recreate: yes
+        restart: yes
+        remove_orphans: yes
