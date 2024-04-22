@@ -2,3 +2,8 @@ apiVersion: twingate.com/v1beta
 kind: TwingateConnector
 metadata:
   name: twingate-connector-demo-3
+spec:
+  imagePolicy:
+    schedule: "0 0 * * *"
+    provider: "dockerhub"
+  name: "twingate-connector-demo-3"
