@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nginx-prod-2-ingress
+  namespace: nginx
+spec:
+  rules:
+  - host: "nginx-prod-2.kube-prod-1.home.clcreative.de"
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: nginx-prod-2-service
+            port:
+              number: 8080
