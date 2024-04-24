@@ -5,21 +5,17 @@ metadata:
   namespace: nginx
 data:
   nginx.conf: |
-    # Add your nginx configuration here
-    server {
-      listen 80;
-      server_name nginx-demo-2.kube-demo-1.home.clcreative.de;
-      location / {
-        root /usr/share/nginx/html;
-        index index.html;
-      }
+    events {
+      worker_connections  1024;
     }
-  default.conf: |
-    server {
-      listen 80;
-      server_name _;
-      location / {
-        root /usr/share/nginx/html;
-        index index.html;
+
+    http {
+      server {
+        listen 80;
+        server_name  _;
+          location / {
+            root /usr/share/nginx/html;
+            index index.html;
+          }
       }
     }

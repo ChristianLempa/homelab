@@ -1,0 +1,24 @@
+---
+services:
+  nginx:
+    image: nginx:1.25.5-alpine
+    container_name: nginx
+    volumes:
+      - ./config/nginx.conf:/etc/nginx/nginx.conf
+      - ./certs:/etc/nginx/certs
+      - ./data:/usr/share/nginx/html
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.nginx-demo-1-http.entrypoints=web
+      - traefik.http.routers.nginx-demo-1-http.rule=Host(`nginx-demo-1.srv-demo-1.home.clcreative.de`)
+      - traefik.http.routers.nginx-demo-1-https.entrypoints=websecure
+      - traefik.http.routers.nginx-demo-1-https.rule=Host(`nginx-demo-1.srv-demo-1.home.clcreative.de`)
+      - traefik.http.routers.nginx-demo-1-https.tls=true
+      - traefik.http.routers.nginx-demo-1-https.tls.certresolver=cloudflare
+    networks:
+      - frontend
+    restart: unless-stopped
+
+networks:
+  frontend:
+    external: true
