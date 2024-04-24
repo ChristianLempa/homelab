@@ -2,11 +2,10 @@
 services:
   nginx:
     image: nginx:1.25.5-alpine
-    container_name: nginx
+    container_name: nginx-demo-1
     volumes:
-      - ./config/nginx.conf:/etc/nginx/nginx.conf
-      - ./certs:/etc/nginx/certs
-      - ./data:/usr/share/nginx/html
+      - ./config/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - vol-1:/usr/share/nginx/html
     labels:
       - traefik.enable=true
       - traefik.http.routers.nginx-demo-1-http.entrypoints=web
@@ -22,3 +21,11 @@ services:
 networks:
   frontend:
     external: true
+
+volumes:
+  vol-1:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=nas-prod-1.home.clcreative.de,rw,vers=4.1
+      device: ":/mnt/store/app-pv/nginx-demo-1-vol-1"
