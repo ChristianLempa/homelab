@@ -6,9 +6,8 @@ volumes:
     driver: local
 services:
   kestra:
-    image: kestra/kestra:v0.16.0-full
+    image: kestra/kestra:v0.16.2-full
     container_name: kestra-demo-1
-    # pull_policy: always
     entrypoint: /bin/bash
     user: "root"
     command:
@@ -28,6 +27,7 @@ services:
       - SECRET_TERRAFORM_TOKEN=${SECRET_TERRAFORM_TOKEN}
       - SECRET_TSIG_KEY_HOME=${SECRET_TSIG_KEY_HOME}
       - SECRET_SSH_KEY=${SECRET_SSH_KEY}
+      - SECRET_1PASS_INFRA_PROD_TOKEN=${SECRET_1PASS_INFRA_PROD_TOKEN}
     networks:
       - frontend
     labels:
