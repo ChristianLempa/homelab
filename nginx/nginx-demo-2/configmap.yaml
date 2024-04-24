@@ -4,18 +4,12 @@ metadata:
   name: nginx-demo-2-configmap
   namespace: nginx
 data:
-  nginx.conf: |
-    events {
-      worker_connections  1024;
-    }
-
-    http {
-      server {
-        listen 80;
-        server_name  _;
-          location / {
-            root /usr/share/nginx/html;
-            index index.html;
-          }
-      }
+  default.conf: |
+    server {
+      listen 80;
+      server_name  _;
+        location / {
+          root /usr/share/nginx/html;
+          index index.html;
+        }
     }
