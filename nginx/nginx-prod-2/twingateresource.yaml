@@ -1,0 +1,9 @@
+apiVersion: twingate.com/v1beta
+kind: TwingateResource
+metadata:
+  name: nginx-prod-2-twingateresource
+  namespace: nginx
+spec:
+  name: nginx-prod-2
+  address: nginx-prod-2-service.nginx.svc.cluster.local
+  alias: nginx-prod-2.home.clcreative.de

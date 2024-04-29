@@ -3,6 +3,9 @@ kind: Service
 metadata:
   name:  nginx-prod-2-service
   namespace: nginx
+  annotations:
+    twingate.com/resource: "true"
+    twingate.com/resource-alias: "nginx-prod-2"
 spec:
   selector:
     app:  nginx-prod-2-app
