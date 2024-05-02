@@ -2,8 +2,10 @@ apiVersion: twingate.com/v1beta
 kind: TwingateConnector
 metadata:
   name: twingate-connector-prod-3
+  namespace: twingate
 spec:
   imagePolicy:
     schedule: "0 0 * * *"
     provider: "dockerhub"
   name: "twingate-connector-prod-3"
+  hasStatusNotificationsEnabled: false
