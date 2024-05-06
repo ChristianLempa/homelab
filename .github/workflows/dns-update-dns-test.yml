@@ -21,7 +21,9 @@ jobs:
         with:
           service-key: ${{ secrets.GH_ACTIONS_TOKEN_1 }}
 
-    
+      - name: Install Curl
+        run: sudo apt-get install -y curl
+
       - name: Send DNS Update Webhook
         run: |
           curl https://kestra-demo-1.srv-prod-1.home.clcreative.de/api/v1/executions/webhook/homelab.dns/dns-update-test/hTZVPMio9iJemDQeE8cX7y6KmweQdKsRMnrHRDvQDowMWmtkyZT223Abq38Fw4Le
