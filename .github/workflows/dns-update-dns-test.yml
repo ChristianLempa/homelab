@@ -21,8 +21,11 @@ jobs:
         with:
           service-key: ${{ secrets.GH_ACTIONS_TOKEN_1 }}
 
-      - name: Send DNS Update Webhook
-        uses: indiesdev/curl@v1.1
-        with:
-          url: https://kestra-demo-1.srv-prod-1.home.clcreative.de/api/v1/executions/webhook/homelab.dns/dns-update-test/hTZVPMio9iJemDQeE8cX7y6KmweQdKsRMnrHRDvQDowMWmtkyZT223Abq38Fw4Le
-          method: GET
+      - name: (optional) Twingate status
+        run: twingate status
+
+      # - name: Send DNS Update Webhook
+      #   uses: indiesdev/curl@v1.1
+      #   with:
+      #     url: https://kestra-demo-1.srv-prod-1.home.clcreative.de/api/v1/executions/webhook/homelab.dns/dns-update-test/hTZVPMio9iJemDQeE8cX7y6KmweQdKsRMnrHRDvQDowMWmtkyZT223Abq38Fw4Le
+      #     method: GET
