@@ -5,7 +5,7 @@ networks:
 services:
   homeassistant:
     container_name: homeassistant-prod-1
-    image: "ghcr.io/home-assistant/home-assistant:2023.6"
+    image: "ghcr.io/home-assistant/home-assistant:2024.5"
     volumes:
       - ./config:/config
       - /etc/localtime:/etc/localtime:ro
