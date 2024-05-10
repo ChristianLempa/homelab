@@ -6,7 +6,7 @@ networks:
     external: true
 services:
   twingate:
-    container_name: connector-demo-2
+    container_name: twingate-connector-prod-2
     image: twingate/connector:1.64.0
     environment:
       - SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt
@@ -15,7 +15,7 @@ services:
       - TWINGATE_DNS=10.20.0.1
       - TWINGATE_ACCESS_TOKEN=${TWINGATE_ACCESS_TOKEN}
       - TWINGATE_REFRESH_TOKEN=${TWINGATE_REFRESH_TOKEN}
-      - TWINGATE_LOG_LEVEL=3
+      - TWINGATE_LOG_LEVEL=1
     sysctls:
       net.ipv4.ping_group_range: "0 2147483647"
     networks:

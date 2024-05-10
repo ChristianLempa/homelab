@@ -1,0 +1,31 @@
+---
+services:
+  nginx:
+    image: nginx:1.25.5-alpine
+    container_name: nginx-prod-1
+    volumes:
+      - ./config/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - vol-1:/usr/share/nginx/html
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.nginx-prod-1-http.entrypoints=web
+      - traefik.http.routers.nginx-prod-1-http.rule=Host(`nginx-prod-1.srv-prod-1.home.clcreative.de`)
+      - traefik.http.routers.nginx-prod-1-https.entrypoints=websecure
+      - traefik.http.routers.nginx-prod-1-https.rule=Host(`nginx-prod-1.srv-prod-1.home.clcreative.de`)
+      - traefik.http.routers.nginx-prod-1-https.tls=true
+      - traefik.http.routers.nginx-prod-1-https.tls.certresolver=cloudflare
+    networks:
+      - frontend
+    restart: unless-stopped
+
+networks:
+  frontend:
+    external: true
+
+volumes:
+  vol-1:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=nas-prod-1.home.clcreative.de,rw,vers=4.1
+      device: ":/mnt/store/app-pv/nginx-prod-1-vol-1"

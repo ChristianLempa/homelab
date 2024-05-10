@@ -1,0 +1,11 @@
+apiVersion: twingate.com/v1beta
+kind: TwingateResourceAccess
+metadata:
+  name: nginx-prod-2-twingateresourceaccess
+  namespace: nginx
+spec:
+  resourceRef:
+    name: nginx-prod-2-twingateresource
+    namespace: nginx
+  principalId: R3JvdXA6MjI2MzU2
+  securityPolicyId: U2VjdXJpdHlQb2xpY3k6MTA3OTg2

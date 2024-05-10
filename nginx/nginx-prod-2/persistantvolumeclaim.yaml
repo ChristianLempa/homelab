@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nginx-prod-2-vol-1-claim
+  namespace: nginx
+spec:
+  volumeName: nginx-prod-2-vol-1
+  storageClassName: nfs
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 500Mi

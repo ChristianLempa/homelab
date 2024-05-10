@@ -1,0 +1,6 @@
+twingateOperator:
+  apiKey: # secret
+  network: "clcreative"
+  remoteNetworkName: "net-prod-1"
+  logFormat: "plain"
+  logVerbosity: "quiet"
