@@ -19,3 +19,5 @@ packer_cache/
 *.iso
 *.box
 *.ova
+
+**/helm-credentials.yaml
