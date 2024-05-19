@@ -4,12 +4,12 @@ source "proxmox-iso" "pkr-ubuntu-jammy-1" {
   token                     = "${var.proxmox_api_token_secret}"
   insecure_skip_tls_verify  = false
 
-  node                      = "prx-prod-2"
-  vm_id                     = "90101"
+  node                      = "prx-prod-1"
+  vm_id                     = "90001"
   vm_name                   = "pkr-ubuntu-jammy-1"
-  template_description      = "test"
+  template_description      = "Ubuntu 24.04.4 LTS"
 
-  iso_file                  = "local:iso/ubuntu-22.04.3-live-server-amd64.iso"
+  iso_file                  = "local:iso/ubuntu-22.04.4-live-server-amd64.iso"
   iso_storage_pool          = "local"
   unmount_iso               = true
   qemu_agent                = true
@@ -21,7 +21,7 @@ source "proxmox-iso" "pkr-ubuntu-jammy-1" {
   memory                    = "2048"
 
   cloud_init                = true
-  cloud_init_storage_pool   = "pv2"
+  cloud_init_storage_pool   = "local-lvm"
 
   vga {
     type                    = "virtio"
@@ -30,7 +30,7 @@ source "proxmox-iso" "pkr-ubuntu-jammy-1" {
   disks {
     disk_size               = "20G"
     format                  = "raw"
-    storage_pool            = "pv2"
+    storage_pool            = "local-lvm"
     type                    = "virtio"
   }
 
@@ -53,7 +53,7 @@ source "proxmox-iso" "pkr-ubuntu-jammy-1" {
   boot_wait                 = "6s"
   communicator              = "ssh"
 
-  http_directory            = "pkr-ubuntu-jammy-1/http"
+  http_directory            = "90001-pkr-ubuntu-jammy-1/http"
 
   ssh_username              = "${var.ssh_username}"
   ssh_password              = "${var.ssh_password}"
@@ -96,7 +96,7 @@ build {
 
   # Provisioning the VM Template for Cloud-Init Integration in Proxmox #2
   provisioner "file" {
-    source      = "pkr-ubuntu-jammy-1/files/99-pve.cfg"
+    source      = "90001-pkr-ubuntu-jammy-1/files/99-pve.cfg"
     destination = "/tmp/99-pve.cfg"
   }
   provisioner "shell" {
