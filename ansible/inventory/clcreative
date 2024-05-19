@@ -6,6 +6,7 @@ srv-prod-4.home.clcreative.de
 srv-prod-5.home.clcreative.de
 srv-prod-6.home.clcreative.de
 srv-prod-7.home.clcreative.de
+srv-prod-8.home.clcreative.de
 
 [srv-demo]
 srv-demo-1.home.clcreative.de
@@ -21,6 +22,7 @@ srv-prod-3.home.clcreative.de
 srv-prod-4.home.clcreative.de
 srv-prod-5.home.clcreative.de
 srv-prod-6.home.clcreative.de
+srv-prod-8.home.clcreative.de
 
 [vm-demo]
 srv-demo-1.home.clcreative.de
