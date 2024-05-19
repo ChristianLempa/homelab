@@ -1,29 +1,44 @@
-- hosts:
-  - srv-prod-1.home.clcreative.de
-  - srv-prod-2.home.clcreative.de
+- hosts: "{{ hosts }}"
 
   become: yes
   tasks:
 
-    # Breaks existing Docker Servers!
-    # Change Tasks for separate group!
-    
-    # Install Docker
-    # - name: install prerequisites
-    #   apt:
-    #     name:
-    #       - docker.io
-    #     update_cache: yes
- 
-    # - name: add user permissions
-    #   shell: "usermod -aG docker {{ ansible_env.SUDO_USER }}"
- 
-    # - name: Reset ssh connection for changes to take effect
-    #   meta: "reset_connection"
-
-    # Install Docker Compose
-    - name: install docker-compose
+    - name: install prerequisites
       apt:
-        name: 
-          - docker-compose
+        name:
+          - ca-certificates
+          - curl
         update_cache: yes
+
+    - name: add Docker GPG key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+      
+    - name: get ubuntu version
+      command: "lsb_release -cs"
+      register: ubuntu_version
+
+    - name: add Docker repository
+      apt_repository:
+        repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ubuntu_version.stdout }} stable"
+        state: present
+
+    - name: update apt cache
+      apt:
+        update_cache: yes
+
+    - name: install Docker
+      apt:
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - docker-compose-plugin
+          - docker-buildx-plugin
+        update_cache: yes
+
+    # add the current user to the docker group
+    - name: add user permissions
+      shell: "usermod -aG docker {{ ansible_env.SUDO_USER }}"
+ 
