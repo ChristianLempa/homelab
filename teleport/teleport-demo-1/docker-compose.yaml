@@ -6,24 +6,21 @@ services:
   teleport:
     image: public.ecr.aws/gravitational/teleport-distroless-debug:15.1.4
     container_name: teleport-demo-1
-    ports:
-      - "3080:3080"
-      - "3023:3023"
-      - "3024:3024"
-      - "3025:3025"
     volumes:
       - ./config:/etc/teleport
       - ./data:/var/lib/teleport
     labels:
-      traefik.enable: "true"
-      traefik.http.services.teleport-demo-1.loadbalancer.server.port: "3080"
-      traefik.http.services.teleport-demo-1.loadbalancer.server.scheme: "https"
-      traefik.http.routers.teleport-demo-1-http.entrypoints: "web"
-      traefik.http.routers.teleport-demo-1-http.rule: "Host(`teleport-demo-1.srv-prod-1.home.clcreative.de`)"
-      traefik.http.routers.teleport-demo-1-https.entrypoints: "websecure"
-      traefik.http.routers.teleport-demo-1-https.rule: "Host(`teleport-demo-1.srv-prod-1.home.clcreative.de`)"
-      traefik.http.routers.teleport-demo-1-https.tls: "true"
-      traefik.http.routers.teleport-demo-1-https.tls.certresolver: "cloudflare"
+      - "traefik.enable=true"
+      - "traefik.http.services.teleport-demo-1.loadbalancer.server.port=3080"
+      - "traefik.http.services.teleport-demo-1.loadbalancer.server.scheme=https"
+      - "traefik.http.routers.teleport-demo-1-http.entrypoints=web"
+      - "traefik.http.routers.teleport-demo-1-http.rule=Host(`teleport-demo-1.srv-prod-1.home.clcreative.de`) || HostRegexp(`{subhost:[a-z]+}.teleport-demo-1.srv-prod-1.home.clcreative.de`)"
+      - "traefik.http.routers.teleport-demo-1-https.entrypoints=websecure"
+      - "traefik.http.routers.teleport-demo-1-https.rule=Host(`teleport-demo-1.srv-prod-1.home.clcreative.de`) || HostRegexp(`{subhost:[a-z]+}.teleport-demo-1.srv-prod-1.home.clcreative.de`)"
+      - "traefik.http.routers.teleport-demo-1-https.tls=true"
+      - "traefik.http.routers.teleport-demo-1-https.tls.certresolver=cloudflare"
+      - "traefik.http.routers.teleport-demo-1-https.tls.domains[0].main=teleport-demo-1.srv-prod-1.home.clcreative.de"
+      - "traefik.http.routers.teleport-demo-1-https.tls.domains[0].sans=*.teleport-demo-1.srv-prod-1.home.clcreative.de"
     networks:
       - frontend
     restart: unless-stopped
