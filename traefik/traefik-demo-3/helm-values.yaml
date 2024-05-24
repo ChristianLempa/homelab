@@ -36,18 +36,19 @@ globalArguments:
 ports:
   traefik:
     port: 9000
-    expose: false
+    exposed: false
     exposedPort: 9000
     protocol: TCP
   web:
     port: 8000
-    expose: true
+    exposed: true
     exposedPort: 80
     protocol: TCP
-    redirectTo: websecure
+    redirectTo: 
+      port: websecure
   websecure:
     port: 8443
-    expose: true
+    exposed: true
     exposedPort: 443
     http3:
       enabled: false
@@ -55,7 +56,7 @@ ports:
       enabled: true
   metrics:
     port: 9100
-    expose: false
+    exposed: false
     exposedPort: 9100
     protocol: TCP
 tlsOptions: {}
