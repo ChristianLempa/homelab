@@ -2,6 +2,8 @@ global:
   checkNewVersion: false
   sendAnonymousUsage: false
 
+accessLog: {}
+
 log:
   level: ERROR
 
@@ -36,11 +38,6 @@ certificatesResolvers:
 
 serversTransport:
   insecureSkipVerify: true
-
-tls:
-  options:
-    default:
-      minVersion: VersionTLS12
 
 providers:
   docker:
