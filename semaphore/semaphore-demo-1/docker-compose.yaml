@@ -1,7 +1,7 @@
 ---
 services:
   semaphore:
-    container_name: semaphore-prod-1
+    container_name: semaphore-demo-1
     image: semaphoreui/semaphore:v2.19.10
     environment:
       - SEMAPHORE_DB_USER=${SEMAPHORE_DB_USER:?error}
@@ -10,6 +10,7 @@ services:
       - SEMAPHORE_DB_PORT=3306
       - SEMAPHORE_DB_DIALECT=mysql
       - SEMAPHORE_DB=${SEMAPHORE_DB:?error}
+      - SEMAPHORE_PLAYBOOK_PATH=/tmp/semaphore/
       - SEMAPHORE_ADMIN_PASSWORD=${SEMAPHORE_ADMIN_PASSWORD:?error}
       - SEMAPHORE_ADMIN_NAME=${SEMAPHORE_ADMIN_NAME:-admin}
       - SEMAPHORE_ADMIN_EMAIL=${SEMAPHORE_ADMIN_EMAIL:-admin@localhost}
@@ -21,11 +22,11 @@ services:
       - ./data:/data:ro
     labels:
       - traefik.enable=true
-      - traefik.http.routers.semaphore-prod-1-https.entrypoints=websecure
-      - traefik.http.routers.semaphore-prod-1-https.rule=Host(`semaphore-prod-1.srv-prod-1.home.clcreative.de`)
-      - traefik.http.routers.semaphore-prod-1-https.tls=true
-      - traefik.http.routers.semaphore-prod-1-https.tls.certresolver=cloudflare
-      - traefik.http.services.semaphore-prod-1-service.loadbalancer.server.port=3000
+      - traefik.http.routers.semaphore-demo-1-https.entrypoints=websecure
+      - traefik.http.routers.semaphore-demo-1-https.rule=Host(`semaphore-demo-1.srv-prod-1.home.clcreative.de`)
+      - traefik.http.routers.semaphore-demo-1-https.tls=true
+      - traefik.http.routers.semaphore-demo-1-https.tls.certresolver=cloudflare
+      - traefik.http.services.semaphore-demo-1-service.loadbalancer.server.port=3000
     networks:
       - frontend
       - backend
