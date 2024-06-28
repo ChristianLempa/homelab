@@ -6,7 +6,7 @@ volumes:
     driver: local
 services:
   kestra:
-    image: kestra/kestra:v0.16.2-full
+    image: kestra/kestra:v0.17.8-full
     container_name: kestra-demo-1
     entrypoint: /bin/bash
     user: "root"
