@@ -1,15 +1,15 @@
-source "proxmox-iso" "pkr-ubuntu-jammy-1" {
+source "proxmox-iso" "pkr-ubuntu-noble-1" {
   proxmox_url               = "${var.proxmox_api_url}"
   username                  = "${var.proxmox_api_token_id}"
   token                     = "${var.proxmox_api_token_secret}"
   insecure_skip_tls_verify  = false
 
   node                      = "prx-prod-1"
-  vm_id                     = "90001"
-  vm_name                   = "pkr-ubuntu-jammy-1"
-  template_description      = "Ubuntu 22.04.4 LTS"
+  vm_id                     = "90002"
+  vm_name                   = "pkr-ubuntu-noble-1"
+  template_description      = "Ubuntu 24.04 LTS"
 
-  iso_file                  = "local:iso/ubuntu-22.04.4-live-server-amd64.iso"
+  iso_file                  = "local:iso/ubuntu-24.04-live-server-amd64.iso"
   iso_storage_pool          = "local"
   unmount_iso               = true
   qemu_agent                = true
@@ -53,7 +53,7 @@ source "proxmox-iso" "pkr-ubuntu-jammy-1" {
   boot_wait                 = "6s"
   communicator              = "ssh"
 
-  http_directory            = "90001-pkr-ubuntu-jammy-1/http"
+  http_directory            = "90002-pkr-ubuntu-noble-1/http"
 
   ssh_username              = "${var.ssh_username}"
   ssh_password              = "${var.ssh_password}"
@@ -66,37 +66,30 @@ source "proxmox-iso" "pkr-ubuntu-jammy-1" {
 
 build {
 
-  name    = "pkr-ubuntu-jammy-1"
+  name    = "pkr-ubuntu-noble-1"
   sources = [
-      "proxmox-iso.pkr-ubuntu-jammy-1"
+      "proxmox-iso.pkr-ubuntu-noble-1"
   ]
-
-  # Waiting for Cloud-Init to finish
-  provisioner "shell" {
-    inline = ["cloud-init status --wait"]
-  }
 
   # Provisioning the VM Template for Cloud-Init Integration in Proxmox #1
   provisioner "shell" {
-    execute_command = "echo -e '<user>' | sudo -S -E bash '{{ .Path }}'"
-    inline = [
-      "echo 'Starting Stage: Provisioning the VM Template for Cloud-Init Integration in Proxmox'",
-      "sudo rm /etc/ssh/ssh_host_*",
-      "sudo truncate -s 0 /etc/machine-id",
-      "sudo apt -y autoremove --purge",
-      "sudo apt -y clean",
-      "sudo apt -y autoclean",
-      "sudo cloud-init clean",
-      "sudo rm -f /etc/cloud/cloud.cfg.d/subiquity-disable-cloudinit-networking.cfg",
-      "sudo rm -f /etc/netplan/00-installer-config.yaml",
-      "sudo sync",
-      "echo 'Done Stage: Provisioning the VM Template for Cloud-Init Integration in Proxmox'"
-    ]
+      inline = [
+          "while [ ! -f /var/lib/cloud/instance/boot-finished ]; do echo 'Waiting for cloud-init...'; sleep 1; done",
+          "sudo rm /etc/ssh/ssh_host_*",
+          "sudo truncate -s 0 /etc/machine-id",
+          "sudo apt -y autoremove --purge",
+          "sudo apt -y clean",
+          "sudo apt -y autoclean",
+          "sudo cloud-init clean",
+          "sudo rm -f /etc/cloud/cloud.cfg.d/subiquity-disable-cloudinit-networking.cfg",
+          "sudo rm -f /etc/netplan/00-installer-config.yaml",
+          "sudo sync"
+      ]
   }
 
   # Provisioning the VM Template for Cloud-Init Integration in Proxmox #2
   provisioner "file" {
-    source      = "90001-pkr-ubuntu-jammy-1/files/99-pve.cfg"
+    source      = "90002-pkr-ubuntu-noble-1/files/99-pve.cfg"
     destination = "/tmp/99-pve.cfg"
   }
   provisioner "shell" {
