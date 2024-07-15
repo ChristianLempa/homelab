@@ -1,5 +1,5 @@
-resource "proxmox_vm_qemu" "srv-eval-1" {
-    name = "srv-eval-1"
+resource "proxmox_vm_qemu" "srv-eval-3" {
+    name = "srv-eval-3"
     desc = ""
     agent = 1
     target_node = "prx-prod-2"
@@ -10,7 +10,7 @@ resource "proxmox_vm_qemu" "srv-eval-1" {
     define_connection_info = false
 
     # -- only important for full clone
-    vmid = 28001
+    vmid = 28003
     clone = "pkr-ubuntu-noble-2"
     # full_clone = true
     full_clone = false
@@ -49,7 +49,7 @@ resource "proxmox_vm_qemu" "srv-eval-1" {
     }
     
     # Cloud Init Settings 
-    ipconfig0 = "ip=10.20.8.11/16,gw=10.20.0.1"
+    ipconfig0 = "ip=10.20.8.13/16,gw=10.20.0.1"
     nameserver = "10.20.0.1"
     ciuser = "xcad"
     sshkeys = var.PUBLIC_SSH_KEY
