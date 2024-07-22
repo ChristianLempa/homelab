@@ -68,6 +68,44 @@ resource "dns_a_record_set" "srv_prod_7_wildcard" {
   ttl       = 3600
 }
 
+# ---
+
+
+resource "dns_a_record_set" "srv_prod_8" {
+  zone      = "home.clcreative.de."
+  name      = "srv-prod-8"
+  addresses = ["10.20.0.19"]
+  ttl       = 3600
+}
+
+# -- kube prod 2
+
+
+resource "dns_a_record_set" "srv_prod_9" {
+  zone      = "home.clcreative.de."
+  name      = "srv-prod-9"
+  addresses = ["10.20.21.11"]
+  ttl       = 3600
+}
+
+
+resource "dns_a_record_set" "srv_prod_10" {
+  zone      = "home.clcreative.de."
+  name      = "srv-prod-10"
+  addresses = ["10.20.21.12"]
+  ttl       = 3600
+}
+
+
+resource "dns_a_record_set" "srv_prod_11" {
+  zone      = "home.clcreative.de."
+  name      = "srv-prod-11"
+  addresses = ["10.20.21.13"]
+  ttl       = 3600
+}
+
+
+
 resource "dns_a_record_set" "srv_demo_1" {
   zone      = "home.clcreative.de."
   name      = "srv-demo-1"
