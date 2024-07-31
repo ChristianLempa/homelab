@@ -23,7 +23,7 @@ resource "proxmox_vm_qemu" "srv-prod-1" {
     cores = 4
     sockets = 1
     cpu = "host"
-    memory = 8192
+    memory = 12288
 
     network {
         bridge = "vmbr1"
