@@ -11,7 +11,7 @@ resource "proxmox_vm_qemu" "srv-prod-12" {
 
     # -- only important for full clone
     vmid = 20019
-    clone = "prk-ubuntu-noble-1"
+    clone = "pkr-ubuntu-noble-1"
     full_clone = true
 
     # -- boot process
