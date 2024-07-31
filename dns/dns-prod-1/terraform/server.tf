@@ -176,3 +176,17 @@ resource "dns_a_record_set" "srv_demo_7" {
   addresses = ["10.20.3.9"]
   ttl       = 3600
 }
+
+resource "dns_a_record_set" "win_demo_1" {
+  zone      = "home.clcreative.de."
+  name      = "win-demo-1"
+  addresses = ["10.20.3.10"]
+  ttl       = 3600
+}
+
+resource "dns_a_record_set" "linux_demo_1" {
+  zone      = "home.clcreative.de."
+  name      = "linux-demo-1"
+  addresses = ["10.20.3.11"]
+  ttl       = 3600
+}
