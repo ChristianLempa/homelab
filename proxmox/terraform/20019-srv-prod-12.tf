@@ -46,4 +46,10 @@ resource "proxmox_vm_qemu" "srv-prod-12" {
             vm_state
         ]
     }
+
+    # CloudInit
+    ipconfig0 = "ip=10.20.0.20/16,gw=10.20.0.1"
+    nameserver = "10.20.0.1"
+    ciuser = "xcad"
+    sshkeys = var.PUBLIC_SSH_KEY
 }
