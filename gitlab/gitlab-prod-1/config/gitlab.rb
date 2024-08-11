@@ -30,7 +30,7 @@ gitlab_rails['omniauth_providers'] = [
       client_options: {
         identifier: "*****",
         secret: "*****",
-        redirect_uri: "https://gitlab-eval-1.srv-prod-1.home.clcreative.de/users/auth/openid_connect/callback"
+        redirect_uri: "https://gitlab-prod-1.srv-prod-1.home.clcreative.de/users/auth/openid_connect/callback"
       }
     }
   }
