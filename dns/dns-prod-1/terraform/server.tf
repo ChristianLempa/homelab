@@ -104,6 +104,21 @@ resource "dns_a_record_set" "srv_prod_11" {
   ttl       = 3600
 }
 
+resource "dns_a_record_set" "srv_test_1" {
+  zone      = "home.clcreative.de."
+  name      = "srv-test-1"
+  addresses = ["10.20.1.1"]
+  ttl       = 3600
+}
+
+resource "dns_a_record_set" "srv_test_2" {
+  zone      = "home.clcreative.de."
+  name      = "srv-test-2"
+  addresses = ["10.20.1.2"]
+  ttl       = 3600
+}
+
+
 resource "dns_a_record_set" "srv_demo_1" {
   zone      = "home.clcreative.de."
   name      = "srv-demo-1"
