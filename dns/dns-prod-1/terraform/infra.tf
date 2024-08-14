@@ -1,20 +1,4 @@
-resource "dns_a_record_set" "fw_demo_1" {
-  zone = "home.clcreative.de."
-  name = "fw-demo-1"
-  addresses = [
-    "10.20.3.2"
-  ]
-  ttl = 3600
-}
-
-resource "dns_a_record_set" "fw_demo_2" {
-  zone = "home.clcreative.de."
-  name = "fw-demo-2"
-  addresses = [
-    "10.20.3.3"
-  ]
-  ttl = 3600
-}
+# -- firewalls
 
 resource "dns_a_record_set" "fw_prod_1" {
   zone = "home.clcreative.de."
@@ -24,6 +8,8 @@ resource "dns_a_record_set" "fw_prod_1" {
   ]
   ttl = 3600
 }
+
+# -- proxmox servers
 
 resource "dns_a_record_set" "prx_prod_1" {
   zone = "home.clcreative.de."
@@ -52,6 +38,8 @@ resource "dns_a_record_set" "pre_cluster_1" {
   ttl = 3600
 }
 
+# -- nas
+
 resource "dns_a_record_set" "nas_prod_1" {
   zone = "home.clcreative.de."
   name = "nas-prod-1"
@@ -60,6 +48,17 @@ resource "dns_a_record_set" "nas_prod_1" {
   ]
   ttl = 3600
 }
+
+resource "dns_a_record_set" "nas_prod_2" {
+  zone = "home.clcreative.de."
+  name = "nas-prod-2"
+  addresses = [
+    "10.20.0.7"
+  ]
+  ttl = 3600
+}
+
+# -- switches
 
 resource "dns_a_record_set" "sw_prod_1" {
   zone = "home.clcreative.de."

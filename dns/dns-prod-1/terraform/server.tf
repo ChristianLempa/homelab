@@ -68,18 +68,12 @@ resource "dns_a_record_set" "srv_prod_7_wildcard" {
   ttl       = 3600
 }
 
-# ---
-
-
 resource "dns_a_record_set" "srv_prod_8" {
   zone      = "home.clcreative.de."
   name      = "srv-prod-8"
   addresses = ["10.20.0.19"]
   ttl       = 3600
 }
-
-# -- kube prod 2
-
 
 resource "dns_a_record_set" "srv_prod_9" {
   zone      = "home.clcreative.de."
@@ -96,13 +90,14 @@ resource "dns_a_record_set" "srv_prod_10" {
   ttl       = 3600
 }
 
-
 resource "dns_a_record_set" "srv_prod_11" {
   zone      = "home.clcreative.de."
   name      = "srv-prod-11"
   addresses = ["10.20.21.13"]
   ttl       = 3600
 }
+
+# -- testing servers
 
 resource "dns_a_record_set" "srv_test_1" {
   zone      = "home.clcreative.de."
@@ -118,6 +113,7 @@ resource "dns_a_record_set" "srv_test_2" {
   ttl       = 3600
 }
 
+# -- demo servers
 
 resource "dns_a_record_set" "srv_demo_1" {
   zone      = "home.clcreative.de."
@@ -151,40 +147,5 @@ resource "dns_a_record_set" "srv_demo_4" {
   zone      = "home.clcreative.de."
   name      = "srv-demo-4"
   addresses = ["10.20.3.6"]
-  ttl       = 3600
-}
-
-resource "dns_a_record_set" "srv_demo_5" {
-  zone      = "home.clcreative.de."
-  name      = "srv-demo-5"
-  addresses = ["10.20.3.7"]
-  ttl       = 3600
-}
-
-resource "dns_a_record_set" "srv_demo_6" {
-  zone      = "home.clcreative.de."
-  name      = "srv-demo-6"
-  addresses = ["10.20.3.8"]
-  ttl       = 3600
-}
-
-resource "dns_a_record_set" "srv_demo_7" {
-  zone      = "home.clcreative.de."
-  name      = "srv-demo-7"
-  addresses = ["10.20.3.9"]
-  ttl       = 3600
-}
-
-resource "dns_a_record_set" "win_demo_1" {
-  zone      = "home.clcreative.de."
-  name      = "win-demo-1"
-  addresses = ["10.20.3.10"]
-  ttl       = 3600
-}
-
-resource "dns_a_record_set" "linux_demo_1" {
-  zone      = "home.clcreative.de."
-  name      = "linux-demo-1"
-  addresses = ["10.20.3.11"]
   ttl       = 3600
 }
