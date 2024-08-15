@@ -1,0 +1,376 @@
+---
+wazuh_agent_version: 4.8.0
+
+# Custom packages installation
+
+wazuh_custom_packages_installation_agent_enabled: false
+wazuh_custom_packages_installation_agent_deb_url: ""
+wazuh_custom_packages_installation_agent_rpm_url: ""
+
+wazuh_agent_yum_lock_timeout: 30
+
+# We recommend the use of ansible-vault to protect Wazuh, api, agentless and authd credentials.
+api_pass: wazuh
+authd_pass: ''
+
+wazuh_api_reachable_from_agent: yes
+wazuh_profile_centos: 'centos, centos7, centos7.6'
+wazuh_profile_ubuntu: 'ubuntu, ubuntu18, ubuntu18.04'
+wazuh_profile_macos: 'darwin, darwin21, darwin21.1'
+wazuh_auto_restart: 'yes'
+
+wazuh_notify_time: '10'
+wazuh_time_reconnect: '60'
+wazuh_crypto_method: 'aes'
+wazuh_winagent_config:
+  download_dir: C:\
+  install_dir: C:\Program Files\ossec-agent\
+  install_dir_x86: C:\Program Files (x86)\ossec-agent\
+  auth_path: C:\Program Files\ossec-agent\agent-auth.exe
+  # Adding quotes to auth_path_x86 since win_shell outputs error otherwise
+  auth_path_x86: C:\'Program Files (x86)'\ossec-agent\agent-auth.exe
+  check_sha512: True
+
+# macOS deployment
+wazuh_macos_config:
+  download_dir: /tmp/
+  install_dir: /Library/Ossec/
+
+wazuh_dir: "/var/ossec"
+
+# This is deprecated, see: wazuh_agent_address
+wazuh_agent_nat: false
+
+##########################################
+### Wazuh
+##########################################
+
+wazuh_agent_nolog_sensible: yes
+wazuh_agent_config_overlay: yes
+
+# This is a middle ground between breaking existing uses of wazuh_agent_nat
+# and allow working with agents having several network interfaces
+wazuh_agent_address: '{{ "any" if wazuh_agent_nat else ansible_default_ipv4.address }}'
+
+# List of managers. The first one with register variable declared *and* set to true
+# is the one used to register the agent. Otherwise, the first one in the list will be used.
+wazuh_managers:
+  - address: 127.0.0.1
+    port: 1514
+    protocol: tcp
+    api_port: 55000
+    api_proto: https
+    api_user: wazuh
+    max_retries: 5
+    retry_interval: 5
+    register: yes
+
+## Authentication Method: Enrollment section (4.x)
+
+# For more information see:
+# * https://documentation.wazuh.com/current/user-manual/reference/ossec-conf/client.html#enrollment
+
+wazuh_agent_enrollment:
+  enabled: 'yes'
+  manager_address: ''
+  port: 1515
+  agent_name: ''
+  groups: ''
+  agent_address: ''
+  ssl_ciphers: HIGH:!ADH:!EXP:!MD5:!RC4:!3DES:!CAMELLIA:@STRENGTH
+  server_ca_path: ''
+  agent_certificate_path: ''
+  agent_key_path: ''
+  authorization_pass_path: "{{ wazuh_dir }}/etc/authd.pass"
+  authorization_pass_path_macos: "/etc/authd.pass"
+  auto_method: 'no'
+  delay_after_enrollment: 20
+  use_source_ip: 'no'
+
+## Authentication Method: invoking agent-auth
+
+# For more information see:
+# * https://documentation.wazuh.com/current/user-manual/registering/password-authorization-registration.html
+
+wazuh_agent_authd:
+  registration_address: 127.0.0.1
+  enable: false
+  port: 1515
+  agent_name: null
+  groups: []
+  ssl_agent_ca: null
+  ssl_agent_cert: null
+  ssl_agent_key: null
+  ssl_auto_negotiate: 'no'
+
+## Authentication Method: REST API
+
+# For more information see:
+# * https://documentation.wazuh.com/current/user-manual/registering/restful-api-registration.html
+wazuh_agent_api_validate: yes
+
+## Client buffer
+wazuh_agent_client_buffer:
+  disable: 'no'
+  queue_size: '5000'
+  events_per_sec: '500'
+
+## Rootcheck
+wazuh_agent_rootcheck:
+  frequency: 43200
+
+## Wodles
+wazuh_agent_openscap:
+  disable: 'yes'
+  timeout: 1800
+  interval: '1d'
+  scan_on_start: 'yes'
+
+wazuh_agent_cis_cat:
+  disable: 'yes'
+  install_java: 'no'
+  timeout: 1800
+  interval: '1d'
+  scan_on_start: 'yes'
+  java_path: 'wodles/java'
+  java_path_win: '\\server\jre\bin\java.exe'
+  ciscat_path: 'wodles/ciscat'
+  ciscat_path_win: 'C:\cis-cat'
+
+wazuh_agent_osquery:
+  disable: 'yes'
+  run_daemon: 'yes'
+  bin_path_win: 'C:\Program Files\osquery\osqueryd'
+  log_path: '/var/log/osquery/osqueryd.results.log'
+  log_path_win: 'C:\Program Files\osquery\log\osqueryd.results.log'
+  config_path: '/etc/osquery/osquery.conf'
+  config_path_win: 'C:\Program Files\osquery\osquery.conf'
+  add_labels: 'yes'
+
+wazuh_agent_syscollector:
+  disable: 'no'
+  interval: '1h'
+  scan_on_start: 'yes'
+  hardware: 'yes'
+  os: 'yes'
+  network: 'yes'
+  packages: 'yes'
+  ports_no: 'yes'
+  processes: 'yes'
+
+## SCA
+wazuh_agent_sca:
+  enabled: 'yes'
+  scan_on_start: 'yes'
+  interval: '12h'
+  skip_nfs: 'yes'
+  day: ''
+  wday: ''
+  time: ''
+
+## Syscheck
+wazuh_agent_syscheck:
+  frequency: 43200
+  scan_on_start: 'yes'
+  auto_ignore: 'no'
+  win_audit_interval: 60
+  skip_nfs: 'yes'
+  skip_dev: 'yes'
+  skip_proc: 'yes'
+  skip_sys: 'yes'
+  process_priority: 10
+  max_eps: 100
+  sync_enabled: 'yes'
+  sync_interval: '5m'
+  sync_max_interval: '1h'
+  sync_max_eps: 10
+  ignore:
+    - /etc/mtab
+    - /etc/hosts.deny
+    - /etc/mail/statistics
+    - /etc/random-seed
+    - /etc/random.seed
+    - /etc/adjtime
+    - /etc/httpd/logs
+    - /etc/utmpx
+    - /etc/wtmpx
+    - /etc/cups/certs
+    - /etc/dumpdates
+    - /etc/svc/volatile
+  ignore_linux_type:
+    - '.log$|.swp$'
+  ignore_win:
+    - '.log$|.htm$|.jpg$|.png$|.chm$|.pnf$|.evtx$'
+  no_diff:
+    - /etc/ssl/private.key
+  directories:
+    - dirs: /etc,/usr/bin,/usr/sbin
+      checks: ''
+    - dirs: /bin,/sbin,/boot
+      checks: ''
+  macos_directories:
+    - dirs: /etc,/usr/bin,/usr/sbin
+      checks: ''
+    - dirs: /bin,/sbin
+      checks: ''
+  win_directories:
+    - dirs: '%WINDIR%'
+      checks: 'recursion_level="0" restrict="regedit.exe$|system.ini$|win.ini$"'
+    - dirs: '%WINDIR%\SysNative'
+      checks: >-
+        recursion_level="0" restrict="at.exe$|attrib.exe$|cacls.exe$|cmd.exe$|eventcreate.exe$|ftp.exe$|lsass.exe$|
+        net.exe$|net1.exe$|netsh.exe$|reg.exe$|regedt32.exe|regsvr32.exe|runas.exe|sc.exe|schtasks.exe|sethc.exe|subst.exe$"
+    - dirs: '%WINDIR%\SysNative\drivers\etc%'
+      checks: 'recursion_level="0"'
+    - dirs: '%WINDIR%\SysNative\wbem'
+      checks: 'recursion_level="0" restrict="WMIC.exe$"'
+    - dirs: '%WINDIR%\SysNative\WindowsPowerShell\v1.0'
+      checks: 'recursion_level="0" restrict="powershell.exe$"'
+    - dirs: '%WINDIR%\SysNative'
+      checks: 'recursion_level="0" restrict="winrm.vbs$"'
+    - dirs: '%WINDIR%\System32'
+      checks: >-
+        recursion_level="0" restrict="at.exe$|attrib.exe$|cacls.exe$|cmd.exe$|eventcreate.exe$|ftp.exe$|lsass.exe$|net.exe$|net1.exe$|
+        netsh.exe$|reg.exe$|regedit.exe$|regedt32.exe$|regsvr32.exe$|runas.exe$|sc.exe$|schtasks.exe$|sethc.exe$|subst.exe$"
+    - dirs: '%WINDIR%\System32\drivers\etc'
+      checks: 'recursion_level="0"'
+    - dirs: '%WINDIR%\System32\wbem'
+      checks: 'recursion_level="0" restrict="WMIC.exe$"'
+    - dirs: '%WINDIR%\System32\WindowsPowerShell\v1.0'
+      checks: 'recursion_level="0" restrict="powershell.exe$"'
+    - dirs: '%WINDIR%\System32'
+      checks: 'recursion_level="0" restrict="winrm.vbs$"'
+    - dirs: '%PROGRAMDATA%\Microsoft\Windows\Start Menu\Programs\Startup'
+      checks: 'realtime="yes"'
+  windows_registry:
+    - key: 'HKEY_LOCAL_MACHINE\Software\Classes\batfile'
+    - key: 'HKEY_LOCAL_MACHINE\Software\Classes\cmdfile'
+    - key: 'HKEY_LOCAL_MACHINE\Software\Classes\comfile'
+    - key: 'HKEY_LOCAL_MACHINE\Software\Classes\exefile'
+    - key: 'HKEY_LOCAL_MACHINE\Software\Classes\piffile'
+    - key: 'HKEY_LOCAL_MACHINE\Software\Classes\AllFilesystemObjects'
+    - key: 'HKEY_LOCAL_MACHINE\Software\Classes\Directory'
+    - key: 'HKEY_LOCAL_MACHINE\Software\Classes\Folder'
+    - key: 'HKEY_LOCAL_MACHINE\Software\Classes\Protocols'
+      arch: "both"
+    - key: 'HKEY_LOCAL_MACHINE\Software\Policies'
+      arch: "both"
+    - key: 'HKEY_LOCAL_MACHINE\Security'
+    - key: 'HKEY_LOCAL_MACHINE\Software\Microsoft\Internet Explorer'
+      arch: "both"
+    - key: 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services'
+    - key: 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Session Manager\KnownDLLs'
+    - key: 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\SecurePipeServers\winreg'
+    - key: 'HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Run'
+      arch: "both"
+    - key: 'HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunOnce'
+      arch: "both"
+    - key: 'HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunOnceEx'
+    - key: 'HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\URL'
+      arch: "both"
+    - key: 'HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies'
+      arch: "both"
+    - key: 'HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Windows'
+      arch: "both"
+    - key: 'HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Winlogon'
+      arch: "both"
+    - key: 'HKEY_LOCAL_MACHINE\Software\Microsoft\Active Setup\Installed Components'
+      arch: "both"
+  windows_registry_ignore:
+    - key: 'HKEY_LOCAL_MACHINE\Security\Policy\Secrets'
+    - key: 'HKEY_LOCAL_MACHINE\Security\SAM\Domains\Account\Users'
+    - key: '\Enum$'
+      type: "sregex"
+
+## Localfile
+wazuh_agent_localfiles:
+  debian:
+    - format: 'syslog'
+      location: '/var/log/auth.log'
+    - format: 'syslog'
+      location: '/var/log/syslog'
+    - format: 'syslog'
+      location: '/var/log/dpkg.log'
+    - format: 'syslog'
+      location: '/var/log/kern.log'
+  centos:
+    - format: 'syslog'
+      location: '/var/log/messages'
+    - format: 'syslog'
+      location: '/var/log/secure'
+    - format: 'syslog'
+      location: '/var/log/maillog'
+    - format: 'audit'
+      location: '/var/log/audit/audit.log'
+  linux:
+    - format: 'syslog'
+      location: "{{ wazuh_dir }}/logs/active-responses.log"
+    - format: 'full_command'
+      command: 'last -n 20'
+      frequency: '360'
+    - format: 'command'
+      command: df -P
+      frequency: '360'
+    - format: 'full_command'
+      command: netstat -tulpn | sed 's/\([[:alnum:]]\+\)\ \+[[:digit:]]\+\ \+[[:digit:]]\+\ \+\(.*\):\([[:digit:]]*\)\ \+\([0-9\.\:\*]\+\).\+\ \([[:digit:]]*\/[[:alnum:]\-]*\).*/\1 \2 == \3 == \4 \5/' | sort -k 4 -g | sed 's/ == \(.*\) ==/:\1/' | sed 1,2d
+      alias: 'netstat listening ports'
+      frequency: '360'
+  macos:
+    - format: 'full_command'
+      command: netstat -an | awk '{if ((/^(tcp|udp)/) && ($4 != "*.*") && ($5 == "*.*")) {print $1" "$4" "$5}}' | sort -u
+      alias: 'netstat listening ports'
+      frequency: '360'
+    - format: 'macos'
+      location: 'macos'
+      query:
+        type: 'trace,log,activity'
+        level: 'info'
+        value: (process == "sudo") or (process == "sessionlogoutd" and message contains "logout is complete.") or (process == "sshd") or (process == "tccd" and message contains "Update Access Record") or (message contains "SessionAgentNotificationCenter") or (process == "screensharingd" and message contains "Authentication") or (process == "securityd" and eventMessage contains "Session" and subsystem == "com.apple.securityd")
+  windows:
+    - format: 'eventlog'
+      location: 'Application'
+    - format: 'eventchannel'
+      location: 'Security'
+      query: 'Event/System[EventID != 5145 and EventID != 5156 and EventID != 5447 and EventID != 4656 and EventID != 4658 and EventID != 4663 and EventID != 4660 and EventID != 4670 and EventID != 4690 and EventID != 4703 and EventID != 4907]'
+    - format: 'eventlog'
+      location: 'System'
+    - format: 'syslog'
+      location: 'active-response\active-responses.log'
+
+## Labels
+wazuh_agent_labels:
+  enable: false
+  list:
+    - key: Env
+      value: Production
+
+## Active response
+wazuh_agent_active_response:
+  ar_disabled: 'no'
+  ca_store: "{{ wazuh_dir }}/etc/wpk_root.pem"
+  ca_store_win: 'wpk_root.pem'
+  ca_store_macos: 'etc/wpk_root.pem'
+  ca_verification: 'yes'
+
+## Logging
+wazuh_agent_log_format: 'plain'
+
+# wazuh_agent_config
+wazuh_agent_config_defaults:
+  repo: '{{ wazuh_repo }}'
+  active_response: '{{ wazuh_agent_active_response }}'
+  log_format: '{{ wazuh_agent_log_format }}'
+  client_buffer: '{{ wazuh_agent_client_buffer }}'
+  syscheck: '{{ wazuh_agent_syscheck }}'
+
+  rootcheck: '{{ wazuh_agent_rootcheck }}'
+  openscap: '{{ wazuh_agent_openscap }}'
+
+  osquery: '{{ wazuh_agent_osquery }}'
+  syscollector: '{{ wazuh_agent_syscollector }}'
+  sca: '{{ wazuh_agent_sca }}'
+  cis_cat: '{{ wazuh_agent_cis_cat }}'
+  localfiles: '{{ wazuh_agent_localfiles }}'
+
+  labels: '{{ wazuh_agent_labels }}'
+  enrollment: '{{ wazuh_agent_enrollment }}'

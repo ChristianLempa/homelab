@@ -1,0 +1,6 @@
+---
+- name: Remove Wazuh repository (and clean up left-over metadata)
+  yum_repository:
+    name: wazuh_repo
+    state: absent
+  changed_when: false

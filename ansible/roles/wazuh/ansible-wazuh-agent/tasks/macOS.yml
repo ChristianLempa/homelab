@@ -1,0 +1,231 @@
+---
+- name: macOS | Check architecture
+  command: "/usr/bin/uname -m"
+  register: uname_result
+
+- name: macOS | Set architecture variable
+  set_fact:
+    macos_architecture: "{{ 'arm' if uname_result.stdout == 'arm64' else 'intel' }}"
+
+- name: macOS | Set package name and URL based on architecture
+  set_fact:
+    wazuh_macos_package_url: "{{ wazuh_macos_intel_package_url if macos_architecture == 'intel' else wazuh_macos_arm_package_url }}"
+    wazuh_macos_package_name: "{{ wazuh_macos_intel_package_name if macos_architecture == 'intel' else wazuh_macos_arm_package_name }}"
+
+- name: macOS | Check if Wazuh installer is already downloaded
+  stat:
+    path: "{{ wazuh_macos_config.download_dir }}{{ wazuh_macos_package_name }}"
+  register: wazuh_package_downloaded
+
+- name: macOS | Download Wazuh Agent package
+  get_url:
+    url: "{{ wazuh_macos_package_url }}"
+    dest: "{{ wazuh_macos_config.download_dir }}"
+  register: download_result
+  when:
+    - not wazuh_package_downloaded.stat.exists
+  
+- name: macOS | Check if Wazuh Agent is already installed
+  stat:
+    path: "{{ wazuh_macos_config.install_dir }}"
+  register: wazuh_installed
+
+- name: macOS | Install Agent if not already installed
+  command: "installer -pkg {{ wazuh_macos_config.download_dir }}{{ wazuh_macos_package_name }} -target /"
+  register: install_result
+
+- name: macOS | Check if client.keys exists
+  stat:
+    path: "{{ wazuh_macos_config.install_dir }}/etc/client.keys"
+  register: client_keys_file
+  tags:
+    - config
+
+- name: macOS | Agent registration via authd
+  block:
+    - name: macOS | Register agent (via authd)
+      shell: >
+        {{ wazuh_macos_config.install_dir }}/bin/agent-auth
+        {% if wazuh_agent_authd.agent_name is defined and wazuh_agent_authd.agent_name != None %}
+        -A {{ wazuh_agent_authd.agent_name }}
+        {% endif %}
+        -m {{ wazuh_agent_authd.registration_address }}
+        -p {{ wazuh_agent_authd.port }}
+        {% if wazuh_agent_nat %} -I "any" {% endif %}
+        {% if authd_pass | length > 0 %} -P {{ authd_pass }} {% endif %}
+        {% if wazuh_agent_authd.ssl_auto_negotiate == 'yes' %} -a {% endif %}
+        {% if wazuh_agent_authd.groups is defined and wazuh_agent_authd.groups | length > 0 %}
+        -G "{{ wazuh_agent_authd.groups | join(',') }}"
+        {% endif %}
+      register: agent_auth_output
+      notify: macOS | Restart Wazuh Agent
+      vars:
+        agent_name: "{% if single_agent_name is defined %}{{ single_agent_name }}{% else %}{{ ansible_hostname }}{% endif %}"
+      when:
+        - not client_keys_file.stat.exists or client_keys_file.stat.size == 0
+        - wazuh_agent_authd.registration_address is not none
+
+    - name: macOS | Verify agent registration
+      shell: >
+        sh -c "echo '{{ agent_auth_output.stdout }} {{ agent_auth_output.stderr }}' | grep 'Valid key received'"
+      when:
+        - not client_keys_file.stat.exists or client_keys_file.stat.size == 0
+        - wazuh_agent_authd.registration_address is not none
+  when:
+    - wazuh_agent_authd.enable | bool
+    - wazuh_agent_config.enrollment.enabled != 'yes'
+  tags:
+    - config
+    - authd
+
+- name: macOS | Agent registration via rest-API
+  block:
+
+    - name: macOS | Establish target Wazuh Manager for registration task
+      set_fact:
+        target_manager: '{{ manager_primary | length | ternary(manager_primary, manager_fallback) | first }}'
+      vars:
+        manager_primary: "{{ wazuh_managers | selectattr('register','true') | list }}"
+        manager_fallback: "{{ wazuh_managers | list }}"
+
+    - name: macOS | Obtain JWT Token
+      uri:
+        url: '{{ target_manager.api_proto }}://{{ target_manager.address }}:{{ target_manager.api_port }}/security/user/authenticate'
+        method: POST
+        url_username: '{{ target_manager.api_user }}'
+        url_password: '{{ api_pass }}'
+        status_code: 200
+        return_content: yes
+        force_basic_auth: yes
+        validate_certs: '{{ target_manager.validate_certs | default(false) }}'
+      no_log: '{{ wazuh_agent_nolog_sensible | bool }}'
+      delegate_to: '{{ inventory_hostname if wazuh_api_reachable_from_agent else "localhost" }}'
+      changed_when: api_jwt_result.json.error == 0
+      register: api_jwt_result
+      become: no
+      tags:
+        - config
+        - api
+
+    - name: macOS | Create the agent key via rest-API
+      uri:
+        url: '{{ target_manager.api_proto }}://{{ target_manager.address }}:{{ target_manager.api_port }}/agents'
+        method: POST
+        body_format: json
+        body:
+          name: '{{ agent_name }}'
+        headers:
+          Authorization: 'Bearer {{ jwt_token }}'
+        status_code: 200
+        return_content: yes
+        validate_certs: '{{ target_manager.validate_certs | default(false) }}'
+      become: no
+      no_log: '{{ wazuh_agent_nolog_sensible | bool }}'
+      delegate_to: '{{ inventory_hostname if wazuh_api_reachable_from_agent else "localhost" }}'
+      changed_when: api_agent_post.json.error == 0
+      register: api_agent_post
+      vars:
+        agent_name: '{{ target_manager.agent_name | default(ansible_hostname) }}'
+        jwt_token: '{{ api_jwt_result.json.data.token }}'
+      tags:
+        - config
+        - api
+
+    - name: macOS | Validate registered agent key matches manager record
+      uri:
+        url: '{{ target_manager.api_proto }}://{{ target_manager.address }}:{{ target_manager.api_port }}/agents/{{ agent_id }}/key'
+        method: GET
+        headers:
+          Authorization: 'Bearer {{ jwt_token }}'
+        status_code: 200
+        return_content: yes
+        validate_certs: '{{ target_manager.validate_certs | default(false) }}'
+      become: no
+      no_log: '{{ wazuh_agent_nolog_sensible | bool }}'
+      delegate_to: '{{ inventory_hostname if wazuh_api_reachable_from_agent else "localhost" }}'
+      register: api_agent_validation
+      vars:
+        agent_id: '{{ api_agent_post.json.data.id }}'
+        agent_key: '{{ api_agent_post.json.data.key }}'
+        jwt_token: '{{ api_jwt_result.json.data.token }}'
+      failed_when: api_agent_validation.json.data.affected_items[0].key != agent_key
+      when:
+      - wazuh_agent_api_validate | bool
+      - api_agent_post.json.error == 0
+      tags:
+        - config
+        - api
+
+    - name: macOS | Import Key (via rest-API)
+      command: "{{ wazuh_macos_config.install_dir }}/bin/manage_agents"
+      environment:
+        OSSEC_ACTION: i
+        OSSEC_AGENT_NAME: '{{ agent_name }}'
+        OSSEC_AGENT_IP: '{{ wazuh_agent_address }}'
+        OSSEC_AGENT_ID: '{{ api_agent_post.json.data.id }}'
+        OSSEC_AGENT_KEY: '{{ api_agent_post.json.data.key }}'
+        OSSEC_ACTION_CONFIRMED: y
+      register: manage_agents_output
+      vars:
+        agent_name: '{{ target_manager.agent_name | default(ansible_hostname) }}'
+      notify: macOS | Restart Wazuh Agent
+  when:
+    - not ( wazuh_agent_authd.enable | bool )
+    - wazuh_agent_config.enrollment.enabled != 'yes'
+    - not client_keys_file.stat.exists or client_keys_file.stat.size == 0
+  tags:
+    - config
+    - api
+
+- name: macOS | Agent registration via auto-enrollment
+  debug:
+    msg: Agent registration will be performed through enrollment option in templated ossec.conf
+  when:  wazuh_agent_config.enrollment.enabled == 'yes'
+
+- name: macOS | Ensure group "wazuh" exists
+  ansible.builtin.group:
+    name: wazuh
+    state: present
+
+- name: macOS | Installing agent configuration (ossec.conf)
+  template:
+    src: var-ossec-etc-ossec-agent.conf.j2
+    dest: "{{ wazuh_macos_config.install_dir }}/etc/ossec.conf"
+    owner: root
+    group: wazuh
+    mode: 0644
+  notify: macOS | Restart Wazuh Agent
+  tags:
+    - init
+    - config
+
+- name: macOS | Installing local_internal_options.conf
+  template:
+    src: var-ossec-etc-local-internal-options.conf.j2
+    dest: "{{ wazuh_macos_config.install_dir }}/etc/local_internal_options.conf"
+    owner: root
+    group: wazuh
+    mode: 0640
+  notify: macOS | Restart Wazuh Agent
+  tags:
+    - init
+    - config
+
+- name: Create auto-enrollment password file
+  template:
+    src: authd_pass.j2
+    dest: "{{ wazuh_macos_config.install_dir }}/etc/authd.pass"
+    owner: wazuh
+    group: wazuh
+    mode: 0640
+  when:
+    - wazuh_agent_config.enrollment.enabled == 'yes'
+    - wazuh_agent_config.enrollment.authorization_pass_path_macos | length > 0
+    - authd_pass | length > 0
+  tags:
+    - config
+
+- name: macOS | Delete downloaded Wazuh agent installer file
+  file:
+     path: "{{ wazuh_macos_config.download_dir }}{{ wazuh_macos_package_name }}"
+     state: absent

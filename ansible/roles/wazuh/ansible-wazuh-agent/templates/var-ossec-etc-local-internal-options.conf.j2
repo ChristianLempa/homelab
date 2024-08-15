@@ -1,0 +1,16 @@
+# local_internal_options.conf
+#
+# This file should be handled with care. It contains
+# run time modifications that can affect the use
+# of OSSEC. Only change it if you know what you
+# are doing. Look first at ossec.conf
+# for most of the things you want to change.
+#
+# This file will not be overwritten during upgrades.
+
+# This is the template of Ansible for the file local_internal_options.conf
+# In this file you could include the configuration settings for your agents
+
+# Logcollector - If it should accept remote commands from the manager
+logcollector.remote_commands=1
+

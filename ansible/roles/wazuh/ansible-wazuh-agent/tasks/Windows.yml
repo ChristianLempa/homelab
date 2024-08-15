@@ -1,0 +1,114 @@
+---
+- name: Windows | Check if Program Files (x86) exists
+  win_stat:
+    path: C:\Program Files (x86)
+  register: check_path
+
+- name: Windows | Set Win Path (x86)
+  set_fact:
+    wazuh_agent_win_path: "{{ wazuh_winagent_config.install_dir_x86 }}"
+    wazuh_agent_win_auth_path: "{{ wazuh_winagent_config.auth_path_x86 }}"
+  when:
+    - check_path.stat.exists
+
+- name: Windows | Set Win Path (x64)
+  set_fact:
+    wazuh_agent_win_path: "{{ wazuh_winagent_config.install_dir }}"
+    wazuh_agent_win_auth_path: "{{ wazuh_winagent_config.auth_path }}"
+  when:
+    - not check_path.stat.exists
+
+- name: Windows | Check if Wazuh installer is already downloaded
+  win_stat:
+    path: "{{ wazuh_winagent_config.download_dir }}{{ wazuh_winagent_package_name }}"
+  register: wazuh_package_downloaded
+
+- name: Windows | Download Wazuh Agent package
+  win_get_url:
+    url: "{{ wazuh_winagent_config_url }}"
+    dest: "{{ wazuh_winagent_config.download_dir }}"
+  when:
+    - not wazuh_package_downloaded.stat.exists
+
+#- name: Windows | Download SHA512 checksum file
+#  win_get_url:
+#    url: "{{ wazuh_winagent_sha512_url }}"
+#    dest: "{{ wazuh_winagent_config.download_dir }}"
+#  when:
+#    - wazuh_winagent_config.check_sha512
+
+#- name: Extract checksum from SHA512 file
+#  win_shell: Get-Content "{{ wazuh_winagent_config.download_dir }}{{ wazuh_winagent_package_name }}.sha512" | ForEach-Object { $_.Split(' ')[0] }
+#  register: extracted_checksum
+#  when:
+#    - wazuh_winagent_config.check_sha512
+
+#- name: Windows | Verify the Wazuh Agent installer
+#  win_stat:
+#    path: "{{ wazuh_winagent_config.download_dir }}{{ wazuh_winagent_package_name }}"
+#    get_checksum: true
+#    checksum_algorithm: sha512
+#  register: wazuh_agent_status
+#  failed_when:
+#    - wazuh_agent_status.stat.checksum != extracted_checksum.stdout_lines[0]
+#  when:
+#    - wazuh_winagent_config.check_sha512
+
+- name: Windows | Install Agent if not already installed
+  win_package:
+    path: "{{ wazuh_winagent_config.download_dir }}{{ wazuh_winagent_package_name }}"
+    state: present
+
+- name: Windows | Check if client.keys exists
+  win_stat:
+    path: "{{ wazuh_agent_win_path }}client.keys"
+  register: check_windows_key
+  tags:
+    - config
+
+- name: Windows | Register agent
+  win_shell: >
+    {{ wazuh_agent_win_auth_path }}
+    -m {{ wazuh_agent_authd.registration_address }}
+    -p {{ wazuh_agent_authd.port }}
+    {% if wazuh_agent_authd.agent_name is not none %}-A {{ wazuh_agent_authd.agent_name }} {% endif %}
+    {% if authd_pass | length > 0 %} -P {{ authd_pass }}{% endif %}
+  register: agent_auth_output
+  notify: Windows | Restart Wazuh Agent
+  when:
+    - wazuh_agent_authd.enable | bool
+    - not check_windows_key.stat.exists or check_windows_key.stat.size == 0
+    - wazuh_agent_authd.registration_address is not none
+  tags:
+    - config
+
+- name: Windows | Check if ossec folder is accessible
+  win_file:
+    path: "{{ wazuh_agent_win_path }}"
+    state: directory
+
+- name: Windows | Installing agent configuration (ossec.conf)
+  template: # noqa 208
+    src: var-ossec-etc-ossec-agent.conf.j2
+    dest: "{{ wazuh_agent_win_path }}ossec.conf"
+  notify: Windows | Restart Wazuh Agent
+  tags:
+    - config
+
+- name: Windows | Installing local_internal_options.conf
+  template:
+    src: var-ossec-etc-local-internal-options.conf.j2
+    dest: "{{ wazuh_agent_win_path }}local_internal_options.conf"
+  notify: Windows | Restart Wazuh Agent
+  tags:
+    - config
+
+- name: Windows | Delete downloaded Wazuh agent installer file
+  win_file:
+    path: "{{ wazuh_winagent_config.download_dir }}{{ wazuh_winagent_package_name }}"
+    state: absent
+
+- name: Windows | Delete downloaded checksum file
+  win_file:
+    path: "{{ wazuh_winagent_config.download_dir }}{{ wazuh_winagent_package_name }}.sha512"
+    state: absent

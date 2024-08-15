@@ -1,0 +1,28 @@
+---
+  - name: Install Wazuh Agent from .deb packages
+    apt:
+      deb: "{{ wazuh_custom_packages_installation_agent_deb_url }}"
+      state: present
+    when:
+      - ansible_os_family|lower == "debian"
+      - wazuh_custom_packages_installation_agent_enabled
+
+  - name: Install Wazuh Agent from .rpm packages | yum
+    yum:
+      name: "{{ wazuh_custom_packages_installation_agent_rpm_url }}"
+      state: present
+    when:
+      - ansible_os_family|lower == "redhat"
+      - wazuh_custom_packages_installation_agent_enabled
+      - not (ansible_distribution|lower == "centos" and ansible_distribution_major_version >= "8")
+      - not (ansible_distribution|lower == "redhat" and ansible_distribution_major_version >= "8")
+
+  - name: Install Wazuh Agent from .rpm packages | dnf
+    dnf:
+      name: "{{ wazuh_custom_packages_installation_agent_rpm_url }}"
+      state: present
+    when:
+      - ansible_os_family|lower == "redhat"
+      - wazuh_custom_packages_installation_agent_enabled
+      - (ansible_distribution|lower == "centos" and ansible_distribution_major_version >= "8") or
+        (ansible_distribution|lower == "redhat" and ansible_distribution_major_version >= "8")

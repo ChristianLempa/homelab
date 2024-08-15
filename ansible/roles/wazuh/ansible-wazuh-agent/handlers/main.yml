@@ -1,0 +1,9 @@
+---
+- name: restart wazuh-agent
+  service: name=wazuh-agent state=restarted enabled=yes
+
+- name: Windows | Restart Wazuh Agent
+  win_service: name=WazuhSvc start_mode=auto state=restarted
+
+- name: macOS | Restart Wazuh Agent
+  command: /Library/Ossec/bin/wazuh-control restart

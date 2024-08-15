@@ -1,0 +1,106 @@
+---
+- name: Update apt-get repo and cache
+  apt: 
+    update_cache: yes
+    force_apt_get: yes
+    cache_valid_time: 3600
+  
+- name: Debian/Ubuntu | Install ca-certificates and gnupg
+  apt:
+    name:
+      - ca-certificates
+      - gnupg
+    state: present
+  register: wazuh_agent_ca_package_install
+  until: wazuh_agent_ca_package_install is succeeded
+
+- name: Debian/Ubuntu | Install apt-transport-https and acl
+  apt:
+    name:
+      - apt-transport-https
+      - acl
+    state: present
+  register: wazuh_agent_ca_package_install
+  until: wazuh_agent_ca_package_install is succeeded
+  when: not (ansible_distribution == "Debian" and ansible_distribution_major_version in ['11'])
+
+- name: Debian/Ubuntu | Installing Wazuh repository key (Ubuntu 14)
+  become: true
+  shell: |
+    set -o pipefail
+    curl -s {{ wazuh_agent_config.repo.gpg }} | apt-key add -
+  args:
+    warn: false
+    executable: /bin/bash
+  changed_when: false
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_major_version | int == 14
+    - not wazuh_custom_packages_installation_agent_enabled
+
+- name: Debian/Ubuntu | Installing Wazuh repository key
+  apt_key:
+    url: "{{ wazuh_agent_config.repo.gpg }}"
+    id: "{{ wazuh_agent_config.repo.key_id }}"
+  when:
+    - not (ansible_distribution == "Ubuntu" and ansible_distribution_major_version | int == 14)
+    - not wazuh_custom_packages_installation_agent_enabled
+
+- name: Debian/Ubuntu | Add Wazuh repositories
+  apt_repository:
+    filename: wazuh_repo
+    repo: "{{ wazuh_agent_config.repo.apt }}"
+    state: present
+    update_cache: true
+  when:
+    - not wazuh_custom_packages_installation_agent_enabled
+
+- name: Debian/Ubuntu | Set Distribution CIS filename for debian
+  set_fact:
+    cis_distribution_filename: cis_debian_linux_rcl.txt
+  when: ansible_os_family == "Debian"
+
+- name: Debian/Ubuntu | Install OpenJDK-8 repo
+  apt_repository:
+    repo: 'ppa:openjdk-r/ppa'
+    state: present
+    update_cache: true
+  when:
+    - (ansible_distribution == "Ubuntu" and ansible_distribution_major_version | int == 14)
+
+- when:
+    - wazuh_agent_config.cis_cat.disable == 'no'
+    - wazuh_agent_config.cis_cat.install_java == 'yes'
+  block:
+    - name: Debian/Ubuntu | Install OpenJDK 1.8
+      apt: name=openjdk-8-jre state=present cache_valid_time=3600
+  tags:
+    - init
+
+- name: Debian/Ubuntu | Install OpenScap
+  apt:
+    name:
+      - libopenscap8
+      - xsltproc
+    state: present
+  when: wazuh_agent_config.openscap.disable == 'no'
+  tags:
+    - init
+  register: wazuh_agent_OpenScap_package_install
+  until: wazuh_agent_OpenScap_package_install is succeeded
+
+- name: Debian/Ubuntu | Get OpenScap installed version
+  shell: "dpkg-query --showformat='${Version}' --show libopenscap8"
+  register: openscap_version
+  changed_when: false
+  when: wazuh_agent_config.openscap.disable == 'no'
+  tags:
+    - config
+
+- name: Debian/Ubuntu | Check OpenScap version
+  shell: "dpkg --compare-versions '{{ openscap_version.stdout }}' '>=' '1.2'; echo $?"
+  register: openscap_version_valid
+  changed_when: false
+  when: wazuh_agent_config.openscap.disable == 'no'
+  tags:
+    - config

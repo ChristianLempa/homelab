@@ -1,0 +1,19 @@
+wazuh_repo:
+  apt: 'deb https://packages.wazuh.com/4.x/apt/ stable main'
+  yum: 'https://packages.wazuh.com/4.x/yum/'
+  gpg: 'https://packages.wazuh.com/key/GPG-KEY-WAZUH'
+  key_id: '0DCFCA5547B19D2A6099506096B3EE5F29111145'
+wazuh_winagent_config_url: "https://packages.wazuh.com/4.x/windows/wazuh-agent-{{ wazuh_agent_version }}-1.msi"
+wazuh_winagent_package_name: "wazuh-agent-{{ wazuh_agent_version }}-1.msi"
+wazuh_winagent_sha512_url: "https://packages.wazuh.com/4.x/checksums/wazuh/{{ wazuh_agent_version }}/wazuh-agent-{{ wazuh_agent_version }}-1.msi.sha512"
+filebeat_module_package_url: https://packages.wazuh.com/4.x/filebeat
+
+wazuh_macos_intel_package_name: "wazuh-agent-{{ wazuh_agent_version }}-1.intel64.pkg"
+wazuh_macos_arm_package_name: "wazuh-agent-{{ wazuh_agent_version }}-1.arm64.pkg"
+wazuh_macos_intel_package_url: "https://packages.wazuh.com/4.x/macos/{{ wazuh_macos_intel_package_name }}"
+wazuh_macos_arm_package_url: "https://packages.wazuh.com/4.x/macos/{{ wazuh_macos_arm_package_name }}"
+
+certs_gen_tool_version: 4.8
+
+# Url of certificates generator tool
+certs_gen_tool_url: "https://packages.wazuh.com/{{ certs_gen_tool_version }}/wazuh-certs-tool.sh"

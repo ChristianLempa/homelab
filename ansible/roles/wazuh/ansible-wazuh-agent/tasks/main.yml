@@ -1,0 +1,28 @@
+---
+
+- include_vars: ../../vars/repo_vars.yml
+
+- include_vars: ../../vars/repo.yml
+  when: packages_repository == 'production'
+
+- include_vars: ../../vars/repo_pre-release.yml
+  when: packages_repository == 'pre-release'
+
+- include_vars: ../../vars/repo_staging.yml
+  when: packages_repository == 'staging'
+
+- name: Overlay wazuh_agent_config on top of defaults
+  set_fact:
+    wazuh_agent_config: '{{ wazuh_agent_config_defaults | combine(config_layer, recursive=True) }}'
+  vars:
+    config_layer: '{{ wazuh_agent_config | default({}) }}'
+  when: wazuh_agent_config_overlay | bool
+
+- include_tasks: "Windows.yml"
+  when: ansible_os_family == "Windows"
+
+- include_tasks: "Linux.yml"
+  when: ansible_system == "Linux"
+
+- include_tasks: "macOS.yml"
+  when: ansible_system == "Darwin"

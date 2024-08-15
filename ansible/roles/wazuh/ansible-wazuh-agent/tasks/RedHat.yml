@@ -1,0 +1,66 @@
+---
+- name: RedHat/CentOS 5 | Install Wazuh repo
+  yum_repository:
+    name: wazuh_repo
+    description: Wazuh repository
+    baseurl: "{{ wazuh_agent_config.repo.yum }}5/"
+    gpgkey: "{{ wazuh_agent_config.repo.gpg }}-5"
+    gpgcheck: true
+  changed_when: false
+  when:
+    - (ansible_facts['os_family']|lower == 'redhat') and (ansible_distribution|lower != 'amazon')
+    - (ansible_distribution_major_version|int <= 5)
+    - not wazuh_custom_packages_installation_agent_enabled
+  register: repo_v5_installed
+
+- name: RedHat/CentOS/Fedora | Install Wazuh repo
+  yum_repository:
+    name: wazuh_repo
+    description: Wazuh repository
+    baseurl: "{{ wazuh_agent_config.repo.yum }}"
+    gpgkey: "{{ wazuh_agent_config.repo.gpg }}"
+    gpgcheck: true
+  changed_when: false
+  when:
+    - repo_v5_installed is skipped
+    - not wazuh_custom_packages_installation_agent_enabled
+
+- name: RedHat/CentOS/Fedora | Install OpenJDK 1.8
+  yum: name=java-1.8.0-openjdk state=present
+  when:
+    - wazuh_agent_config.cis_cat.disable == 'no'
+    - wazuh_agent_config.cis_cat.install_java == 'yes'
+  tags:
+    - init
+
+- name: Set Distribution CIS filename for RHEL5
+  set_fact:
+    cis_distribution_filename: cis_rhel5_linux_rcl.txt
+  when: ansible_os_family == "RedHat" and ansible_distribution_major_version == "5"
+
+- name: Set Distribution CIS filename for RHEL6
+  set_fact:
+    cis_distribution_filename: cis_rhel6_linux_rcl.txt
+  when: ansible_os_family == "RedHat" and ansible_distribution_major_version == "6"
+
+- name: Set Distribution CIS filename for RHEL7
+  set_fact:
+    cis_distribution_filename: cis_rhel7_linux_rcl.txt
+  when:
+    - ansible_os_family == "RedHat"
+    - ansible_distribution_major_version == "7"
+
+- name: Set Distribution CIS filename for RHEL7 (Amazon)
+  set_fact:
+    cis_distribution_filename: cis_rhel7_linux_rcl.txt
+  when:
+    - ansible_distribution == "Amazon"
+    - ansible_distribution_major_version == "NA"
+
+- name: RedHat/CentOS/RedHat | Install openscap
+  package: name=openscap-scanner state=present
+  register: wazuh_agent_openscap_package_install
+  until: wazuh_agent_openscap_package_install is succeeded
+  when: wazuh_agent_config.openscap.disable == 'no'
+  tags:
+    - init
