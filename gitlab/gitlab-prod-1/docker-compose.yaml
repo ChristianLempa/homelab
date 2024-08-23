@@ -1,7 +1,7 @@
 ---
 services:
   gitlab:
-    image: gitlab/gitlab-ce:17.1.4-ce.0
+    image: gitlab/gitlab-ce:17.3.1-ce.0
     container_name: gitlab-prod-1
     ports:
       - '2424:22'
