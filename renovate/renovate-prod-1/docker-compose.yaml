@@ -1,0 +1,16 @@
+---
+services:
+  renovate:
+    image: ghcr.io/mend/renovate-ce:8.0.0-full
+    container_name: renovate-prod-1
+    ports:
+      - "8084:8080"
+    environment:
+      - LOG_LEVEL=debug
+      - MEND_RNV_LICENSE_KEY=${MEND_RNV_LICENSE_KEY}
+      - MEND_RNV_ACCEPT_TOS=${MEND_RNV_ACCEPT_TOS}
+      - MEND_RNV_PLATFORM=gitlab
+      - MEND_RNV_ENDPOINT=${MEND_RNV_ENDPOINT}
+      - MEND_RNV_GITLAB_PAT=${MEND_RNV_GITLAB_PAT}
+      - MEND_RNV_WEBHOOK_SECRET=${MEND_RNV_WEBHOOK_SECRET}
+    restart: unless-stopped
